@@ -32,7 +32,10 @@ public class Panneau extends JPanel {
 		o1.afficher(g);
 		o2.afficher(g);
 		o3.afficher(g);
-
+		
+		if(pts.size()>100){
+			pts.removeAll(pts);
+		}
 		/*g.fillOval(p1.x, p1.y, 20, 20);
 		g.fillOval(p2.x, p2.y, 20, 20);
 		g.fillOval(p3.x, p3.y, 20, 20);*/

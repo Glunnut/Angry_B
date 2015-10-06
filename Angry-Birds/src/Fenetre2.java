@@ -7,8 +7,9 @@ public class Fenetre2 extends JFrame {
 
 	private Panneau pan = new Panneau();
 	private Point p1 = new Point(20, 350);
+	//private Point p2 = new Point(140, 60);
 	/*
-	 * private Point p2 = new Point(140, 60); private Point p3 = new Point(800,
+	 *  private Point p3 = new Point(800,
 	 * 450);
 	 */
 
@@ -47,9 +48,9 @@ public class Fenetre2 extends JFrame {
 	void go() {
 		double t = 0;
 		do {
-			p2 = new Point(r.nextInt(this.getWidth()), r.nextInt(this.getHeight()));
-			p3 = new Point(r.nextInt(this.getWidth()), r.nextInt(this.getHeight()));
-		} while (p1.x > p3.x);
+			p2 = new Point(140, r.nextInt(this.getHeight()));
+			p3 = new Point(870, r.nextInt(this.getHeight()));
+		} while (p2.y > 250);
 		for (int i = 0; i < 100; i++) {
 			t = t + 0.01;
 			Point rep = new Point(courbeBez(p1, p2, p3, t));

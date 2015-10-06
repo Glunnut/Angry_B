@@ -7,12 +7,6 @@ public class Fenetre2 extends JFrame {
 
 	private Panneau pan = new Panneau();
 	private Point p1 = new Point(20, 350);
-	//private Point p2 = new Point(140, 60);
-	/*
-	 *  private Point p3 = new Point(800,
-	 * 450);
-	 */
-
 	private Point p2;
 	private Point p3;
 	Random r = new Random();

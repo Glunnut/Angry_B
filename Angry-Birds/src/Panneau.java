@@ -1,6 +1,7 @@
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
@@ -10,6 +11,7 @@ public class Panneau extends JPanel {
 	private Obstacle o1 = new Obstacle(20, 450);
 	private Obstacle o2 = new Obstacle(140, 60);
 	private Obstacle o3 = new Obstacle(800, 450);
+	private Rectangle r;
 	private int posX = 0;
 	private int posY = 0;
 
@@ -21,7 +23,8 @@ public class Panneau extends JPanel {
 		g.fillOval(posX, posY, 20, 20);
 		g.setColor(Color.orange);
 		g.fillArc(posX + 19, posY - 15, 25, 50, 160, 30);
-
+		r = new Rectangle(posX, posY, 20, 20);
+		
 		for (int i = 0; i < pts.size(); i += 2) {
 			g.fillOval(pts.get(i).x + 2, pts.get(i).y + 3, 5, 5);
 		}
@@ -33,7 +36,7 @@ public class Panneau extends JPanel {
 		o2.afficher(g);
 		o3.afficher(g);
 
-		if (pts.size() > 100) {
+		if (r.intersectsLine(this.getWidth(), 0, this.getWidth(), this.getHeight())) {
 			pts.removeAll(pts);
 		}
 

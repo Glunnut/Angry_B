@@ -5,6 +5,8 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
@@ -33,6 +35,7 @@ public class Panneau extends JPanel {
 	
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
+		
 	//	g.drawImage(new ImageIcon("res/bg_menu.png").getImage(), 0, 0, null);
 		g.setColor(Color.red);
 		g.fillOval(posX, posY, 20, 20);
@@ -42,9 +45,20 @@ public class Panneau extends JPanel {
 		for (int i = 0; i < pts.size(); i += 2) {
 			g.fillOval(pts.get(i).x + 2, pts.get(i).y + 3, 5, 5);
 		}
-		for(Obstacle o : Obstacle.obstacles){
+		for(final Obstacle o : Obstacle.obstacles){
 			if(r.intersects(o.getRec())){
 				o.setColObs(Color.RED);
+				Timer timer = new Timer();
+				
+				timer.schedule(new TimerTask() {
+					
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+						o.setColObs(Color.BLUE);
+					}
+				}, 100);
+				
 			}
 		}
 		pts.add(new Point(posX, posY));

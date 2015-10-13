@@ -4,7 +4,7 @@ import java.util.Random;
 
 import javax.swing.JFrame;
 
-public class Fenetre2 extends JFrame {
+public class Fenetre extends JFrame {
 
 	private Panneau pan = new Panneau();
 	private Point p1 = new Point(20, 350);
@@ -12,7 +12,7 @@ public class Fenetre2 extends JFrame {
 	private Point p3;
 	Random r = new Random();
 
-	public Fenetre2() {
+	public Fenetre() {
 
 		this.setTitle("Animation");
 

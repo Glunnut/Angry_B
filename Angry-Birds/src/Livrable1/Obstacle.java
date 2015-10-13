@@ -9,7 +9,7 @@ public class Obstacle extends JPanel{
 
 	private int posX;
 	private int posY;
-	private final int size = 25;
+	private final int SIZE = 25;
 
 	public Obstacle(int posX, int posY) {
 		this.posX = posX;
@@ -17,7 +17,7 @@ public class Obstacle extends JPanel{
 	}
 
 	public int getDiametre() {
-		return size;
+		return SIZE;
 	}
 
 	public int getPosX() {
@@ -38,7 +38,7 @@ public class Obstacle extends JPanel{
 
 	public void afficher(Graphics g) {
 		g.setColor(Color.BLUE);
-		g.fillOval(posX, posY, size	, size);
+		g.fillOval(posX, posY, SIZE, SIZE);
 	}
 	
 }

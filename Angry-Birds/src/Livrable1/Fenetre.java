@@ -44,7 +44,7 @@ public class Fenetre extends JFrame {
 		double t = 0;
 		do {
 			p2 = new Point(140, r.nextInt(this.getHeight()));
-			p3 = new Point(900, r.nextInt(this.getHeight()));
+			p3 = new Point(this.getWidth(), r.nextInt(this.getHeight()));
 		} while (p2.y > 250);
 		for (int i = 0; i < 100; i++) {
 			t = t + 0.01;

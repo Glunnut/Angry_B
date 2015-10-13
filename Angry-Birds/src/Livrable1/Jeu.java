@@ -13,13 +13,9 @@ public class Jeu extends JFrame {
 	private Point p2,p3;
 	private Random r = new Random();
 	private Timer timer;
-	private Timer timer2;
 
 	public Jeu(String title) {
-		super(title);
-		
-
-		
+		super(title);	
 	}
 	
 	public void configFrame(){
@@ -34,10 +30,12 @@ public class Jeu extends JFrame {
 	public void lancerJeu(int nbLancer){
 		for (int i = 0; i < nbLancer; i++) {
 			timer = new Timer(true);
-			timer.scheduleAtFixedRate(
+			timer.schedule(
 			    new TimerTask() {
-			      public void run() { go(); }
-			    }, 0, 5000);
+			      public void run() { go();
+			      timer.cancel();
+			      }
+			    },0,5000);
 		}
 	}
 
@@ -66,16 +64,16 @@ public class Jeu extends JFrame {
 
 			pan.setPosY(rep.y);
 	    	  pan.repaint();
+	    	
+	    	 	try {
 
-			
+					Thread.sleep(40);
 
-			timer2 = new Timer(true);
-			timer2.scheduleAtFixedRate(
-			    new TimerTask() {
-			      public void run() { 
-			    	  System.out.println("ok");
-			      }
-			    }, 0, 40);
+				} catch (InterruptedException e) {
+
+					e.printStackTrace();
+
+				}
 
 		}
 	}

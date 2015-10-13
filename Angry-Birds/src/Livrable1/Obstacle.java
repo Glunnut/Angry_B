@@ -1,6 +1,7 @@
 package Livrable1;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,12 +12,21 @@ public class Obstacle extends JPanel{
 	private int posX;
 	private int posY;
 	private final int SIZE = 25;
-	private static List<Obstacle> obstacles = new ArrayList<Obstacle>();
-
+	public static List<Obstacle> obstacles = new ArrayList<Obstacle>();
+	private Rectangle rec ;
 	public Obstacle(int posX, int posY) {
 		this.posX = posX;
 		this.posY = posY;
+		rec = new Rectangle(posX, posY, SIZE, SIZE);
 		obstacles.add(this);
+	}
+
+	public Rectangle getRec() {
+		return rec;
+	}
+
+	public void setRec(Rectangle rec) {
+		this.rec = rec;
 	}
 
 	public int getDiametre() {
@@ -44,6 +54,9 @@ public class Obstacle extends JPanel{
 		for( Obstacle o  : obstacles ){
 			g.fillOval(o.getPosX(), o.getPosY(), o.SIZE, o.SIZE);
 		}
+	}
+	public void enlever(Obstacle o ){
+		obstacles.remove(o);
 	}
 	
 }

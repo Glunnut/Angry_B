@@ -1,6 +1,8 @@
 package Livrable1;
 import java.awt.Point;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.JFrame;
 
@@ -10,6 +12,8 @@ public class Jeu extends JFrame {
 	private Point p1 = new Point(20, 350);
 	private Point p2,p3;
 	private Random r = new Random();
+	private Timer timer;
+	private Timer timer2;
 
 	public Jeu(String title) {
 		super(title);
@@ -29,7 +33,11 @@ public class Jeu extends JFrame {
 	
 	public void lancerJeu(int nbLancer){
 		for (int i = 0; i < nbLancer; i++) {
-			go();
+			timer = new Timer(true);
+			timer.scheduleAtFixedRate(
+			    new TimerTask() {
+			      public void run() { go(); }
+			    }, 0, 5000);
 		}
 	}
 
@@ -57,18 +65,17 @@ public class Jeu extends JFrame {
 			pan.setPosX(rep.x);
 
 			pan.setPosY(rep.y);
+	    	  pan.repaint();
 
-			pan.repaint();
+			
 
-			try {
-
-				Thread.sleep(40);
-
-			} catch (InterruptedException e) {
-
-				e.printStackTrace();
-
-			}
+			timer2 = new Timer(true);
+			timer2.scheduleAtFixedRate(
+			    new TimerTask() {
+			      public void run() { 
+			    	  System.out.println("ok");
+			      }
+			    }, 0, 40);
 
 		}
 	}

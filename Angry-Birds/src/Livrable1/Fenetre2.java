@@ -1,3 +1,4 @@
+package Livrable1;
 import java.awt.Point;
 import java.util.Random;
 

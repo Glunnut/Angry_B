@@ -14,6 +14,15 @@ public class Obstacle extends JPanel{
 	private final int SIZE = 25;
 	public static List<Obstacle> obstacles = new ArrayList<Obstacle>();
 	private Rectangle rec ;
+	private Color colObs = Color.BLUE;
+	public Color getColObs() {
+		return colObs;
+	}
+
+	public void setColObs(Color colObs) {
+		this.colObs = colObs;
+	}
+
 	public Obstacle(int posX, int posY) {
 		this.posX = posX;
 		this.posY = posY;
@@ -50,8 +59,8 @@ public class Obstacle extends JPanel{
 	}
 
 	public static void afficher(Graphics g) {
-		g.setColor(Color.BLUE);
 		for( Obstacle o  : obstacles ){
+			g.setColor(o.getColObs());
 			g.fillOval(o.getPosX(), o.getPosY(), o.SIZE, o.SIZE);
 		}
 	}

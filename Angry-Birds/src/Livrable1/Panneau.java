@@ -44,7 +44,7 @@ public class Panneau extends JPanel {
 		}
 		for(Obstacle o : Obstacle.obstacles){
 			if(r.intersects(o.getRec())){
-				// Action à faire : Changer couleur etc...
+				o.setColObs(Color.RED);
 			}
 		}
 		pts.add(new Point(posX, posY));

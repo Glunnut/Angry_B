@@ -4,28 +4,31 @@ import java.util.Random;
 
 import javax.swing.JFrame;
 
-public class Fenetre extends JFrame {
+public class Jeu extends JFrame {
 
 	private Panneau pan = new Panneau();
 	private Point p1 = new Point(20, 350);
-	private Point p2;
-	private Point p3;
-	Random r = new Random();
+	private Point p2,p3;
+	private Random r = new Random();
 
-	public Fenetre() {
+	public Jeu(String title) {
+		super(title);
+		
 
-		this.setTitle("Animation");
-
+		
+	}
+	
+	public void configFrame(){
 		this.setSize(900, 500);
-
+		this.setResizable(false);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
 		this.setLocationRelativeTo(null);
-
 		this.setContentPane(pan);
-
 		this.setVisible(true);
-		for (int i = 0; i < 10; i++) {
+	}
+	
+	public void lancerJeu(int nbLancer){
+		for (int i = 0; i < nbLancer; i++) {
 			go();
 		}
 	}

@@ -14,6 +14,7 @@ import javax.swing.JPanel;
 public class Panneau extends JPanel {
 
 	private Obstacle o1,o2,o3,o4,o5,o6,o7,o8;
+	private Oiseau a;
 	private Rectangle r;
 	private int posX = 0;
 	private int posY = 0;
@@ -31,6 +32,10 @@ public class Panneau extends JPanel {
 		o6 = new Obstacle(830, 250);
 		o7 = new Obstacle(820, 385);
 		o8 = new Obstacle(825, 100);
+	}
+	
+	public void placerOiseau(){
+		a = new Oiseau();
 	}
 	
 	public void paintComponent(Graphics g) {
@@ -65,6 +70,7 @@ public class Panneau extends JPanel {
 
 		g.setColor(Color.blue);
 		Obstacle.afficher(g);
+		Oiseau.afficher(g);
 
 		if (r.intersectsLine(this.getWidth(), 0, this.getWidth(),
 				this.getHeight())) {

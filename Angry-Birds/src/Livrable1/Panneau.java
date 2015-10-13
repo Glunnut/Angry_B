@@ -5,6 +5,7 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 public class Panneau extends JPanel {
@@ -20,6 +21,7 @@ public class Panneau extends JPanel {
 
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
+		g.drawImage(new ImageIcon("res/bg_menu.png").getImage(), 0, 0, null);
 		g.setColor(Color.red);
 		g.fillOval(posX, posY, 20, 20);
 		g.setColor(Color.orange);

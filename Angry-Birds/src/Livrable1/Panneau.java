@@ -35,9 +35,7 @@ public class Panneau extends JPanel {
 		pts.add(new Point(posX, posY));
 
 		g.setColor(Color.blue);
-		o1.afficher(g);
-		o2.afficher(g);
-		o3.afficher(g);
+		Obstacle.afficher(g);
 
 		if (r.intersectsLine(this.getWidth(), 0, this.getWidth(), this.getHeight())) {
 			pts.removeAll(pts);

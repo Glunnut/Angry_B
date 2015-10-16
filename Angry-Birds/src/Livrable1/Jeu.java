@@ -7,7 +7,7 @@ import java.util.TimerTask;
 import javax.swing.JFrame;
 
 public class Jeu extends JFrame {
-
+	private static final long serialVersionUID = 1L;
 	private Panneau pan = new Panneau();
 	private Point p1 = new Point(20, 350);
 	private Point p2,p3;

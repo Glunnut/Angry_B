@@ -9,8 +9,8 @@ import javax.swing.JPanel;
 public class Oiseau extends JPanel{
 	private static final long serialVersionUID = 1L;
 	private Rectangle r;
-	private static int x = 50;
-	private static int y = 100;
+	private static int x = 0;
+	private static int y = 0;
 	private static int height = 30;
 	private static int width = 30;
 	
@@ -45,6 +45,6 @@ public class Oiseau extends JPanel{
 		g.setColor(Color.WHITE);
 		g.fillOval(x+8, y+10, width-10, height-20);
 		g.setColor(Color.BLACK);
-		g.fillOval(x+13, 110, 10, 10);
+		g.fillOval(x+13, y+10, width-20, height-20);
 	}
 }

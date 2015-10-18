@@ -3,27 +3,26 @@ package Livrable1;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
-import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 public class Panneau extends JPanel {
 
-	private Obstacle o1,o2,o3,o4,o5,o6,o7,o8;
-	private Oiseau a;
-	private Rectangle r;
+	private Obstacle o1, o2, o3, o4, o5, o6, o7, o8;
 	private int posX = 0;
 	private int posY = 0;
+	private Oiseau oiseau = new Oiseau(posX, posY);
 
 	private ArrayList<Point> pts = new ArrayList<Point>();
-	public Panneau(){
+
+	public Panneau() {
 		creationOsbtacles();
 	}
-	public void creationOsbtacles(){
+
+	public void creationOsbtacles() {
 		o1 = new Obstacle(750, 200);
 		o2 = new Obstacle(770, 60);
 		o3 = new Obstacle(800, 450);
@@ -33,46 +32,42 @@ public class Panneau extends JPanel {
 		o7 = new Obstacle(820, 385);
 		o8 = new Obstacle(825, 100);
 	}
-	
-	public void placerOiseau(){
-		a = new Oiseau();
-	}
-	
+
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		
-	//	g.drawImage(new ImageIcon("res/bg_menu.png").getImage(), 0, 0, null);
-		g.setColor(Color.red);
-		g.fillOval(posX, posY, 20, 20);
+
+		// g.drawImage(new ImageIcon("res/bg_menu.png").getImage(), 0, 0, null);
+		// g.setColor(Color.red);
+		// g.fillOval(posX, posY, 20, 20);
 		g.setColor(Color.orange);
-		r = new Rectangle(posX, posY, 20, 20);
 		g.fillArc(posX + 19, posY - 15, 25, 50, 160, 30);
 		for (int i = 0; i < pts.size(); i += 2) {
 			g.fillOval(pts.get(i).x + 2, pts.get(i).y + 3, 5, 5);
 		}
-		for(final Obstacle o : Obstacle.obstacles){
-			if(r.intersects(o.getRec())){
+		for (final Obstacle o : Obstacle.obstacles) {
+			if (oiseau.getRect().intersects(o.getRec())) {
 				o.setColObs(Color.RED);
 				Timer timer = new Timer();
-				
+
 				timer.schedule(new TimerTask() {
-					
+
 					@Override
 					public void run() {
-						// TODO Auto-generated method stub
 						o.setColObs(Color.BLUE);
 					}
 				}, 100);
-				
+
 			}
 		}
 		pts.add(new Point(posX, posY));
 
 		g.setColor(Color.blue);
 		Obstacle.afficher(g);
-		Oiseau.afficher(g);
+		oiseau.afficher(g);
+		oiseau.move(posX, posY);
+		System.out.println(oiseau.getX());
 
-		if (r.intersectsLine(this.getWidth(), 0, this.getWidth(),
+		if (oiseau.getRect().intersectsLine(this.getWidth(), 0, this.getWidth(),
 				this.getHeight())) {
 			pts.removeAll(pts);
 		}

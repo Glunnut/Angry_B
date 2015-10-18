@@ -7,12 +7,14 @@ import javax.swing.JPanel;
 public class Oiseau extends JPanel{
 	private static final long serialVersionUID = 1L;
 	private Rectangle r;
-	private static int x = 0;
-	private static int y = 0;
+	private int x = 0;
+	private int y = 0;
 	private static int height = 30;
 	private static int width = 30;
 	
-	public Oiseau(){
+	public Oiseau(int x, int y){
+		this.x = x;
+		this.y = y;
 		r = new Rectangle(x, y, width, height);
 	}
 	
@@ -32,7 +34,13 @@ public class Oiseau extends JPanel{
 		return this.width;
 	}
 	
-	public static void afficher(Graphics g){
+	public void move(int x, int y) {
+		this.x = x;
+		this.y = y;
+		this.r.setBounds(x, y, r.width, r.height);
+	}
+	
+	public void afficher(Graphics g){
 		g.drawOval(x, y, height, width);
 		g.setColor(Color.ORANGE);
 		g.fillOval(x, y, height, width);

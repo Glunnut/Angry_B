@@ -43,7 +43,7 @@ public class Panneau extends JPanel {
 		g.setColor(Color.orange);
 		g.fillArc(posX + 19, posY - 15, 25, 50, 160, 30);
 		for (int i = 0; i < pts.size(); i += 2) {
-			g.fillOval(pts.get(i).x + 2, pts.get(i).y + 3, 5, 5);
+			g.fillOval(pts.get(i).x + 5, pts.get(i).y + 8, 5, 5);
 		}
 		for (final Obstacle o : Obstacle.obstacles) {
 			if (oiseau.getRect().intersects(o.getRec())) {

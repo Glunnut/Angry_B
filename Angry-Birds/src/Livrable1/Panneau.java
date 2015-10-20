@@ -54,9 +54,10 @@ public class Panneau extends JPanel {
 
 					@Override
 					public void run() {
+						System.out.println("Here");
 						o.setColObs(Color.BLUE);
 					}
-				}, 100);
+				}, 0, 500);
 
 			}
 		}
@@ -66,7 +67,7 @@ public class Panneau extends JPanel {
 		Obstacle.afficher(g);
 		oiseau.afficher(g);
 		oiseau.move(posX, posY);
-		System.out.println(oiseau.getX());
+		//System.out.println(oiseau.getX());
 
 		if (oiseau.getRect().intersectsLine(this.getWidth(), 0, this.getWidth(),
 				this.getHeight())) {

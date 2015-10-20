@@ -1,4 +1,5 @@
 package Livrable1;
+
 import java.awt.Point;
 import java.util.Random;
 import java.util.Timer;
@@ -10,15 +11,15 @@ public class Jeu extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private Panneau pan = new Panneau();
 	private Point p1 = new Point(20, 350);
-	private Point p2,p3;
+	private Point p2, p3;
 	private Random r = new Random();
 	private Timer timer;
 
 	public Jeu(String title) {
-		super(title);	
+		super(title);
 	}
-	
-	public void configFrame(){
+
+	public void configFrame() {
 		this.setSize(900, 500);
 		this.setResizable(false);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -26,16 +27,16 @@ public class Jeu extends JFrame {
 		this.setContentPane(pan);
 		this.setVisible(true);
 	}
-	
-	public void lancerJeu(int nbLancer){
+
+	public void lancerJeu(int nbLancer) {
 		for (int i = 0; i < nbLancer; i++) {
 			timer = new Timer(true);
-			timer.schedule(
-			    new TimerTask() {
-			      public void run() { go();
-			      timer.cancel();
-			      }
-			    },0,5000);
+			timer.schedule(new TimerTask() {
+				public void run() {
+					go();
+					timer.cancel();
+				}
+			}, 0, 5000);
 		}
 	}
 
@@ -58,22 +59,22 @@ public class Jeu extends JFrame {
 		for (int i = 0; i < 100; i++) {
 			t = t + 0.01;
 			Point rep = new Point(courbeBez(p1, p2, p3, t));
-			System.out.println(rep.x);
-			System.out.println(rep.y);
+			// System.out.println(rep.x);
+			// System.out.println(rep.y);
 			pan.setPosX(rep.x);
 
 			pan.setPosY(rep.y);
-	    	  pan.repaint();
-	    	
-	    	 	try {
+			pan.repaint();
 
-					Thread.sleep(40);
+			try {
 
-				} catch (InterruptedException e) {
+				Thread.sleep(40);
 
-					e.printStackTrace();
+			} catch (InterruptedException e) {
 
-				}
+				e.printStackTrace();
+
+			}
 
 		}
 	}

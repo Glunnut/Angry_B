@@ -30,10 +30,6 @@ public class Oiseau extends JPanel{
 		return this.y;
 	}
 	
-	public int getWidth(){
-		return this.width;
-	}
-	
 	public void move(int x, int y) {
 		this.x = x;
 		this.y = y;

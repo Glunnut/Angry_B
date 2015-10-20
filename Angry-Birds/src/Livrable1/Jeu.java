@@ -67,13 +67,9 @@ public class Jeu extends JFrame {
 			pan.repaint();
 
 			try {
-
 				Thread.sleep(40);
-
 			} catch (InterruptedException e) {
-
 				e.printStackTrace();
-
 			}
 
 		}

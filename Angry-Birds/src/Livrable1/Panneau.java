@@ -50,15 +50,13 @@ public class Panneau extends JPanel {
 				o.setColObs(Color.RED);
 				Timer timer = new Timer();
 
-				timer.schedule(new TimerTask() {
-
+				timer.scheduleAtFixedRate(new TimerTask() {
 					@Override
 					public void run() {
-						System.out.println("Here");
+						//System.out.println("Here");
 						o.setColObs(Color.BLUE);
 					}
 				}, 0, 500);
-
 			}
 		}
 		pts.add(new Point(posX, posY));

@@ -41,7 +41,7 @@ public class Panneau extends JPanel {
 		// g.setColor(Color.red);
 		// g.fillOval(posX, posY, 20, 20);
 		g.setColor(Color.orange);
-		g.fillArc(posX + 19, posY - 15, 25, 50, 160, 30);
+		//g.fillArc(posX + 19, posY - 15, 25, 50, 160, 30);
 		for (int i = 0; i < pts.size(); i += 2) {
 			g.fillOval(pts.get(i).x + 5, pts.get(i).y + 8, 5, 5);
 		}

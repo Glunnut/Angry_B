@@ -6,6 +6,9 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
@@ -16,8 +19,28 @@ public class Panneau extends JPanel {
 	private int posX = 0;
 	private int posY = 0;
 	private Oiseau oiseau = new Oiseau(posX, posY);
+	private Timer timer = new Timer();
+	private ScheduledExecutorService exec = Executors
+			.newSingleThreadScheduledExecutor();
 
 	private ArrayList<Point> pts = new ArrayList<Point>();
+	private Runnable task = new Runnable() {
+		@Override
+		public void run() {
+			for (final Obstacle o : Obstacle.obstacles) {
+				if (oiseau.getRect().intersects(o.getRec())) {
+					o.setColObs(Color.RED);
+					timer = new Timer();
+					timer.schedule(new TimerTask() {
+						@Override
+						public void run() {
+							o.setColObs(Color.BLUE);
+						}
+					}, 0, 5000);
+				}
+			}
+		}
+	};
 
 	public Panneau() {
 		creationOsbtacles();
@@ -41,34 +64,21 @@ public class Panneau extends JPanel {
 		// g.setColor(Color.red);
 		// g.fillOval(posX, posY, 20, 20);
 		g.setColor(Color.orange);
-		//g.fillArc(posX + 19, posY - 15, 25, 50, 160, 30);
+		// g.fillArc(posX + 19, posY - 15, 25, 50, 160, 30);
 		for (int i = 0; i < pts.size(); i += 2) {
 			g.fillOval(pts.get(i).x + 5, pts.get(i).y + 8, 5, 5);
 		}
-		for (final Obstacle o : Obstacle.obstacles) {
-			if (oiseau.getRect().intersects(o.getRec())) {
-				o.setColObs(Color.RED);
-				Timer timer = new Timer();
-
-				timer.scheduleAtFixedRate(new TimerTask() {
-					@Override
-					public void run() {
-						//System.out.println("Here");
-						o.setColObs(Color.BLUE);
-					}
-				}, 0, 500);
-			}
-		}
+		exec.scheduleAtFixedRate(task, 0, 5000, TimeUnit.MILLISECONDS);
 		pts.add(new Point(posX, posY));
 
 		g.setColor(Color.blue);
 		Obstacle.afficher(g);
 		oiseau.afficher(g);
 		oiseau.move(posX, posY);
-		//System.out.println(oiseau.getX());
+		// System.out.println(oiseau.getX());
 
-		if (oiseau.getRect().intersectsLine(this.getWidth(), 0, this.getWidth(),
-				this.getHeight())) {
+		if (oiseau.getRect().intersectsLine(this.getWidth(), 0,
+				this.getWidth(), this.getHeight())) {
 			pts.removeAll(pts);
 		}
 

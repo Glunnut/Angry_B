@@ -27,18 +27,6 @@ public class Panneau extends JPanel {
 	private Runnable task = new Runnable() {
 		@Override
 		public void run() {
-			for (final Obstacle o : Obstacle.obstacles) {
-				if (oiseau.getRect().intersects(o.getRec())) {
-					o.setColObs(Color.RED);
-					timer = new Timer();
-					timer.schedule(new TimerTask() {
-						@Override
-						public void run() {
-							o.setColObs(Color.BLUE);
-						}
-					}, 0, 5000);
-				}
-			}
 		}
 	};
 
@@ -68,7 +56,21 @@ public class Panneau extends JPanel {
 		for (int i = 0; i < pts.size(); i += 2) {
 			g.fillOval(pts.get(i).x + 5, pts.get(i).y + 8, 5, 5);
 		}
-		exec.scheduleAtFixedRate(task, 0, 5000, TimeUnit.MILLISECONDS);
+		for (final Obstacle o : Obstacle.obstacles) {
+			if (oiseau.getRect().intersects(o.getRec())) {
+				o.setColObs(Color.RED);
+				Timer timer = new Timer();
+
+				timer.scheduleAtFixedRate(new TimerTask() {
+					@Override
+					public void run() {
+						// System.out.println("Here");
+						o.setColObs(Color.BLUE);
+					}
+				}, 0, 500);
+			}
+		}
+
 		pts.add(new Point(posX, posY));
 
 		g.setColor(Color.blue);

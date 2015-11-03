@@ -12,10 +12,11 @@ public class Jeu extends JFrame {
 	private Panneau pan = new Panneau();
 	private Point p1 = new Point(20, 350), p2, p3;
 	private Random r = new Random();
-	static int k = 0, x = 900, y = 500;
+	static int x = 900, y = 500;
 	private int nb = 0, i = 0;
 	static boolean touche = false, sorti = false;
-
+	private Trajectoire traj;
+	
 	public Jeu(String title) {
 		super(title);
 	}
@@ -44,17 +45,16 @@ public class Jeu extends JFrame {
 
 	void go() {
 		pan.repaint();
-		k = 0;
 		double t = 0;
 		do {
 			p2 = new Point(140, r.nextInt(this.getHeight()));
 			p3 = new Point(this.getWidth(), r.nextInt(this.getHeight()));
 		} while (p2.y > 250);
 
-		while (k < 100) {
+		while ( !touche || !sorti ) {
 
 			t = t + 0.01;
-			Trajectoire traj = new Trajectoire(p1, p2, p3, t);
+			traj = new Trajectoire(p1, p2, p3, t);
 			Point rep = new Point(traj.getPt());
 
 			pan.setPosX(rep.x);

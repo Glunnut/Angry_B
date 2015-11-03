@@ -1,4 +1,5 @@
 package Livrable1;
+
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
@@ -7,14 +8,15 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
-public class Obstacle extends JPanel{
+public class Obstacle extends JPanel {
 
 	private int posX;
 	private int posY;
 	private final int SIZE = 25;
 	public static List<Obstacle> obstacles = new ArrayList<Obstacle>();
-	private Rectangle rec ;
+	private Rectangle rec;
 	private Color colObs = Color.BLUE;
+
 	public Color getColObs() {
 		return colObs;
 	}
@@ -59,13 +61,14 @@ public class Obstacle extends JPanel{
 	}
 
 	public static void afficher(Graphics g) {
-		for( Obstacle o  : obstacles ){
+		for (Obstacle o : obstacles) {
 			g.setColor(o.getColObs());
 			g.fillOval(o.getPosX(), o.getPosY(), o.SIZE, o.SIZE);
 		}
 	}
-	public void enlever(Obstacle o ){
+
+	public void enlever(Obstacle o) {
 		obstacles.remove(o);
 	}
-	
+
 }

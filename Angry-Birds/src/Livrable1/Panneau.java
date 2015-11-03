@@ -24,11 +24,6 @@ public class Panneau extends JPanel {
 			.newSingleThreadScheduledExecutor();
 
 	private ArrayList<Point> pts = new ArrayList<Point>();
-	private Runnable task = new Runnable() {
-		@Override
-		public void run() {
-		}
-	};
 
 	public Panneau() {
 		creationOsbtacles();
@@ -37,7 +32,6 @@ public class Panneau extends JPanel {
 	public void creationOsbtacles() {
 		o1 = new Obstacle(750, 200);
 		o2 = new Obstacle(770, 60);
-
 		o3 = new Obstacle(800, 450);
 		o4 = new Obstacle(770, 300);
 		o5 = new Obstacle(790, 154);
@@ -47,18 +41,11 @@ public class Panneau extends JPanel {
 
 	}
 
-	public void paintComponent(Graphics g) {
-		super.paintComponent(g);
-
-		g.drawImage(new ImageIcon("res/bg_menu.png").getImage(), 0, 0, null);
-		g.setColor(Color.orange);
-		for (int i = 0; i < pts.size(); i += 2) {
-			g.fillOval(pts.get(i).x + 5, pts.get(i).y + 8, 5, 5);
-		}
+	public void verifColisionOuSorti() {
 		for (final Obstacle o : Obstacle.obstacles) {
 			if (oiseau.getRect().intersects(o.getRec())) {
 				o.setColObs(Color.RED);
-				Jeu.k = 100;
+				Jeu.touche = true;
 				pts.removeAll(pts);
 
 				Timer timer = new Timer();
@@ -73,24 +60,33 @@ public class Panneau extends JPanel {
 			}
 		}
 
-		pts.add(new Point(posX, posY));
+		if (oiseau.getRect().getX() > Jeu.x + 5
+				|| oiseau.getRect().getY() > Jeu.y + 5
+				|| oiseau.getRect().getY() < 0 || oiseau.getRect().getX() < 0) {
+			Jeu.sorti = true;
+			pts.removeAll(pts);
+		}
+	}
 
+	public void affichagePointilles(Graphics g) {
+		for (int i = 0; i < pts.size(); i += 2) {
+			g.fillOval(pts.get(i).x + 5, pts.get(i).y + 8, 5, 5);
+		}
+		pts.add(new Point(posX, posY));
+	}
+
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		g.drawImage(new ImageIcon("res/bg_menu.png").getImage(), 0, 0, null);
+		g.setColor(Color.orange);
+
+		affichagePointilles(g);
+		verifColisionOuSorti();
 		g.setColor(Color.blue);
 		Obstacle.afficher(g);
 		oiseau.afficher(g);
 		oiseau.move(posX, posY);
 
-		/*
-		 * if (oiseau.getRect().intersectsLine(this.getWidth(), 0,
-		 * this.getWidth(), this.getHeight())) { Jeu.k = 101;
-		 * pts.removeAll(pts); }
-		 */
-		if (oiseau.getRect().getX() > Jeu.x + 5
-				|| oiseau.getRect().getY() > Jeu.y + 5
-				|| oiseau.getRect().getY() < 0 || oiseau.getRect().getX() < 0) {
-			Jeu.k = 101;
-			pts.removeAll(pts);
-		}
 	}
 
 	public ArrayList<Point> getPts() {

@@ -14,13 +14,18 @@ public class Jeu extends JFrame {
 	private Point p2, p3;
 	private Random r = new Random();
 	private Timer timer;
+	static int k = 0;
+	static int x=900;
+	static int y=500;
+	private int nb = 0;
+	private int i =0;
 
 	public Jeu(String title) {
 		super(title);
 	}
 
 	public void configFrame() {
-		this.setSize(900, 500);
+		this.setSize(x, y);
 		this.setResizable(false);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLocationRelativeTo(null);
@@ -29,7 +34,7 @@ public class Jeu extends JFrame {
 	}
 
 	public void lancerJeu(int nbLancer) {
-		for (int i = 0; i < nbLancer; i++) {
+		this.nb = nbLancer;
 			timer = new Timer(true);
 			timer.schedule(new TimerTask() {
 				public void run() {
@@ -37,7 +42,7 @@ public class Jeu extends JFrame {
 					timer.cancel();
 				}
 			}, 0, 5000);
-		}
+		
 	}
 
 	public Point courbeBez(Point p, Point p1, Point p2, double t) {
@@ -51,12 +56,16 @@ public class Jeu extends JFrame {
 	}
 
 	void go() {
+		pan.repaint();
+		k = 0;
 		double t = 0;
 		do {
 			p2 = new Point(140, r.nextInt(this.getHeight()));
 			p3 = new Point(this.getWidth(), r.nextInt(this.getHeight()));
 		} while (p2.y > 250);
-		for (int i = 0; i < 100; i++) {
+		
+		while(k!=100){
+		//for (int k = 0; k < 100; k++) {
 			t = t + 0.01;
 			Point rep = new Point(courbeBez(p1, p2, p3, t));
 			// System.out.println(rep.x);
@@ -65,13 +74,52 @@ public class Jeu extends JFrame {
 
 			pan.setPosY(rep.y);
 			pan.repaint();
-
+			
 			try {
 				Thread.sleep(40);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-
+			
+			if(k == 100){
+				restart();
+			}
+			if(k == 101){
+				restartt();
+			}
+		//}
 		}
 	}
+	
+	public void restart(){
+		
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		i++;
+		System.out.println(nb);
+		System.out.println(i);
+		if(i<nb) {
+		go();
+		}
+	}
+	
+	public void restartt(){
+		
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		i++;
+		System.out.println(nb);
+		System.out.println(i);
+		if(i<nb) {
+			go();
+			}
+	}
+	
+	
 }

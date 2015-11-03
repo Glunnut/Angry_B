@@ -5,7 +5,7 @@ public class Main {
 	
 		Jeu j = new Jeu("Animation");
 		j.configFrame();
-		j.lancerJeu(10);
+		j.lancerJeu(3);
 		
 	}
 }

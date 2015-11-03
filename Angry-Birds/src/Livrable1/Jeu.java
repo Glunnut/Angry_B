@@ -54,7 +54,12 @@ public class Jeu extends JFrame {
 		return rep;
 
 	}
-
+	public void reinit(){
+		pan.setPosX(p1.x);
+		pan.setPosY(p1.y);
+		pan.repaint();
+		
+	}
 	void go() {
 		pan.repaint();
 		k = 0;
@@ -64,29 +69,35 @@ public class Jeu extends JFrame {
 			p3 = new Point(this.getWidth(), r.nextInt(this.getHeight()));
 		} while (p2.y > 250);
 		
-		while(k!=100){
+		while(k<100){
 		//for (int k = 0; k < 100; k++) {
+			
 			t = t + 0.01;
 			Point rep = new Point(courbeBez(p1, p2, p3, t));
 			// System.out.println(rep.x);
 			// System.out.println(rep.y);
+			
 			pan.setPosX(rep.x);
 
 			pan.setPosY(rep.y);
+			
 			pan.repaint();
+			
 			
 			try {
 				Thread.sleep(40);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			
 			if(k == 100){
+				reinit();
 				restart();
-			}
-			if(k == 101){
+			}else if(k == 101){
+				reinit();
 				restartt();
 			}
+			
+		
 		//}
 		}
 	}
@@ -99,8 +110,7 @@ public class Jeu extends JFrame {
 			e.printStackTrace();
 		}
 		i++;
-		System.out.println(nb);
-		System.out.println(i);
+		
 		if(i<nb) {
 		go();
 		}
@@ -114,8 +124,7 @@ public class Jeu extends JFrame {
 			e.printStackTrace();
 		}
 		i++;
-		System.out.println(nb);
-		System.out.println(i);
+		
 		if(i<nb) {
 			go();
 			}

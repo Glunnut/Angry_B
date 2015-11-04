@@ -127,4 +127,14 @@ public class Jeu extends JFrame {
 		}
 	}
 
+	public int getI() {
+		return i;
+	}
+
+	public void setI(int i) {
+		this.i = i;
+	}
+	
+	
+
 }

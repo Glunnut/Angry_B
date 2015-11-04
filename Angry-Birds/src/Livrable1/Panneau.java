@@ -15,18 +15,15 @@ import javax.swing.JPanel;
 
 public class Panneau extends JPanel {
 
+	private static final long serialVersionUID = 1L;
 	private Obstacle o1, o2, o3, o4, o5, o6, o7, o8;
 	private int posX = 0;
 	private int posY = 0;
 	private Oiseau oiseau = new Oiseau(posX, posY);
-	private Timer timer = new Timer();
-	private ScheduledExecutorService exec = Executors
-			.newSingleThreadScheduledExecutor();
-
 	private ArrayList<Point> pts = new ArrayList<Point>();
 
 	public Panneau() {
-		creationOsbtacles();
+		
 	}
 
 	public void creationOsbtacles() {
@@ -79,7 +76,6 @@ public class Panneau extends JPanel {
 		super.paintComponent(g);
 		g.drawImage(new ImageIcon("res/bg_menu.png").getImage(), 0, 0, null);
 		g.setColor(Color.orange);
-
 		affichagePointilles(g);
 		verifColisionOuSorti();
 		g.setColor(Color.blue);

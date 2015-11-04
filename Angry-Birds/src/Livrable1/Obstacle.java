@@ -8,23 +8,28 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
-public class Obstacle extends JPanel {
+public class Obstacle {
 
+	//Creation d'un objet rectangle
+	private Rectangle rec;
+
+	/*Attribut d'un Obstacle
+	 * posX - Coordonnee x de l'obstacle
+	 * posY - Coordonnee y de l'obstacle
+	 * SIZE - diamètre de l'obstacle
+	 */
 	private int posX;
 	private int posY;
 	private final int SIZE = 25;
+
+	//Creation d'une liste d'obstacle 
 	public static List<Obstacle> obstacles = new ArrayList<Obstacle>();
-	private Rectangle rec;
+	
+	//Attribution d'une couleur aux obstacles
 	private Color colObs = Color.BLUE;
 
-	public Color getColObs() {
-		return colObs;
-	}
-
-	public void setColObs(Color colObs) {
-		this.colObs = colObs;
-	}
-
+	
+	//Constructeur
 	public Obstacle(int posX, int posY) {
 		this.posX = posX;
 		this.posY = posY;
@@ -32,34 +37,53 @@ public class Obstacle extends JPanel {
 		obstacles.add(this);
 	}
 
+	//---------------------GETTERS--------------------------//
+	
 	public Rectangle getRec() {
 		return rec;
 	}
-
-	public void setRec(Rectangle rec) {
-		this.rec = rec;
+	
+	public int getPosX() {
+		return posX;
 	}
-
+	
+	public int getPosY() {
+		return posY;
+	}
+	
 	public int getDiametre() {
 		return SIZE;
 	}
+	
+	public Color getColObs() {
+		return colObs;
+	}
+	
+	
+	//---------------------SETTERS--------------------------//
 
-	public int getPosX() {
-		return posX;
+	public void setRec(Rectangle rec) {
+		this.rec = rec;
 	}
 
 	public void setPosX(int posX) {
 		this.posX = posX;
 	}
 
-	public int getPosY() {
-		return posY;
-	}
-
 	public void setPosY(int posY) {
 		this.posY = posY;
 	}
 
+	public void setColObs(Color colObs) {
+		this.colObs = colObs;
+	}
+	
+	//Enlevement d'un obstacle de la liste des obstacles
+	public void enlever(Obstacle o) {
+		obstacles.remove(o);
+	}
+	
+	//Affichage d'un obstacle 
 	public static void afficher(Graphics g) {
 		for (Obstacle o : obstacles) {
 			g.setColor(o.getColObs());
@@ -67,8 +91,6 @@ public class Obstacle extends JPanel {
 		}
 	}
 
-	public void enlever(Obstacle o) {
-		obstacles.remove(o);
-	}
+	
 
 }

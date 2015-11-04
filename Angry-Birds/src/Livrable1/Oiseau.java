@@ -10,7 +10,7 @@ public class Oiseau{
 	//Creation d'un objet rectangle
 	private Rectangle rect;
 	
-	/*Attribut d'un Oiseau
+	/**Attribut d'un Oiseau
 	 *x - Coordonnee x de l'oiseau
 	 *y - Coordonnee y de l'oiseau
 	 *height - hauteur de l'oiseau
@@ -21,7 +21,11 @@ public class Oiseau{
 	private int height = 30;
 	private int width = 30;
 
-	//Constructeur
+	/**
+	 * Constructeur
+	 * @param x
+	 * @param y
+	 */
 	public Oiseau(int x, int y) {
 		this.x = x;
 		this.y = y;
@@ -75,14 +79,21 @@ public class Oiseau{
 		this.width = width;
 	}
 
-	//Deplacement d'un oiseau
+	/**
+	 * Deplacement d'un oiseau
+	 * @param x
+	 * @param y
+	 */
 	public void move(int x, int y) {
 		this.x = x;
 		this.y = y;
 		this.rect.setBounds(x, y, rect.width, rect.height);
 	}
 
-	//Affichage d'un Oiseau
+	/**
+	 * Affichage d'un Oiseau
+	 * @param g
+	 */
 	public void afficher(Graphics g) {
 		g.drawOval(x, y, height, width);
 		g.setColor(Color.ORANGE);

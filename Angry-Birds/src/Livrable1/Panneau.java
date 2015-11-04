@@ -16,16 +16,32 @@ import javax.swing.JPanel;
 public class Panneau extends JPanel {
 
 	private static final long serialVersionUID = 1L;
+
+	//Creation d'objets Obstacle
 	private Obstacle o1, o2, o3, o4, o5, o6, o7, o8;
+
+
+
+	//Coordonnee X et Y d'un oiseau
 	private int posX = 0;
 	private int posY = 0;
+
+	//Instanciation d'un oiseau
 	private Oiseau oiseau = new Oiseau(posX, posY);
+
+	//Instanciation d'une liste de points
 	private ArrayList<Point> pts = new ArrayList<Point>();
 
+	/**Constructeurs
+	 * 
+	 */
 	public Panneau() {
-		
+
 	}
 
+	/**
+	 * Creation D'obstacles
+	 */
 	public void creationOsbtacles() {
 		o1 = new Obstacle(750, 200);
 		o2 = new Obstacle(770, 60);
@@ -37,7 +53,9 @@ public class Panneau extends JPanel {
 		o8 = new Obstacle(825, 100);
 
 	}
-
+	/**
+	 * Verification de collision
+	 */
 	public void verifColisionOuSorti() {
 		for (final Obstacle o : Obstacle.obstacles) {
 			if (oiseau.getRect().intersects(o.getRec())) {
@@ -65,6 +83,10 @@ public class Panneau extends JPanel {
 		}
 	}
 
+	/**
+	 * affichage pointilles
+	 * @param g
+	 */
 	public void affichagePointilles(Graphics g) {
 		for (int i = 0; i < pts.size(); i += 2) {
 			g.fillOval(pts.get(i).x + 5, pts.get(i).y + 8, 5, 5);
@@ -72,6 +94,9 @@ public class Panneau extends JPanel {
 		pts.add(new Point(posX, posY));
 	}
 
+	/**
+	 * affichage des éléments de la fenêtre
+	 */
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		g.drawImage(new ImageIcon("res/bg_menu.png").getImage(), 0, 0, null);
@@ -85,24 +110,29 @@ public class Panneau extends JPanel {
 
 	}
 
+	//---------------------GETTERS--------------------------//
+
 	public ArrayList<Point> getPts() {
 		return pts;
-	}
-
-	public void setPts(ArrayList<Point> pts) {
-		this.pts = pts;
 	}
 
 	public int getPosX() {
 		return posX;
 	}
 
-	public void setPosX(int posX) {
-		this.posX = (int) posX;
-	}
-
 	public int getPosY() {
 		return posY;
+	}
+
+
+	//---------------------SETTERS--------------------------//
+
+	public void setPts(ArrayList<Point> pts) {
+		this.pts = pts;
+	}
+
+	public void setPosX(int posX) {
+		this.posX = (int) posX;
 	}
 
 	public void setPosY(int posY) {

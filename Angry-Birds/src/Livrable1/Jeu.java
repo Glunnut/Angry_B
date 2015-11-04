@@ -8,33 +8,64 @@ import java.util.TimerTask;
 import javax.swing.JFrame;
 
 public class Jeu extends JFrame {
-	private static final long serialVersionUID = 1L;
+	
+	//Serial
+	private final long serialVersionUID = 1L;
+	
+	//Instanciation d'un panneau
 	private Panneau pan = new Panneau();
+	
+	//Instanciation d'un point
 	private Point p1 = new Point(20, 350), p2, p3;
+	
+	//Instanciation d'un random
 	private Random r = new Random();
+	
+	//taille de l'écran
 	static int x = 900, y = 500;
+	
+	//initialisation du nombre de lancer et du nombre de lancer effectue
 	private int nb = 0, i = 0;
+	
+	//initialisation d'un booleen
 	static boolean touche = false, sorti = false;
+	
+	//Creation d'un objet trajectoire
 	private Trajectoire traj;
 	
+	/**
+	 * Constructeur
+	 * @param title
+	 */
 	public Jeu(String title) {
 		super(title);
 	}
-
+	
+	/**
+	 * Configuration de la Frame
+	 */
 	public void configFrame() {
 		this.setSize(x, y);
 		this.setResizable(false);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLocationRelativeTo(null);
+		pan.creationOsbtacles();
 		this.setContentPane(pan);
 		this.setVisible(true);
 	}
 
+	/**
+	 * Lancement du jeu
+	 * @param nbLancer
+	 */
 	public void lancerJeu(int nbLancer) {
 		this.nb = nbLancer;
 		go();
 	}
 
+	/**
+	 * reinitialise la vue
+	 */
 	public void reinit() {
 		pan.setPosX(p1.x);
 		pan.setPosY(p1.y);
@@ -42,7 +73,10 @@ public class Jeu extends JFrame {
 		touche = false;
 		sorti = false;
 	}
-
+	
+	/**
+	 * Demarre le mouvement de l'oiseau
+	 */
 	void go() {
 		pan.repaint();
 		double t = 0;
@@ -74,6 +108,9 @@ public class Jeu extends JFrame {
 		}
 	}
 
+	/**
+	 * Redemarre le mouvement de l'oiseau
+	 */
 	public void restart() {
 		try {
 			if (touche) {

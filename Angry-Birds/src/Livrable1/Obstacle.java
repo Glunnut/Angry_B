@@ -13,7 +13,7 @@ public class Obstacle {
 	//Creation d'un objet rectangle
 	private Rectangle rec;
 
-	/*Attribut d'un Obstacle
+	/**Attribut d'un Obstacle
 	 * posX - Coordonnee x de l'obstacle
 	 * posY - Coordonnee y de l'obstacle
 	 * SIZE - diamètre de l'obstacle
@@ -21,15 +21,19 @@ public class Obstacle {
 	private int posX;
 	private int posY;
 	private final int SIZE = 25;
-
-	//Creation d'une liste d'obstacle 
+	
+	//Creation d'une liste d'obstacle
 	public static List<Obstacle> obstacles = new ArrayList<Obstacle>();
 	
 	//Attribution d'une couleur aux obstacles
 	private Color colObs = Color.BLUE;
 
 	
-	//Constructeur
+	/**
+	 * Constructeur
+	 * @param posX
+	 * @param posY
+	 */
 	public Obstacle(int posX, int posY) {
 		this.posX = posX;
 		this.posY = posY;
@@ -78,12 +82,19 @@ public class Obstacle {
 		this.colObs = colObs;
 	}
 	
-	//Enlevement d'un obstacle de la liste des obstacles
+	/**
+	 * Enlevement d'un obstacle de la liste des obstacles
+	 * @param o
+	 */
+	 
 	public void enlever(Obstacle o) {
 		obstacles.remove(o);
 	}
 	
-	//Affichage d'un obstacle 
+	/**
+	 * Affichage d'un obstacle 
+	 * @param g
+	 */
 	public static void afficher(Graphics g) {
 		for (Obstacle o : obstacles) {
 			g.setColor(o.getColObs());

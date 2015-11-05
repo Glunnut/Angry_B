@@ -99,6 +99,7 @@ public class Oiseau{
 		g.setColor(Color.ORANGE);
 		g.fillOval(x, y, height, width);
 		g.setColor(Color.YELLOW);
+		
 		g.fillArc(x + 30, y - 1, width, height, 160, 30);
 		g.setColor(Color.BLACK);
 		g.drawOval(x + 8, y + 10, width - 10, height - 20);

@@ -11,6 +11,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class Panneau extends JPanel {
@@ -19,8 +20,8 @@ public class Panneau extends JPanel {
 
 	//Creation d'objets Obstacle
 	private Obstacle o1, o2, o3, o4, o5, o6, o7, o8;
-
-
+	
+	private JLabel label ;
 
 	//Coordonnee X et Y d'un oiseau
 	private int posX = 0;
@@ -36,8 +37,14 @@ public class Panneau extends JPanel {
 	 * 
 	 */
 	public Panneau() {
-
+		addLabel();
 	}
+
+	public void addLabel(){
+		label= new JLabel("");
+		this.add(label);
+	}
+	
 
 	/**
 	 * Creation D'obstacles
@@ -124,7 +131,11 @@ public class Panneau extends JPanel {
 		return posY;
 	}
 
+	public JLabel getLabel() {
+		return label;
+	}
 
+	
 	//---------------------SETTERS--------------------------//
 
 	public void setPts(ArrayList<Point> pts) {
@@ -138,5 +149,7 @@ public class Panneau extends JPanel {
 	public void setPosY(int posY) {
 		this.posY = posY;
 	}
-
+	public void setLabel(String txt) {
+		this.label.setText(txt); 
+	}
 }

@@ -67,17 +67,19 @@ public class Jeu extends JFrame {
 	 * reinitialise la vue
 	 */
 	public void reinit() {
+		touche = false;
+		sorti = false;
 		pan.setPosX(p1.x);
 		pan.setPosY(p1.y);
 		pan.repaint();
-		touche = false;
-		sorti = false;
 	}
 	
 	/**
 	 * Demarre le mouvement de l'oiseau
 	 */
 	void go() {
+		reinit();
+		pan.setLabel("Lancer n°"+(i+1)+". Il en reste "+((nb-i)-1));
 		pan.repaint();
 		double t = 0;
 		do {
@@ -85,7 +87,7 @@ public class Jeu extends JFrame {
 			p3 = new Point(this.getWidth(), r.nextInt(this.getHeight()));
 		} while (p2.y > 250);
 
-		while ( !touche || !sorti ) {
+		while ( (!touche || !sorti) && i < nb ) {
 
 			t = t + 0.01;
 			traj = new Trajectoire(p1, p2, p3, t);
@@ -94,7 +96,7 @@ public class Jeu extends JFrame {
 			pan.setPosX(rep.x);
 			pan.setPosY(rep.y);
 			pan.repaint();
-
+			
 			try {
 				Thread.sleep(40);
 			} catch (InterruptedException e) {
@@ -104,8 +106,8 @@ public class Jeu extends JFrame {
 				reinit();
 				restart();
 			}
-
 		}
+		reinit();
 	}
 
 	/**
@@ -124,6 +126,9 @@ public class Jeu extends JFrame {
 		i++;
 		if (i < nb) {
 			go();
+		}
+		else{
+			pan.setLabel("Lancers terminés");
 		}
 	}
 

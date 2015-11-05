@@ -12,7 +12,7 @@ public class Trajectoire {
 		this.p1 = p1;
 		this.p2 = p2;
 		this.t = t;
-		pt = courbeBez(p, p1, p2, t);
+		pt = courbeLigneDroite(p, p1, p2, t);
 	}
 	
 	public Point getPt() {
@@ -29,6 +29,13 @@ public class Trajectoire {
 				* p2.x);
 		rep.y = (int) (((1 - t) * (1 - t)) * p.y + 2 * t * (1 - t) * p1.y + (t * t)
 				* p2.y);
+		return rep;
+	}
+	
+	public Point courbeLigneDroite(Point p, Point p1, Point p2, double t){
+		Point rep = new Point(0, 0);
+		rep.x = (int) (((p.x + t) * (1 + t)) * 20);
+		rep.y = 200;
 		return rep;
 	}
 }

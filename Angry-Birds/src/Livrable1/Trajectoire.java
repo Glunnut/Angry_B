@@ -4,17 +4,23 @@ import java.awt.Point;
 
 public class Trajectoire {
 
-	private Point pt,p,p1,p2;
+	private Point pt, p, p1, p2;
 	private double t;
-	
+
 	public Trajectoire(Point p, Point p1, Point p2, double t) {
 		this.p = p;
 		this.p1 = p1;
 		this.p2 = p2;
 		this.t = t;
-		pt = LigneDroite(p, p1, p2, t);
+		pt = courbeBez(p, p1, p2, t);
 	}
-	
+
+	public Trajectoire(Point p, double t) {
+		this.p = p;
+		this.t = t;
+		pt = LigneDroite(p, t);
+	}
+
 	public Point getPt() {
 		return pt;
 	}
@@ -31,10 +37,10 @@ public class Trajectoire {
 				* p2.y);
 		return rep;
 	}
-	
-	public Point LigneDroite(Point p, Point p1, Point p2, double t){
+
+	public Point LigneDroite(Point p, double t) {
 		Point rep = new Point(0, 0);
-		rep.x = (int) (((p.x + t) * (1 + t)  - 20) * 20);
+		rep.x = (int) (((p.x + t) * (1 + t) - 20) * 20);
 		rep.y = 200;
 		return rep;
 	}

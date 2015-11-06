@@ -93,9 +93,16 @@ public class Jeu extends JFrame {
 
 			t = t + 0.01;
 			if ((i + 1) % 2 == 0)
-				traj = new Trajectoire(p1, t);
-			else
 				traj = new Trajectoire(p1, p2, p3, t);
+			else {
+				Random r = new Random();
+				int n = r.nextInt(1);
+				if (i == 0)
+					traj = new Trajectoire(p1, t, this);
+				else
+					traj = new Trajectoire(p1, t);
+
+			}
 			Point rep = new Point(traj.getPt());
 
 			pan.setPosX(rep.x);

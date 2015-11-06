@@ -1,9 +1,8 @@
 package Livrable1;
 
 import java.awt.Point;
+import java.util.Date;
 import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import javax.swing.JFrame;
 
@@ -78,6 +77,23 @@ public class Jeu extends JFrame {
 		pan.repaint();
 	}
 
+	/*
+	 * Fonction qui permet d'attendre un certain temps
+	 */
+	private void attente(int delay){
+		int attente = delay; 
+		// Temps d'attente en millisecondes
+		Date date = new Date();
+		long debut = date.getTime();
+		// Récupère la date courante en millisecondes 
+		long somme = debut + attente;
+		// Date à laquelle on sortira de la fonction
+		while(debut<somme){
+			date = new Date();
+			debut = date.getTime();
+		}
+	}
+	
 	/**
 	 * Demarre le mouvement de l'oiseau
 	 */
@@ -109,15 +125,12 @@ public class Jeu extends JFrame {
 			pan.setPosX(rep.x);
 			pan.setPosY(rep.y);
 			pan.repaint();
-
-			try {
-				Thread.sleep(40);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+			
+			attente(40);
 			if (touche || sorti) {
 				if ((i + 1) % 2 == 0)
 					n++;
+				System.out.println(n);
 				reinit();
 				restart();
 			}
@@ -129,15 +142,11 @@ public class Jeu extends JFrame {
 	 * Redemarre le mouvement de l'oiseau
 	 */
 	public void restart() {
-		try {
 			if (touche) {
-				Thread.sleep(2000);
+				attente(2000);
 			} else {
-				Thread.sleep(1000);
+				attente(1000);
 			}
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
 		i++;
 		if (i < nb) {
 			go();

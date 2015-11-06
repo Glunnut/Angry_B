@@ -33,6 +33,8 @@ public class Jeu extends JFrame {
 	// Creation d'un objet trajectoire
 	private Trajectoire traj;
 
+	private int n = 0;
+
 	/**
 	 * Constructeur
 	 * 
@@ -95,12 +97,11 @@ public class Jeu extends JFrame {
 			if ((i + 1) % 2 == 0)
 				traj = new Trajectoire(p1, p2, p3, t);
 			else {
-				Random r = new Random();
-				int n = r.nextInt(1);
-				if (i == 0)
+				if (n % 2 == 0) {
 					traj = new Trajectoire(p1, t, this);
-				else
+				} else {
 					traj = new Trajectoire(p1, t);
+				}
 
 			}
 			Point rep = new Point(traj.getPt());
@@ -115,6 +116,9 @@ public class Jeu extends JFrame {
 				e.printStackTrace();
 			}
 			if (touche || sorti) {
+				if ((i + 1) % 2 == 0)
+					n++;
+				System.out.println(n);
 				reinit();
 				restart();
 			}

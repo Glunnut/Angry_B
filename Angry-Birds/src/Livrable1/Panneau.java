@@ -67,7 +67,7 @@ public class Panneau extends JPanel {
 		for (final Obstacle o : Obstacle.obstacles) {
 			if (oiseau.getRect().intersects(o.getRec())) {
 				o.setColObs(Color.RED);
-				Jeu.touche = true;
+				Jeu.setTouche(true);
 				pts.removeAll(pts);
 
 				Timer timer = new Timer();

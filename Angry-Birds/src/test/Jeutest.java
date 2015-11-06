@@ -1,5 +1,7 @@
 package test;
 
+import java.awt.Point;
+
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -14,8 +16,8 @@ public class Jeutest {
 	
 	@Test
 	public final void nblancer() {
-		j.lancerJeu(2);
-		Assert.assertEquals(2,j.getI());
+		j.lancerJeu(3);
+		Assert.assertEquals(3,j.getI());
 	}
 	
 	@Test
@@ -26,11 +28,22 @@ public class Jeutest {
 	}
 	
 	@Test
+	public final void touch_oiseau() {
+		Oiseau o = new Oiseau(0, 0);
+		if(j.getI()==1 && j.getPan().getPosX()==0){
+		Assert.assertTrue(j.isTouche());
+		}
+		
+	}
+	
+	
+	@Test
 	public final void coord_oiseau() {
 		Oiseau o = new Oiseau(0, 0);
 		Assert.assertEquals(0,o.getX());
 		Assert.assertEquals(0,o.getY());
 	}
+	
 	
 	@BeforeClass
 	public final static void init(){

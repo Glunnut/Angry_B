@@ -27,7 +27,9 @@ public class Jeu extends JFrame {
 	private int nb = 0, i = 0;
 
 	// initialisation d'un booleen
-	static boolean touche = false, sorti = false;
+	private static boolean touche = false;
+
+	static boolean sorti = false;
 
 	// Creation d'un objet trajectoire
 	private Trajectoire traj;
@@ -51,8 +53,8 @@ public class Jeu extends JFrame {
 		this.setResizable(false);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLocationRelativeTo(null);
-		pan.creationOsbtacles();
-		this.setContentPane(pan);
+		getPan().creationOsbtacles();
+		this.setContentPane(getPan());
 		this.setVisible(true);
 	}
 
@@ -70,11 +72,11 @@ public class Jeu extends JFrame {
 	 * reinitialise la vue
 	 */
 	public void reinit() {
-		touche = false;
+		setTouche(false);
 		sorti = false;
-		pan.setPosX(p1.x);
-		pan.setPosY(p1.y);
-		pan.repaint();
+		getPan().setPosX(p1.x);
+		getPan().setPosY(p1.y);
+		getPan().repaint();
 	}
 
 	/*
@@ -99,15 +101,15 @@ public class Jeu extends JFrame {
 	 */
 	void go() {
 		reinit();
-		pan.setLabel("Lancer n°" + (i + 1) + ". Il en reste " + ((nb - i) - 1));
-		pan.repaint();
+		getPan().setLabel("Lancer n°" + (i + 1) + ". Il en reste " + ((nb - i) - 1));
+		getPan().repaint();
 		double t = 0;
 		do {
 			p2 = new Point(140, r.nextInt(this.getHeight()));
 			p3 = new Point(this.getWidth(), r.nextInt(this.getHeight()));
 		} while (p2.y > 250);
 
-		while ((!touche || !sorti) && i < nb) {
+		while ((!isTouche() || !sorti) && i < nb) {
 
 			t = t + 0.01;
 			if ((i + 1) % 2 == 0)
@@ -122,12 +124,12 @@ public class Jeu extends JFrame {
 			}
 			Point rep = new Point(traj.getPt());
 
-			pan.setPosX(rep.x);
-			pan.setPosY(rep.y);
-			pan.repaint();
+			getPan().setPosX(rep.x);
+			getPan().setPosY(rep.y);
+			getPan().repaint();
 			
 			attente(40);
-			if (touche || sorti) {
+			if (isTouche() || sorti) {
 				if ((i + 1) % 2 == 0)
 					n++;
 				System.out.println(n);
@@ -142,7 +144,7 @@ public class Jeu extends JFrame {
 	 * Redemarre le mouvement de l'oiseau
 	 */
 	public void restart() {
-			if (touche) {
+			if (isTouche()) {
 				attente(2000);
 			} else {
 				attente(1000);
@@ -151,7 +153,7 @@ public class Jeu extends JFrame {
 		if (i < nb) {
 			go();
 		} else {
-			pan.setLabel("Lancers terminés");
+			getPan().setLabel("Lancers terminés");
 		}
 	}
 
@@ -162,5 +164,19 @@ public class Jeu extends JFrame {
 	public void setI(int i) {
 		this.i = i;
 	}
+
+	public static boolean isTouche() {
+		return touche;
+	}
+
+	public static void setTouche(boolean touche) {
+		Jeu.touche = touche;
+	}
+
+	public Panneau getPan() {
+		return pan;
+	}
+
+	
 
 }

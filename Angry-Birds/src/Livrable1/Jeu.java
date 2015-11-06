@@ -118,7 +118,6 @@ public class Jeu extends JFrame {
 			if (touche || sorti) {
 				if ((i + 1) % 2 == 0)
 					n++;
-				System.out.println(n);
 				reinit();
 				restart();
 			}

@@ -5,8 +5,7 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.swing.JPanel;
+import java.util.Random;
 
 public class Obstacle {
 
@@ -27,8 +26,8 @@ public class Obstacle {
 	
 	//Attribution d'une couleur aux obstacles
 	private Color colObs = Color.BLUE;
-
-	
+	private boolean rond;
+	Random r = new Random();
 	/**
 	 * Constructeur
 	 * @param posX
@@ -37,6 +36,7 @@ public class Obstacle {
 	public Obstacle(int posX, int posY) {
 		this.posX = posX;
 		this.posY = posY;
+		this.rond = r.nextBoolean();
 		rec = new Rectangle(posX, posY, SIZE, SIZE);
 		obstacles.add(this);
 	}
@@ -63,6 +63,11 @@ public class Obstacle {
 		return colObs;
 	}
 	
+	public String getForme(){
+		if(this.rond)
+			return "rond";
+		return "rectangle";
+	}
 	
 	//---------------------SETTERS--------------------------//
 
@@ -98,7 +103,11 @@ public class Obstacle {
 	public static void afficher(Graphics g) {
 		for (Obstacle o : obstacles) {
 			g.setColor(o.getColObs());
-			g.fillOval(o.getPosX(), o.getPosY(), o.SIZE, o.SIZE);
+			if(o.getForme().equals("rond"))
+				g.fillOval(o.getPosX(), o.getPosY(), o.SIZE, o.SIZE);
+			else{
+				g.fillRect(o.getPosX(), o.getPosY(), o.SIZE, o.SIZE);
+			}
 		}
 	}
 

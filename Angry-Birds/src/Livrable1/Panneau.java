@@ -114,7 +114,6 @@ public class Panneau extends JPanel {
 		Obstacle.afficher(g);
 		oiseau.afficher(g);
 		oiseau.move(posX, posY);
-
 	}
 
 	//---------------------GETTERS--------------------------//

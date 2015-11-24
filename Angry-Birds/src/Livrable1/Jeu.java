@@ -79,6 +79,23 @@ public class Jeu extends JFrame {
 		getPan().repaint();
 	}
 
+	public void variationObstacle(){
+		for(Obstacle o : Obstacle.obstacles)
+			if(affichage<40 || (affichage>80 && affichage<120) || affichage > 160)
+				if(o.getForme().equals("rond"))
+					o.setPosX(o.getPosX()-1);
+				else{
+					o.setPosX(o.getPosX()-1);
+					o.setPosY(o.getPosY()-1);
+				}
+			else
+				if(o.getForme().equals("rond"))
+					o.setPosX(o.getPosX()+1);
+				else{
+					o.setPosX(o.getPosX()+1);
+					o.setPosY(o.getPosY()+1);
+				}
+	}
 	/*
 	 * Fonction qui permet d'attendre un certain temps
 	 */
@@ -121,26 +138,19 @@ public class Jeu extends JFrame {
 				} else {
 					traj = new Trajectoire(p1, t);
 				}
-
 			}
-			for(Obstacle o : Obstacle.obstacles)
-				if(affichage<40 || (affichage>80 && affichage<120) || affichage > 160)
-					o.setPosX(o.getPosX()-1);
-				else
-					o.setPosX(o.getPosX()+1);
-				
 			Point rep = new Point(traj.getPt());
-
 			getPan().setPosX(rep.x);
 			getPan().setPosY(rep.y);
-			getPan().repaint();
 			
+			variationObstacle();
+		
+			getPan().repaint();
 			attente(40);
+			
 			if (isTouche() || sorti) {
 				if ((i + 1) % 2 == 0)
 					n++;
-				System.out.println(n);
-				System.out.println(affichage);
 				reinit();
 				restart();
 			}

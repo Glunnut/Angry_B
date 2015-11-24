@@ -34,7 +34,7 @@ public class Jeu extends JFrame {
 	// Creation d'un objet trajectoire
 	private Trajectoire traj;
 
-	private int n = 0;
+	private int n = 0, affichage =0;
 
 	/**
 	 * Constructeur
@@ -100,6 +100,7 @@ public class Jeu extends JFrame {
 	 * Demarre le mouvement de l'oiseau
 	 */
 	void go() {
+		affichage = 0;
 		reinit();
 		getPan().setLabel("Lancer n°" + (i + 1) + ". Il en reste " + ((nb - i) - 1));
 		getPan().repaint();
@@ -110,7 +111,7 @@ public class Jeu extends JFrame {
 		} while (p2.y > 250);
 
 		while ((!isTouche() || !sorti) && i < nb) {
-
+			affichage++;
 			t = t + 0.01;
 			if ((i + 1) % 2 == 0)
 				traj = new Trajectoire(p1, p2, p3, t);
@@ -122,6 +123,12 @@ public class Jeu extends JFrame {
 				}
 
 			}
+			for(Obstacle o : Obstacle.obstacles)
+				if(affichage<40 || (affichage>80 && affichage<120) || affichage > 160)
+					o.setPosX(o.getPosX()-1);
+				else
+					o.setPosX(o.getPosX()+1);
+				
 			Point rep = new Point(traj.getPt());
 
 			getPan().setPosX(rep.x);
@@ -133,6 +140,7 @@ public class Jeu extends JFrame {
 				if ((i + 1) % 2 == 0)
 					n++;
 				System.out.println(n);
+				System.out.println(affichage);
 				reinit();
 				restart();
 			}

@@ -34,7 +34,7 @@ public class Jeu extends JFrame {
 	// Creation d'un objet trajectoire
 	private Trajectoire traj;
 
-	private int n = 0, affichage =0;
+	private int n = 0, affichage = 0;
 
 	/**
 	 * Constructeur
@@ -43,6 +43,8 @@ public class Jeu extends JFrame {
 	 */
 	public Jeu(String title) {
 		super(title);
+		EventListener evt = new EventListener(this);
+		getPan().addMouseListener(evt);
 	}
 
 	/**
@@ -65,6 +67,7 @@ public class Jeu extends JFrame {
 	 */
 	public void lancerJeu(int nbLancer) {
 		this.nb = nbLancer;
+		System.out.println("jeu lancÃ©");
 		go();
 	}
 
@@ -79,55 +82,60 @@ public class Jeu extends JFrame {
 		getPan().repaint();
 	}
 
-	public void variationObstacle(){
-		for(Obstacle o : Obstacle.obstacles)
-			if(affichage<40 || (affichage>80 && affichage<120) || affichage > 160)
-				if(o.getForme().equals("rond"))
-					o.setPosX(o.getPosX()-1);
-				else{
-					o.setPosX(o.getPosX()-1);
-					o.setPosY(o.getPosY()-1);
+	public void variationObstacle() {
+		for (Obstacle o : Obstacle.obstacles)
+			if (affichage < 40 || (affichage > 80 && affichage < 120)
+					|| affichage > 160)
+				if (o.getForme().equals("rond"))
+					o.setPosX(o.getPosX() - 1);
+				else {
+					o.setPosX(o.getPosX() - 1);
+					o.setPosY(o.getPosY() - 1);
 				}
-			else
-				if(o.getForme().equals("rond"))
-					o.setPosX(o.getPosX()+1);
-				else{
-					o.setPosX(o.getPosX()+1);
-					o.setPosY(o.getPosY()+1);
-				}
+			else if (o.getForme().equals("rond"))
+				o.setPosX(o.getPosX() + 1);
+			else {
+				o.setPosX(o.getPosX() + 1);
+				o.setPosY(o.getPosY() + 1);
+			}
 	}
+
 	/*
 	 * Fonction qui permet d'attendre un certain temps
 	 */
-	private void attente(int delay){
-		int attente = delay; 
+	private void attente(int delay) {
+		int attente = delay;
 		// Temps d'attente en millisecondes
 		Date date = new Date();
 		long debut = date.getTime();
-		// Récupère la date courante en millisecondes 
+		// Rï¿½cupï¿½re la date courante en millisecondes
 		long somme = debut + attente;
-		// Date à laquelle on sortira de la fonction
-		while(debut<somme){
+		// Date ï¿½ laquelle on sortira de la fonction
+		while (debut < somme) {
 			date = new Date();
 			debut = date.getTime();
 		}
 	}
-	
+
 	/**
 	 * Demarre le mouvement de l'oiseau
 	 */
 	void go() {
+		System.out.println("go()");
 		affichage = 0;
 		reinit();
-		getPan().setLabel("Lancer n°" + (i + 1) + ". Il en reste " + ((nb - i) - 1));
+		getPan().setLabel(
+				"Lancer nï¿½" + (i + 1) + ". Il en reste " + ((nb - i) - 1));
 		getPan().repaint();
 		double t = 0;
 		do {
+			System.out.println("do");
 			p2 = new Point(140, r.nextInt(this.getHeight()));
 			p3 = new Point(this.getWidth(), r.nextInt(this.getHeight()));
 		} while (p2.y > 250);
 
 		while ((!isTouche() || !sorti) && i < nb) {
+			System.out.println("while");
 			affichage++;
 			t = t + 0.01;
 			if ((i + 1) % 2 == 0)
@@ -144,10 +152,10 @@ public class Jeu extends JFrame {
 			getPan().setPosY(rep.y);
 			
 			variationObstacle();
-		
+
 			getPan().repaint();
 			attente(40);
-			
+
 			if (isTouche() || sorti) {
 				if ((i + 1) % 2 == 0)
 					n++;
@@ -162,16 +170,16 @@ public class Jeu extends JFrame {
 	 * Redemarre le mouvement de l'oiseau
 	 */
 	public void restart() {
-			if (isTouche()) {
-				attente(2000);
-			} else {
-				attente(1000);
-			}
+		if (isTouche()) {
+			attente(2000);
+		} else {
+			attente(1000);
+		}
 		i++;
 		if (i < nb) {
 			go();
 		} else {
-			getPan().setLabel("Lancers terminés");
+			getPan().setLabel("Lancers terminï¿½s");
 		}
 	}
 
@@ -194,7 +202,5 @@ public class Jeu extends JFrame {
 	public Panneau getPan() {
 		return pan;
 	}
-
-	
 
 }

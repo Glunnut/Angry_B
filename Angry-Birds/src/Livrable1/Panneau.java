@@ -3,6 +3,8 @@ package Livrable1;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -24,15 +26,15 @@ public class Panneau extends JPanel {
 	private JLabel label ;
 
 	//Coordonnee X et Y d'un oiseau
-	private int posX = 0;
-	private int posY = 0;
+	private int posX = 30;
+	private int posY = 360;
 
 	//Instanciation d'un oiseau
 	private Oiseau oiseau = new Oiseau(posX, posY);
 
 	//Instanciation d'une liste de points
 	private ArrayList<Point> pts = new ArrayList<Point>();
-
+	
 	/**Constructeurs
 	 * 
 	 */

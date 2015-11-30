@@ -55,7 +55,7 @@ public class Panneau extends JPanel {
 	public void creationOsbtacles() {
 		o1 = new Obstacle(750, 200);
 		o2 = new Obstacle(770, 60);
-		o3 = new Obstacle(800, 450);
+		// o3 = new Obstacle(800, 450);
 		o4 = new Obstacle(770, 300);
 		o5 = new Obstacle(790, 154);
 		o6 = new Obstacle(830, 250);
@@ -124,6 +124,7 @@ public class Panneau extends JPanel {
 		g.setColor(Color.orange);
 		affichagePointilles(g);
 		verifColisionOuSorti();
+		g.drawImage(new ImageIcon("res/angryb.png").getImage(), 0, 445, null);
 		g.setColor(Color.blue);
 		Obstacle.afficher(g);
 		oiseau.afficher(g);

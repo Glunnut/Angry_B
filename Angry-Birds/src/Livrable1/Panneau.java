@@ -117,9 +117,9 @@ public class Panneau extends JPanel {
 		Obstacle.afficher(g);
 		oiseau.afficher(g);
 		if (isIncreasing(posY))
-			oiseau.move(posX, posY - 20);
-		else 
 			oiseau.move(posX, posY + 20);
+		else 
+			oiseau.move(posX, posY - 20);
 	}
 
 	// ---------------------GETTERS--------------------------//

@@ -116,10 +116,15 @@ public class Panneau extends JPanel {
 		g.setColor(Color.blue);
 		Obstacle.afficher(g);
 		oiseau.afficher(g);
-		if (isIncreasing(posY))
-			oiseau.move(posX, posY + 20);
-		else 
-			oiseau.move(posX, posY - 20);
+		if (isRising(posY)){
+			posY += 20;
+			oiseau.move(posX, posY);
+			System.out.println("isRising");
+		}
+		else{
+			posY -= 20;
+			oiseau.move(posX, posY);
+		}
 	}
 
 	// ---------------------GETTERS--------------------------//
@@ -147,7 +152,7 @@ public class Panneau extends JPanel {
 	}
 
 	public void setPosX(int posX) {
-		this.posX = (int) posX;
+			this.posX = (int) posX;
 	}
 
 	public void setPosY(int posY) {
@@ -160,18 +165,10 @@ public class Panneau extends JPanel {
 
 	// ---------------------Verification x et y--------------------------//
 
-	public boolean isIncreasing(int something) {
-		if (something < 0)
-			something = -something;
-
-		int last = 200;
-		int x;
-		while (something > 0) {
-			x = something % 10;
-			if (last < x)
+	public boolean isRising(int something) {
+		for(int i = 1; i < this.pts.size() - 1; i++){
+			if(something > this.pts.get(i - 1).getY())
 				return false;
-			last = x;
-			something /= 10;
 		}
 		return true;
 	}

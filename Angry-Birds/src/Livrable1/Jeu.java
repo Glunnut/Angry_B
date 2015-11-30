@@ -138,15 +138,15 @@ public class Jeu extends JFrame {
 			System.out.println("while " + getPan().getPosY());
 			affichage++;
 			t = t + 0.01;
-			if ((i + 1) % 2 == 0)
+			//if ((i + 1) % 2 == 0)
 				traj = new Trajectoire(p1, p2, p3, t);
-			else {
+			/*else {
 				if (n % 2 == 0) {
 					traj = new Trajectoire(p1, t, this);
 				} else {
 					traj = new Trajectoire(p1, t);
 				}
-			}
+			}*/
 			Point rep = new Point(traj.getPt());
 			getPan().setPosX(rep.x);
 			getPan().setPosY(rep.y);

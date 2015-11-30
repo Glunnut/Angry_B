@@ -1,3 +1,4 @@
+
 package Livrable1;
 
 import java.awt.Color;
@@ -103,7 +104,17 @@ public class Panneau extends JPanel {
 		}
 		pts.add(new Point(posX, posY));
 	}
-
+	public void affichageVitesse(){
+		
+		if(pts.size()>1){
+			Point prec = pts.get(0);
+		for(int i = 0; i<pts.size();i++){
+			Point act = pts.get(i);
+			System.out.println(Outils.distance(prec, act)+"cm/s");
+			prec = act;
+		}
+		}
+	}
 	/**
 	 * affichage des éléments de la fenêtre
 	 */
@@ -116,15 +127,11 @@ public class Panneau extends JPanel {
 		g.setColor(Color.blue);
 		Obstacle.afficher(g);
 		oiseau.afficher(g);
-		if (isRising(posY)){
-			posY += 20;
-			oiseau.move(posX, posY);
-			System.out.println("isRising");
-		}
-		else{
-			posY -= 20;
-			oiseau.move(posX, posY);
-		}
+		affichageVitesse();
+		if (isIncreasing(posY))
+			oiseau.move(posX, posY + 20);
+		else 
+			oiseau.move(posX, posY - 20);
 	}
 
 	// ---------------------GETTERS--------------------------//
@@ -152,7 +159,7 @@ public class Panneau extends JPanel {
 	}
 
 	public void setPosX(int posX) {
-			this.posX = (int) posX;
+		this.posX = (int) posX;
 	}
 
 	public void setPosY(int posY) {
@@ -165,10 +172,18 @@ public class Panneau extends JPanel {
 
 	// ---------------------Verification x et y--------------------------//
 
-	public boolean isRising(int something) {
-		for(int i = 1; i < this.pts.size() - 1; i++){
-			if(something > this.pts.get(i - 1).getY())
+	public boolean isIncreasing(int something) {
+		if (something < 0)
+			something = -something;
+
+		int last = 200;
+		int x;
+		while (something > 0) {
+			x = something % 10;
+			if (last < x)
 				return false;
+			last = x;
+			something /= 10;
 		}
 		return true;
 	}

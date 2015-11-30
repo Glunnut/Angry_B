@@ -20,33 +20,33 @@ public class Panneau extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
-	//Creation d'objets Obstacle
+	// Creation d'objets Obstacle
 	private Obstacle o1, o2, o3, o4, o5, o6, o7, o8;
-	
-	private JLabel label ;
 
-	//Coordonnee X et Y d'un oiseau
+	private JLabel label;
+
+	// Coordonnee X et Y d'un oiseau
 	private int posX = 30;
 	private int posY = 360;
 
-	//Instanciation d'un oiseau
+	// Instanciation d'un oiseau
 	private Oiseau oiseau = new Oiseau(posX, posY);
 
-	//Instanciation d'une liste de points
+	// Instanciation d'une liste de points
 	private ArrayList<Point> pts = new ArrayList<Point>();
-	
-	/**Constructeurs
+
+	/**
+	 * Constructeurs
 	 * 
 	 */
 	public Panneau() {
 		addLabel();
 	}
 
-	public void addLabel(){
-		label= new JLabel("");
+	public void addLabel() {
+		label = new JLabel("");
 		this.add(label);
 	}
-	
 
 	/**
 	 * Creation D'obstacles
@@ -62,6 +62,7 @@ public class Panneau extends JPanel {
 		o8 = new Obstacle(825, 100);
 
 	}
+
 	/**
 	 * Verification de collision
 	 */
@@ -84,9 +85,8 @@ public class Panneau extends JPanel {
 			}
 		}
 
-		if (oiseau.getRect().getX() > Jeu.x + 5
-				|| oiseau.getRect().getY() > Jeu.y + 5
-				|| oiseau.getRect().getY() < 0 || oiseau.getRect().getX() < 0) {
+		if (oiseau.getRect().getX() > Jeu.x + 5 || oiseau.getRect().getY() > Jeu.y + 5 || oiseau.getRect().getY() < 0
+				|| oiseau.getRect().getX() < 0) {
 			Jeu.sorti = true;
 			pts.removeAll(pts);
 		}
@@ -94,6 +94,7 @@ public class Panneau extends JPanel {
 
 	/**
 	 * affichage pointilles
+	 * 
 	 * @param g
 	 */
 	public void affichagePointilles(Graphics g) {
@@ -115,10 +116,13 @@ public class Panneau extends JPanel {
 		g.setColor(Color.blue);
 		Obstacle.afficher(g);
 		oiseau.afficher(g);
-		oiseau.move(posX, posY);
+		if (isIncreasing(posY))
+			oiseau.move(posX, posY - 20);
+		else 
+			oiseau.move(posX, posY + 20);
 	}
 
-	//---------------------GETTERS--------------------------//
+	// ---------------------GETTERS--------------------------//
 
 	public ArrayList<Point> getPts() {
 		return pts;
@@ -136,8 +140,7 @@ public class Panneau extends JPanel {
 		return label;
 	}
 
-	
-	//---------------------SETTERS--------------------------//
+	// ---------------------SETTERS--------------------------//
 
 	public void setPts(ArrayList<Point> pts) {
 		this.pts = pts;
@@ -150,7 +153,26 @@ public class Panneau extends JPanel {
 	public void setPosY(int posY) {
 		this.posY = posY;
 	}
+
 	public void setLabel(String txt) {
-		this.label.setText(txt); 
+		this.label.setText(txt);
+	}
+
+	// ---------------------Verification x et y--------------------------//
+
+	public boolean isIncreasing(int something) {
+		if (something < 0)
+			something = -something;
+
+		int last = 200;
+		int x;
+		while (something > 0) {
+			x = something % 10;
+			if (last < x)
+				return false;
+			last = x;
+			something /= 10;
+		}
+		return true;
 	}
 }

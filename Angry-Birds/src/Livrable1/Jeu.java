@@ -135,7 +135,7 @@ public class Jeu extends JFrame {
 		} while (p2.y > 250);
 
 		while ((!isTouche() || !sorti) && i < nb) {
-			System.out.println("while");
+			System.out.println("while " + getPan().getPosY());
 			affichage++;
 			t = t + 0.01;
 			if ((i + 1) % 2 == 0)

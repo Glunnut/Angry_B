@@ -148,12 +148,14 @@ public class Jeu extends JFrame {
 				}
 			}*/
 			Point rep = new Point(traj.getPt());
+			System.out.println(rep);
 			getPan().setPosX(rep.x);
 			getPan().setPosY(rep.y);
-			
+			System.out.println(getPan().getPosX()+"_"+getPan().getPosY());
 			variationObstacle();
 
 			getPan().repaint();
+			System.out.println("apres repaint");
 			attente(40);
 
 			if (isTouche() || sorti) {

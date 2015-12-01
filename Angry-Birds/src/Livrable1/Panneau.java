@@ -119,6 +119,7 @@ public class Panneau extends JPanel {
 	 * affichage des éléments de la fenêtre
 	 */
 	public void paintComponent(Graphics g) {
+		
 		super.paintComponent(g);
 		g.drawImage(new ImageIcon("res/bg_menu.png").getImage(), 0, 0, null);
 		g.setColor(Color.orange);
@@ -129,7 +130,8 @@ public class Panneau extends JPanel {
 		Obstacle.afficher(g);
 		oiseau.afficher(g);
 		affichageVitesse();
-		if (isIncreasing(posY))
+		System.out.println("repaint");
+		if (isRising(posY))
 			oiseau.move(posX, posY + 20);
 		else 
 			oiseau.move(posX, posY - 20);
@@ -172,20 +174,12 @@ public class Panneau extends JPanel {
 	}
 
 	// ---------------------Verification x et y--------------------------//
-
-	public boolean isIncreasing(int something) {
-		if (something < 0)
-			something = -something;
-
-		int last = 200;
-		int x;
-		while (something > 0) {
-			x = something % 10;
-			if (last < x)
-				return false;
-			last = x;
-			something /= 10;
+	public boolean isRising(int something) {
+				for(int i = 1; i < this.pts.size() - 1; i++){
+					if(something > this.pts.get(i - 1).getY())
+		 				return false;
 		}
 		return true;
 	}
+	
 }

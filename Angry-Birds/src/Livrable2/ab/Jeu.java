@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -31,7 +32,7 @@ public class Jeu extends JPanel {
     
     ArrayList<Point> trace = new ArrayList<>();
     Courbe courbe;
-	private ArrayList<VueObstacle> obstacles;
+	private List<VueObstacle> obstacles = new ArrayList<VueObstacle>();
 	int width = 900, height = 500;
 	private boolean sorti = false;
 	private boolean touche=false;
@@ -83,7 +84,7 @@ public class Jeu extends JPanel {
 		this.touche = touche;
 	}
 	public void configFrame() {
-    	 f.setTitle("AngryBirds");
+		 f = new JFrame("AngryBirds");
     	 f.add(this);
          f.setResizable(false);
          f.setSize(width, height);

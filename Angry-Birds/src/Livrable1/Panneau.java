@@ -119,7 +119,6 @@ public class Panneau extends JPanel {
 	 * affichage des éléments de la fenêtre
 	 */
 	public void paintComponent(Graphics g) {
-		
 		super.paintComponent(g);
 		g.drawImage(new ImageIcon("res/bg_menu.png").getImage(), 0, 0, null);
 		g.setColor(Color.orange);

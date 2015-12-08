@@ -12,7 +12,6 @@ import Livrable2.model.ModelObstacle;
 
 public class VueObstacle extends Vue implements Observer {
 
-	private Coordonne co;
 	private Color couleurPrincipale,couleurSecondaire;
 	private ModelObstacle model;
 	private String forme;
@@ -21,12 +20,12 @@ public class VueObstacle extends Vue implements Observer {
 
 	public VueObstacle(ModelObstacle m, ControllerObstacle c) {
 		super.model = m;
+		this.model = m ;
 		this.controller = c;
-		co = m.getCo();
 		rec = new Rectangle(model.getX(), model.getY(), model.SIZE, model.SIZE);
-		couleurPrincipale = m.getCouleurPrincipale();
-		couleurSecondaire = m.getCouleurSecondaire();
-		this.forme = m.getForme();
+		couleurPrincipale = model.getCouleurPrincipale();
+		couleurSecondaire = model.getCouleurSecondaire();
+		this.forme = model.getForme();
 	}
 
 	public String getForme() {

@@ -139,7 +139,7 @@ public class Jeu extends JFrame {
 			affichage++;
 			t = t + 0.01;
 			//if ((i + 1) % 2 == 0)
-				traj = new Trajectoire(p1, p2, p3, t);
+			traj = new Trajectoire(p1, p2, p3, t);
 			/*else {
 				if (n % 2 == 0) {
 					traj = new Trajectoire(p1, t, this);
@@ -153,11 +153,10 @@ public class Jeu extends JFrame {
 			getPan().setPosY(rep.y);
 			System.out.println(getPan().getPosX()+"_"+getPan().getPosY());
 			variationObstacle();
-
 			getPan().repaint();
 			System.out.println("apres repaint");
 			attente(40);
-
+			
 			if (isTouche() || sorti) {
 				if ((i + 1) % 2 == 0)
 					n++;

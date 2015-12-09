@@ -44,9 +44,9 @@ public class VueOiseau extends Vue {
 		this.rect.setBounds(x, y, rect.width, rect.height);
 	}
 
-	public void paintComponent(Jeu j, Graphics g) {
+	public void paintComponent(Graphics g) {
 		System.out.println("repaint oiseau");
-		System.out.println(this.x + "" +this.y);
+		System.out.println(this.x + "   " +this.y);
 		g.drawOval(x, y, taille, taille);
 		g.setColor(Color.ORANGE);
 		g.fillOval(x, y, taille, taille);

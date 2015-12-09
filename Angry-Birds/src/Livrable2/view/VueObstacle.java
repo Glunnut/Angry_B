@@ -17,11 +17,13 @@ public class VueObstacle extends Vue implements Observer {
 	private String forme;
 	private Rectangle rec;
 	public static boolean touche = false;
-
+	private int x,y;
 	public VueObstacle(ModelObstacle m, ControllerObstacle c) {
 		super.model = m;
 		this.model = m ;
 		this.controller = c;
+		this.x = m.getX();
+		this.y = m.getY();
 		rec = new Rectangle(model.getX(), model.getY(), model.SIZE, model.SIZE);
 		couleurPrincipale = model.getCouleurPrincipale();
 		couleurSecondaire = model.getCouleurSecondaire();
@@ -35,21 +37,37 @@ public class VueObstacle extends Vue implements Observer {
 	public Rectangle getRec() {
 		return rec;
 	}
-
+	public void setTouche(boolean touche){
+		this.touche = touche;
+	}
 	public void paintComponent(Graphics g) {
 		if (!touche)
 			g.setColor(couleurPrincipale);
 		else
 			g.setColor(couleurSecondaire);
 		if (model.getForme().equals("rond"))
-			g.fillOval(model.getCo().getX(), model.getCo().getY(), model.SIZE,
+			g.fillOval(this.x, this.y, model.SIZE,
 					model.SIZE);
 		else {
-			g.fillRect(model.getCo().getX(), model.getCo().getY(), model.SIZE,
+			g.fillRect(this.x,this.y, model.SIZE,
 					model.SIZE);
 		}
 	}
+	public int getX() {
+		return x;
+	}
 
+	public void setX(int x) {
+		this.x = x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public void setY(int y) {
+		this.y = y;
+	}
 	@Override
 	public void update(Observable o, Object arg) {
 	

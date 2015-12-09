@@ -7,7 +7,7 @@ import Livrable2.ab.Coordonne;
 
 public class ModelObstacle extends Model {
 
-	private boolean rond;
+	private boolean forme;
 	private Random r = new Random();
 	public final int SIZE = 25;
 	private int x, y;
@@ -18,7 +18,7 @@ public class ModelObstacle extends Model {
 		co = new Coordonne(x, y);
 		super.couleurPrincipale = Color.blue;
 		super.couleurSecondaire = Color.red;
-		this.rond = r.nextBoolean();
+		this.forme = r.nextBoolean();
 	}
 
 	public int getX() {
@@ -38,7 +38,7 @@ public class ModelObstacle extends Model {
 	}
 
 	public String getForme() {
-		if (this.rond)
+		if (this.forme)
 			return "rond";
 		return "rectangle";
 	}

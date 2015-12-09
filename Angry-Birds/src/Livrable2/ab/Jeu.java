@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import java.util.Timer;
@@ -47,7 +48,7 @@ public class Jeu extends JPanel {
 		go();
 	}
 	public void go(){
-		
+		t=0;
 		System.out.println(o.getModel().getCo());
 		do {
 			p2 = new Point(140, r.nextInt(this.getHeight()));
@@ -55,9 +56,10 @@ public class Jeu extends JPanel {
 		} while (p2.y > 250);
 		System.out.println(p2);
 		System.out.println(p3);
-		while ((!isTouche() || !sorti)) {
+		while ((!isTouche() || !sorti) && t<1) {
 			affichage++;
 			t = t + 0.01;
+			System.out.println(t);
 			courbe = new Courbe(p1, p2, p3, t);
 			Point act = new Point(courbe.getPt());
 			//System.out.println(act);
@@ -67,6 +69,23 @@ public class Jeu extends JPanel {
 			// (int)act.getY()));
 			variationObstacle();
 			repaint();
+			attente(40);
+		}
+	}
+	/*
+	 * Fonction qui permet d'attendre un certain temps
+	 */
+	private void attente(int delay) {
+		int attente = delay;
+		// Temps d'attente en millisecondes
+		Date date = new Date();
+		long debut = date.getTime();
+		// R�cup�re la date courante en millisecondes
+		long somme = debut + attente;
+		// Date � laquelle on sortira de la fonction
+		while (debut < somme) {
+			date = new Date();
+			debut = date.getTime();
 		}
 	}
 	public void variationObstacle() {
@@ -74,15 +93,16 @@ public class Jeu extends JPanel {
 			if (affichage < 40 || (affichage > 80 && affichage < 120)
 					|| affichage > 160)
 				if (o.getForme().equals("rond"))
-					o.getModel().setCo(new Coordonne(o.getX() - 1, o.getY()));
+					o.setX(o.getX()-1);
 				else {
-					o.getModel().setCo(
-							new Coordonne(o.getX() - 1, o.getY() - 1));
+					o.setX(o.getX()-1);
+					o.setY(o.getY()-1);
 				}
 			else if (o.getForme().equals("rond"))
-				o.getModel().setCo(new Coordonne(o.getX() + 1, o.getY()));
+				o.setX(o.getX()+1);
 			else {
-				o.getModel().setCo(new Coordonne(o.getX() + 1, o.getY() + 1));
+				o.setX(o.getX()+1);
+				o.setY(o.getY()+1);
 			}
 	}
 
@@ -125,7 +145,7 @@ public class Jeu extends JPanel {
 	public void verifColisionOuSorti() {
 		for (final VueObstacle obs : obstacles) {
 			if (o.getRect().intersects(obs.getRec())) {
-				obs.touche = true;
+				obs.setTouche(true);
 				setTouche(true);
 				obs.repaint();
 				Timer timer = new Timer();
@@ -133,14 +153,14 @@ public class Jeu extends JPanel {
 				timer.scheduleAtFixedRate(new TimerTask() {
 					@Override
 					public void run() {
-						obs.touche = false;
+						obs.setTouche(false);
 
 					}
 				}, 0, 500);
 			}
 		}
 
-		if (o.getRect().getX() > width + 5 || o.getRect().getY() > height + 5
+		if (o.getRect().getX() > width + 5 || o.getRect().getY() > height -10
 				|| o.getRect().getY() < 0 || o.getRect().getX() < 0) {
 			sorti = true;
 		}
@@ -155,12 +175,12 @@ public class Jeu extends JPanel {
 		verifColisionOuSorti();
 		g.drawImage(new ImageIcon("res/angryb.png").getImage(), 0, 445, null);
 		g.setColor(Color.blue);
-		
-		for (VueObstacle obs : obstacles) {
-			obs.repaint();
-		}
 
-		o.paintComponent(this, g);
+		for (VueObstacle obs : obstacles) {
+			obs.paintComponent(g);
+		}
+		o.paintComponent(g);
+		
 		// affichageVitesse();
 	}
 

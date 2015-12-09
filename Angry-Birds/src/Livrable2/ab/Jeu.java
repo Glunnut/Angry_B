@@ -2,7 +2,9 @@ package Livrable2.ab;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -23,20 +25,21 @@ import Livrable2.view.VueObstacle;
 import Livrable2.view.VueOiseau;
 
 public class Jeu extends JPanel {
-	private Point p1 = new Point(20, 350), p2, p3;
+	private Point p1 = new Point(20, 350), p2, p3, oiseau;
 	protected JFrame f;
 	Random r = new Random();
 	double t = 0.0;
 	VueOiseau o = null;
 	private ArrayList<Vue> objetsVue = new ArrayList<>();
-
 	ArrayList<Point> trace = new ArrayList<>();
 	Courbe courbe;
 	private List<VueObstacle> obstacles = new ArrayList<VueObstacle>();
-	int width = 900, height = 500;
+	int width = 900, height = 500, nbrebond = 0;
 	private boolean sorti = false;
 	private boolean touche = false;
 	private int affichage = 0;
+	private Rectangle sol = new Rectangle(0, 445, 900, 80);
+	boolean solTouch = false;
 
 	public Jeu(int nb) {
 
@@ -47,31 +50,62 @@ public class Jeu extends JPanel {
 		o = new VueOiseau(modelOiseau, controllerOiseau);
 		go();
 	}
-	public void go(){
-		t=0;
+
+	public void go() {
+		t = 0;
 		System.out.println(o.getModel().getCo());
 		do {
 			p2 = new Point(140, r.nextInt(this.getHeight()));
 			p3 = new Point(this.getWidth(), r.nextInt(this.getHeight()));
 		} while (p2.y > 250);
-		System.out.println(p2);
-		System.out.println(p3);
-		while ((!touche || !sorti) && t<1) {
+
+		/* Décommentez les 2 points pour tester les rebonds */
+		// p2 = new Point(200, 150);
+		// p3 = new Point(300, 400);
+
+		while (!touche || !sorti || t < 1 || nbrebond < 10) {
 			affichage++;
-			t = t + 0.01;
-			System.out.println(t);
-			courbe = new Courbe(p1, p2, p3, t);
-			Point act = new Point(courbe.getPt());
-			//System.out.println(act);
-			trace.add(act);
-			o.move((int) act.getX(), (int) act.getY());
-			// o.getModel().setCo(new Coordonne((int)act.getX(),
-			// (int)act.getY()));
+			if (solTouch) {
+				solTouch = false;
+				Double t2 = 0.0;
+				while (nbrebond < 10 || !sorti) {
+					t2 += 0.01;
+					Point p2bis = new Point((int) (p2.getX() + ((p2.getX() - p1.getX())*2)),
+							(int) (p2.getY()) + 40);
+					Point p3bis = new Point((int) (p3.getX() + ((p3.getX() - p2.getX())*2)),
+							(int) (p3.getY()) + 30);
+					courbe = new Courbe(oiseau, p2bis, p3bis, t2);
+					Point reb = courbe.getPt();
+					o.move((int) reb.getX(), (int) reb.getY());
+					variationObstacle();
+					repaint();
+					if (solTouch) {
+						t2 = 0.0;
+						solTouch = false;
+						p1 = oiseau;
+						p2 = p2bis;
+						p3 = p3bis;
+						oiseau = new Point(o.getX(), 379);
+					}
+					attente(40);
+				}
+
+			} else {
+				t = t + 0.01;
+				courbe = new Courbe(p1, p2, p3, t);
+				Point act = new Point(courbe.getPt());
+				trace.add(act);
+				o.move((int) act.getX(), (int) act.getY());
+			}
 			variationObstacle();
 			repaint();
 			attente(40);
+			
 		}
+
 	}
+
+	// }
 	/*
 	 * Fonction qui permet d'attendre un certain temps
 	 */
@@ -88,21 +122,22 @@ public class Jeu extends JPanel {
 			debut = date.getTime();
 		}
 	}
+
 	public void variationObstacle() {
 		for (VueObstacle o : obstacles)
 			if (affichage < 40 || (affichage > 80 && affichage < 120)
 					|| affichage > 160)
 				if (o.getForme().equals("rond"))
-					o.setX(o.getX()-1);
+					o.setX(o.getX() - 1);
 				else {
-					o.setX(o.getX()-1);
-					o.setY(o.getY()-1);
+					o.setX(o.getX() - 1);
+					o.setY(o.getY() - 1);
 				}
 			else if (o.getForme().equals("rond"))
-				o.setX(o.getX()+1);
+				o.setX(o.getX() + 1);
 			else {
-				o.setX(o.getX()+1);
-				o.setY(o.getY()+1);
+				o.setX(o.getX() + 1);
+				o.setY(o.getY() + 1);
 			}
 	}
 
@@ -138,17 +173,19 @@ public class Jeu extends JPanel {
 
 	public void affichagePointilles(Graphics g) {
 		for (int i = 0; i < trace.size(); i += 2) {
-			if(!touche)
-			g.fillOval(trace.get(i).x + 5, trace.get(i).y + 8, 5, 5);
+			if (!touche)
+				g.fillOval(trace.get(i).x + 5, trace.get(i).y + 8, 5, 5);
 		}
 	}
 
 	public boolean verifColisionOuSorti() {
+		sorti = false;
+		touche = false;
 		for (final VueObstacle obs : obstacles) {
 			if (o.getRect().intersects(obs.getRec())) {
 				obs.setTouche(true);
 				o.setTouche(true);
-				touche=true;
+				touche = true;
 				obs.repaint();
 				Timer timer = new Timer();
 
@@ -156,35 +193,41 @@ public class Jeu extends JPanel {
 					@Override
 					public void run() {
 						obs.setTouche(false);
-
 					}
 				}, 0, 500);
 				return true;
 			}
 		}
 
-		if (o.getRect().getX() > width + 5 || o.getRect().getY() > height -10
-				|| o.getRect().getY() < 0 || o.getRect().getX() < 0) {
+		if (o.getRect().getX() > width + 5 || o.getRect().getY() < 0
+				|| o.getRect().getX() < 0 || o.getRect().getY() > height) {
+			System.out.println("sorti");
 			sorti = true;
+		}
+		if (o.getRect().intersects(sol)) {
+			oiseau = new Point(o.getX(), o.getY());
+			nbrebond++;
+			solTouch = true;
 		}
 		return false;
 	}
 
 	public void paintComponent(Graphics g) {
-	//	System.out.println("repaint");
+		// System.out.println("repaint");
 		super.paintComponent(g);
+
 		g.drawImage(new ImageIcon("res/bg_menu.png").getImage(), 0, 0, null);
 		g.setColor(Color.orange);
 		affichagePointilles(g);
 		verifColisionOuSorti();
 		g.drawImage(new ImageIcon("res/angryb.png").getImage(), 0, 445, null);
 		g.setColor(Color.blue);
-
+		// ((Graphics2D) g).fill(sol);
 		for (VueObstacle obs : obstacles) {
 			obs.paintComponent(g);
 		}
 		o.paintComponent(g);
-		
+
 		// affichageVitesse();
 	}
 

@@ -37,7 +37,12 @@ public class VueOiseau extends Vue {
 		couleurSecondaire = model.getCouleurSecondaire();
 
 	}
-
+	public int getX(){
+		return x;
+	}
+	public int getY(){
+		return y;
+	}
 	public Rectangle getRect() {
 		return this.rect;
 	}
@@ -59,10 +64,10 @@ public class VueOiseau extends Vue {
 	}
 
 	public void paintComponent(Graphics g) {
-		System.out.println("repaint oiseau");
+		//System.out.println("repaint oiseau");
 		System.out.println(this.x + "   " +this.y);
 		AffineTransform rotation = new AffineTransform();
-		rotation = rotation.getRotateInstance(45,(int)(ping.getImage().getWidth(null)/2),(int)(ping.getImage().getHeight(null)/2));
+		rotation = AffineTransform.getRotateInstance(45,(int)(ping.getImage().getWidth(null)/2),(int)(ping.getImage().getHeight(null)/2));
 		g.drawImage(new ImageIcon("res/Pingouin1.png").getImage(),x-20,y-5,null);
 	}
 

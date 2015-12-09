@@ -53,6 +53,7 @@ public class Jeu extends JPanel {
 
 	public void go() {
 		t = 0;
+		Double t2 = 0.0;
 		System.out.println(o.getModel().getCo());
 		do {
 			p2 = new Point(140, r.nextInt(this.getHeight()));
@@ -63,11 +64,11 @@ public class Jeu extends JPanel {
 		// p2 = new Point(200, 150);
 		// p3 = new Point(300, 400);
 
-		while (!touche || !sorti || t < 1 || nbrebond < 10) {
+		while (!touche && !sorti) {
+			System.out.println(sorti);
 			affichage++;
 			if (solTouch) {
 				solTouch = false;
-				Double t2 = 0.0;
 				while (nbrebond < 10 || !sorti) {
 					t2 += 0.01;
 					Point p2bis = new Point((int) (p2.getX() + ((p2.getX() - p1.getX())*2)),

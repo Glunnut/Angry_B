@@ -43,8 +43,9 @@ public class VueObstacle extends Vue implements Observer {
 	public void paintComponent(Graphics g) {
 		if (!touche)
 			g.setColor(couleurPrincipale);
-		else
+		else{
 			g.setColor(couleurSecondaire);
+		}
 		if (model.getForme().equals("rond"))
 			g.fillOval(this.x, this.y, model.SIZE,
 					model.SIZE);

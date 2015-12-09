@@ -56,7 +56,7 @@ public class Jeu extends JPanel {
 		} while (p2.y > 250);
 		System.out.println(p2);
 		System.out.println(p3);
-		while ((!isTouche() || !sorti) && t<1) {
+		while ((!touche || !sorti) && t<1) {
 			affichage++;
 			t = t + 0.01;
 			System.out.println(t);
@@ -138,15 +138,17 @@ public class Jeu extends JPanel {
 
 	public void affichagePointilles(Graphics g) {
 		for (int i = 0; i < trace.size(); i += 2) {
+			if(!touche)
 			g.fillOval(trace.get(i).x + 5, trace.get(i).y + 8, 5, 5);
 		}
 	}
 
-	public void verifColisionOuSorti() {
+	public boolean verifColisionOuSorti() {
 		for (final VueObstacle obs : obstacles) {
 			if (o.getRect().intersects(obs.getRec())) {
 				obs.setTouche(true);
-				setTouche(true);
+				o.setTouche(true);
+				touche=true;
 				obs.repaint();
 				Timer timer = new Timer();
 
@@ -157,6 +159,7 @@ public class Jeu extends JPanel {
 
 					}
 				}, 0, 500);
+				return true;
 			}
 		}
 
@@ -164,6 +167,7 @@ public class Jeu extends JPanel {
 				|| o.getRect().getY() < 0 || o.getRect().getX() < 0) {
 			sorti = true;
 		}
+		return false;
 	}
 
 	public void paintComponent(Graphics g) {

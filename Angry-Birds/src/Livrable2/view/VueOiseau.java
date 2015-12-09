@@ -3,7 +3,10 @@ package Livrable2.view;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.awt.geom.AffineTransform;
 import java.util.Observable;
+
+import javax.swing.ImageIcon;
 
 import Livrable2.ab.Coordonne;
 import Livrable2.ab.Jeu;
@@ -19,7 +22,9 @@ public class VueOiseau extends Vue {
 	private Coordonne co ;
 	private Color couleurPrincipale, couleurSecondaire;
 	private Rectangle rect;
-
+	public static boolean touche = false;
+	ImageIcon ping = new ImageIcon("res/Pingouin1.png");
+	
 	public VueOiseau(ModelOiseau m, ControllerOiseau c) {
 		super.model = m;
 		this.controller = c;
@@ -38,27 +43,27 @@ public class VueOiseau extends Vue {
 	}
 
 	public void move(int x, int y) {
-		getModel().setCo(new Coordonne(x, y));
+		if (!touche){
+			getModel().setCo(new Coordonne(x, y));
 		this.x = x;
 		this.y = y;
 		this.rect.setBounds(x, y, rect.width, rect.height);
+		}
+		
+			
+		
+	}
+	
+	public void setTouche(boolean touche){
+		this.touche = touche;
 	}
 
 	public void paintComponent(Graphics g) {
 		System.out.println("repaint oiseau");
 		System.out.println(this.x + "   " +this.y);
-		g.drawOval(x, y, taille, taille);
-		g.setColor(Color.ORANGE);
-		g.fillOval(x, y, taille, taille);
-		g.setColor(Color.YELLOW);
-
-		g.fillArc(x + 30, y - 1, taille, taille, 160, 30);
-		g.setColor(Color.BLACK);
-		g.drawOval(x + 8, y + 10, taille - 10, taille - 20);
-		g.setColor(Color.WHITE);
-		g.fillOval(x + 8, y + 10, taille - 10, taille - 20);
-		g.setColor(Color.BLACK);
-		g.fillOval(x + 13, y + 10, taille - 20, taille - 20);
+		AffineTransform rotation = new AffineTransform();
+		rotation = rotation.getRotateInstance(45,(int)(ping.getImage().getWidth(null)/2),(int)(ping.getImage().getHeight(null)/2));
+		g.drawImage(new ImageIcon("res/Pingouin1.png").getImage(),x-20,y-5,null);
 	}
 
 	@Override

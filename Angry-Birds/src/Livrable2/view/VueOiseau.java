@@ -2,10 +2,16 @@ package Livrable2.view;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.Observable;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
 import Livrable2.ab.Coordonne;
@@ -23,7 +29,9 @@ public class VueOiseau extends Vue {
 	private Color couleurPrincipale, couleurSecondaire;
 	private Rectangle rect;
 	public static boolean touche = false;
-	ImageIcon ping = new ImageIcon("res/Pingouin1.png");
+	BufferedImage img = null;
+	ImageTool option;
+	private int angle=0;
 	
 	public VueOiseau(ModelOiseau m, ControllerOiseau c) {
 		super.model = m;
@@ -35,13 +43,19 @@ public class VueOiseau extends Vue {
 		co = model.getCo();
 		couleurPrincipale = model.getCouleurPrincipale();
 		couleurSecondaire = model.getCouleurSecondaire();
-
+		angle = m.angle();
 	}
 	public int getX(){
 		return x;
 	}
 	public int getY(){
 		return y;
+	}
+	public int getAngle(){
+		return angle;
+	}
+	public void setAngle(int angle){
+		 this.angle=angle;
 	}
 	public Rectangle getRect() {
 		return this.rect;
@@ -66,10 +80,14 @@ public class VueOiseau extends Vue {
 	public void paintComponent(Graphics g) {
 		//System.out.println("repaint oiseau");
 		System.out.println(this.x + "   " +this.y);
-		AffineTransform rotation = new AffineTransform();
-		rotation = AffineTransform.getRotateInstance(45,(int)(ping.getImage().getWidth(null)/2),(int)(ping.getImage().getHeight(null)/2));
-		g.drawImage(new ImageIcon("res/Pingouin1.png").getImage(),x-20,y-5,null);
+		
+		try {
+		    img = ImageIO.read(new File("res/Pingouin1.png"));
+		} catch (IOException e) {
+		}
+		g.drawImage(option.rotate(img, 40+angle),x-20,y-45,null);
 	}
+	
 
 	@Override
 	public void update(Observable o, Object arg) {

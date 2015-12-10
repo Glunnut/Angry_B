@@ -8,6 +8,7 @@ public class ModelOiseau extends Model {
 
 	protected boolean lance = false;
 	private double directionY = 0.0;
+	int angle = 0;
 
 	public ModelOiseau() {
 		co = new Coordonne(120, 400);
@@ -24,6 +25,10 @@ public class ModelOiseau extends Model {
 	public double getDirectionY() {
 		return directionY;
 	}
+	
+	public int angle() {
+		return angle;
+	}
 
 	public void setDirectionY(double directionY) {
 		this.directionY = directionY;
@@ -31,6 +36,9 @@ public class ModelOiseau extends Model {
 
 	public void setLance(boolean lance) {
 		this.lance = lance;
+	}
+	public void setAngle(int angle) {
+		this.angle = angle;
 	}
 
 }

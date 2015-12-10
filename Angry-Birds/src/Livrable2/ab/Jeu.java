@@ -29,10 +29,11 @@ public class Jeu extends JPanel {
 	protected JFrame f;
 	Random r = new Random();
 	double t = 0.0;
-	VueOiseau o = null;
+	
 	private ArrayList<Vue> objetsVue = new ArrayList<>();
 	ArrayList<Point> trace = new ArrayList<>();
 	Courbe courbe;
+	Courbe courbe1;
 	private List<VueObstacle> obstacles = new ArrayList<VueObstacle>();
 	int width = 900, height = 500, nbrebond = 0;
 	private boolean sorti = false;
@@ -40,14 +41,14 @@ public class Jeu extends JPanel {
 	private int affichage = 0;
 	private Rectangle sol = new Rectangle(0, 445, 900, 80);
 	boolean solTouch = false;
+	ModelOiseau modelOiseau = new ModelOiseau();
+	ControllerOiseau controllerOiseau = new ControllerOiseau(modelOiseau);
+	VueOiseau o = new VueOiseau(modelOiseau, controllerOiseau);
 
 	public Jeu(int nb) {
 
 		creationOsbtacles(nb);
 		configFrame();
-		ModelOiseau modelOiseau = new ModelOiseau();
-		ControllerOiseau controllerOiseau = new ControllerOiseau(modelOiseau);
-		o = new VueOiseau(modelOiseau, controllerOiseau);
 		go();
 	}
 
@@ -60,7 +61,7 @@ public class Jeu extends JPanel {
 			p3 = new Point(this.getWidth(), r.nextInt(this.getHeight()));
 		} while (p2.y > 250);
 
-		/* Décommentez les 2 points pour tester les rebonds */
+		/* Dï¿½commentez les 2 points pour tester les rebonds */
 		// p2 = new Point(200, 150);
 		// p3 = new Point(300, 400);
 
@@ -77,6 +78,9 @@ public class Jeu extends JPanel {
 							(int) (p3.getY()) + 30);
 					courbe = new Courbe(oiseau, p2bis, p3bis, t2);
 					Point reb = courbe.getPt();
+					courbe1 = new Courbe(oiseau, p2bis, p3bis, t2+1);
+					Point reb1 = courbe1.getPt();
+					o.setAngle(reb.y);
 					o.move((int) reb.getX(), (int) reb.getY());
 					variationObstacle();
 					repaint();

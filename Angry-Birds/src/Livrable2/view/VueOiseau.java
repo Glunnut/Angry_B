@@ -85,7 +85,10 @@ public class VueOiseau extends Vue {
 		    img = ImageIO.read(new File("res/Pingouin1.png"));
 		} catch (IOException e) {
 		}
-		g.drawImage(option.rotate(img, 40+angle),x-20,y-45,null);
+		if(angle<0)
+		g.drawImage(option.rotate(img, 40-(angle/2)),x-20,y-45,null);
+		else
+			g.drawImage(option.rotate(img, 40+(angle/2)),x-20,y-45,null);
 	}
 	
 

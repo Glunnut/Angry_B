@@ -265,10 +265,10 @@ public class Jeu extends JPanel implements MouseMotionListener, MouseListener {
 			o.move(20, o.getY());
 		if (e.getX() > 220)
 			o.move(220, o.getY());
-		if (e.getY() > 425)
-			o.move(o.getX(), 425);
-		if (e.getY() < 250)
-			o.move(o.getX(), 250);
+		if (e.getY() > 390)
+			o.move(o.getX(), 390);
+		if (e.getY() < 345)
+			o.move(o.getX(), 345);
 
 		repaint();
 	}
@@ -301,7 +301,7 @@ public class Jeu extends JPanel implements MouseMotionListener, MouseListener {
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		this.p1 = new Point(e.getX(), e.getY());
+		this.p1 = new Point(o.getX(), o.getY());
 		y1 = e.getY()-350;
 		go = true;
 	}

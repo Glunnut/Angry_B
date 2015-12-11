@@ -5,6 +5,8 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -24,7 +26,7 @@ import Livrable2.view.Vue;
 import Livrable2.view.VueObstacle;
 import Livrable2.view.VueOiseau;
 
-public class Jeu extends JPanel {
+public class Jeu extends JPanel implements MouseMotionListener {
 
 	/*-------------------------------ATTRIBUTS------------------------*/
 	private Point p1 = new Point(20, 350), p2, p3, oiseau;
@@ -52,7 +54,9 @@ public class Jeu extends JPanel {
 
 		creationOsbtacles(nb);
 		configFrame();
-		go();
+		o.move(100, 370);
+		addMouseMotionListener(this);
+		//go();
 	}
 
 	/*-------------------------------METHODES------------------------*/
@@ -65,7 +69,7 @@ public class Jeu extends JPanel {
 			p3 = new Point(this.getWidth(), r.nextInt(this.getHeight()));
 		} while (p2.y > 250);
 
-		/* D�commentez les 2 points pour tester les rebonds */
+		/* Decommentez les 2 points pour tester les rebonds */
 		// p2 = new Point(200, 150);
 		// p3 = new Point(300, 400);
 
@@ -249,5 +253,16 @@ public class Jeu extends JPanel {
 
 	public ArrayList<Vue> getObjetsScene() {
 		return objetsVue;
+	}
+
+	@Override
+	public void mouseDragged(MouseEvent e) {
+		o.move(e.getX(), e.getY());
+		System.out.println(o.getModel().getCo());
+		repaint();
+	}
+
+	@Override
+	public void mouseMoved(MouseEvent e) {
 	}
 }

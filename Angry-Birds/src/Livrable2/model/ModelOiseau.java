@@ -3,6 +3,7 @@ package Livrable2.model;
 import java.awt.Color;
 
 import Livrable2.ab.Coordonne;
+import Livrable2.ab.Jeu;
 
 public class ModelOiseau extends Model {
 	
@@ -10,11 +11,12 @@ public class ModelOiseau extends Model {
 	protected boolean lance = false;
 	private double directionY = 0.0;
 	int angle = 0;
-	
+	private Jeu j;
 	
 	/*-------------------------------CONSTRUCTEURS------------------------*/
 
-	public ModelOiseau() {
+	public ModelOiseau(Jeu j) {
+		this.j = j;
 		co = new Coordonne(120, 400);
 		coInit = new Coordonne(co.x, co.y);
 		taille = 30;
@@ -29,6 +31,9 @@ public class ModelOiseau extends Model {
 		return directionY;
 	}
 	
+	public Jeu getJeu(){
+		return j;
+	}
 	/*-------------------------------SETTERS------------------------*/
 	
 	public void setDirectionY(double directionY) {

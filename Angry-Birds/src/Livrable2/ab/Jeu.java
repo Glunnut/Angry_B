@@ -26,7 +26,7 @@ import Livrable2.view.Vue;
 import Livrable2.view.VueObstacle;
 import Livrable2.view.VueOiseau;
 
-public class Jeu extends JPanel implements MouseMotionListener, MouseListener {
+public class Jeu extends JPanel {
 
 	/*-------------------------------ATTRIBUTS------------------------*/
 	private Point p1 = new Point(20, 350), p2, p3, oiseau;
@@ -45,7 +45,7 @@ public class Jeu extends JPanel implements MouseMotionListener, MouseListener {
 	private int affichage = 0;
 	private Rectangle sol = new Rectangle(0, 445, 900, 80);
 	boolean solTouch = false;
-	ModelOiseau modelOiseau = new ModelOiseau();
+	ModelOiseau modelOiseau = new ModelOiseau(this);
 	ControllerOiseau controllerOiseau = new ControllerOiseau(modelOiseau);
 	VueOiseau o = new VueOiseau(modelOiseau, controllerOiseau);
 	boolean go = false;
@@ -57,8 +57,8 @@ public class Jeu extends JPanel implements MouseMotionListener, MouseListener {
 		creationOsbtacles(nb);
 		configFrame();
 		o.move(110, 320);
-		addMouseMotionListener(this);
-		addMouseListener(this);
+		addMouseMotionListener(controllerOiseau);
+		addMouseListener(controllerOiseau);
 		go();
 
 	}
@@ -257,52 +257,13 @@ public class Jeu extends JPanel implements MouseMotionListener, MouseListener {
 		return objetsVue;
 	}
 
-	@Override
-	public void mouseDragged(MouseEvent e) {
-		o.move(e.getX(), e.getY());
-		System.out.println(o.getModel().getCo());
-		if (e.getX() < 20)
-			o.move(20, o.getY());
-		if (e.getX() > 120)
-			o.move(120, o.getY());
-		if (e.getY() > 390)
-			o.move(o.getX(), 390);
-		if (e.getY() < 345)
-			o.move(o.getX(), 345);
-
-		repaint();
+	public void setP1(Point point) {
+		this.p1 = point;
 	}
-
-	@Override
-	public void mouseMoved(MouseEvent e) {
+	public VueOiseau getOiseau(){
+		return o;
 	}
-
-	@Override
-	public void mouseClicked(MouseEvent e) {
-	}
-
-	@Override
-	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent e) {
-		this.p1 = new Point(o.getX(), o.getY());
-		y1 = e.getY()-350;
-		go = true;
+	public void setGo(boolean b) {
+		this.go = b;
 	}
 }

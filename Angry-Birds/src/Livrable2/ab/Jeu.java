@@ -301,14 +301,6 @@ public class Jeu extends JPanel {
 	}
 
 	/**
-	 * Ajout d'objet a la vue
-	 * @param vue
-	 */
-	public void addEnnemi(Vue vue) {
-		objetsVue.add(vue);
-	}
-
-	/**
 	 * Fonction d'affichage graphique de la frame
 	 */
 	public void paintComponent(Graphics g) {

@@ -59,8 +59,7 @@ public class Jeu extends JPanel implements MouseMotionListener, MouseListener {
 		addMouseMotionListener(this);
 		addMouseListener(this);
 		go();
-		
-		 
+
 	}
 
 	/*-------------------------------METHODES------------------------*/
@@ -108,16 +107,16 @@ public class Jeu extends JPanel implements MouseMotionListener, MouseListener {
 				}
 
 			} else {
-				if(go){
-				t = t + 0.01;
-				courbe = new Courbe(p1, p2, p3, t);
-				Point act = courbe.getPt();
-				System.out.println(act);
-				courbe1 = new Courbe(p1, p2, p3, t + 0.1);
-				Point reb1 = courbe1.getPt();
-				o.setAngle(act.y - reb1.y);
-				trace.add(act);
-				o.move((int) act.getX(), (int) act.getY());
+				if (go) {
+					t = t + 0.01;
+					courbe = new Courbe(p1, p2, p3, t);
+					Point act = courbe.getPt();
+					System.out.println(act);
+					courbe1 = new Courbe(p1, p2, p3, t + 0.1);
+					Point reb1 = courbe1.getPt();
+					o.setAngle(act.y - reb1.y);
+					trace.add(act);
+					o.move((int) act.getX(), (int) act.getY());
 				}
 			}
 			variationObstacle();
@@ -204,12 +203,12 @@ public class Jeu extends JPanel implements MouseMotionListener, MouseListener {
 	public boolean verifColisionOuSorti() {
 		sorti = false;
 		touche = false;
-		for (int i = obstacles.size() - 1 ; i >= 0 ; i--) {
+		for (int i = obstacles.size() - 1; i >= 0; i--) {
 			if (o.getRect().intersects(obstacles.get(i).getRec())) {
 				obstacles.remove(obstacles.get(i));
 			}
 		}
-		
+
 		if (o.getRect().getX() > width + 5 || o.getRect().getY() < 0
 				|| o.getRect().getX() < 0 || o.getRect().getY() > height) {
 			System.out.println("sorti");
@@ -234,6 +233,9 @@ public class Jeu extends JPanel implements MouseMotionListener, MouseListener {
 		g.drawImage(new ImageIcon("res/angryb.png").getImage(), 0, 445, null);
 		g.setColor(Color.blue);
 		g.drawImage(new ImageIcon("res/lp.png").getImage(), 100, 283, null);
+		g.setColor(Color.black);
+		if (go == false)
+			g.drawLine(130, 320, o.getX(), o.getY());
 		// ((Graphics2D) g).fill(sol);
 		for (VueObstacle obs : obstacles) {
 			obs.paintComponent(g);

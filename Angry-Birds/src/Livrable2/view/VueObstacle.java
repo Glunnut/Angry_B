@@ -6,6 +6,8 @@ import java.awt.Rectangle;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.swing.ImageIcon;
+
 import Livrable2.ab.Coordonne;
 import Livrable2.controller.ControllerObstacle;
 import Livrable2.model.ModelObstacle;
@@ -64,11 +66,11 @@ public class VueObstacle extends Vue implements Observer {
 			g.setColor(couleurSecondaire);
 		}
 		if (model.getForme().equals("rond"))
-			g.fillOval(this.x, this.y, model.SIZE,
-					model.SIZE);
+			g.drawImage(new ImageIcon("res/block2.png").getImage(), this.x, this.y, null);
+			//g.fillOval(this.x, this.y, model.SIZE,model.SIZE);
 		else {
-			g.fillRect(this.x,this.y, model.SIZE,
-					model.SIZE);
+			g.drawImage(new ImageIcon("res/block1.png").getImage(), this.x, this.y, null);
+			//g.fillRect(this.x,this.y, model.SIZE,model.SIZE);
 		}
 	}
 	

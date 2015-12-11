@@ -48,6 +48,7 @@ public class Jeu extends JPanel implements MouseMotionListener, MouseListener {
 	ModelOiseau modelOiseau = new ModelOiseau();
 	ControllerOiseau controllerOiseau = new ControllerOiseau(modelOiseau);
 	VueOiseau o = new VueOiseau(modelOiseau, controllerOiseau);
+	boolean go = false;
 
 	/*-------------------------------CONSTRUCTEURS------------------------*/
 	public Jeu(int nb) {
@@ -57,6 +58,8 @@ public class Jeu extends JPanel implements MouseMotionListener, MouseListener {
 		o.move(110, 320);
 		addMouseMotionListener(this);
 		addMouseListener(this);
+		go();
+		
 		 
 	}
 
@@ -105,6 +108,7 @@ public class Jeu extends JPanel implements MouseMotionListener, MouseListener {
 				}
 
 			} else {
+				if(go){
 				t = t + 0.01;
 				courbe = new Courbe(p1, p2, p3, t);
 				Point act = courbe.getPt();
@@ -114,6 +118,7 @@ public class Jeu extends JPanel implements MouseMotionListener, MouseListener {
 				o.setAngle(act.y - reb1.y);
 				trace.add(act);
 				o.move((int) act.getX(), (int) act.getY());
+				}
 			}
 			variationObstacle();
 			repaint();
@@ -303,6 +308,6 @@ public class Jeu extends JPanel implements MouseMotionListener, MouseListener {
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		this.p1 = new Point(e.getX(), e.getY());
-		go();
+		go = true;
 	}
 }

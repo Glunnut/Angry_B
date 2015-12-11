@@ -7,6 +7,7 @@ import Livrable2.ab.Coordonne;
 
 public class ModelObstacle extends Model {
 
+	/*-------------------------------ATTRIBUTS------------------------*/
 	private boolean forme;
 	private Random r = new Random();
 	public final int SIZE = 25;

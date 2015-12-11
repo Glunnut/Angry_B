@@ -21,7 +21,7 @@ import Livrable2.model.ModelOiseau;
 
 public class VueOiseau extends Vue {
 
-	
+	/*-------------------------------ATTRIBUTS------------------------*/
 	private int x, y = 0;
 	private Coordonne coInit = null;
 	private int taille = 30;
@@ -32,6 +32,7 @@ public class VueOiseau extends Vue {
 	BufferedImage img = null;
 	ImageTool option;
 	private int angle=0;
+	
 	
 	public VueOiseau(ModelOiseau m, ControllerOiseau c) {
 		super.model = m;

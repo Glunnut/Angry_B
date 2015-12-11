@@ -6,6 +6,7 @@ import Livrable2.ab.Coordonne;
 
 public abstract class Model extends Observable {
 
+	/*-------------------------------ATTRIBUTS------------------------*/
     Coordonne co;
     Coordonne coInit;
     Color couleurPrincipale = Color.RED;

@@ -3,10 +3,21 @@ package Livrable2.ab;
 import java.awt.Point;
 
 public class Courbe {
-
+	/*-------------------------------ATTRIBUTS------------------------*/
+	//Creation des points
 	private Point pt, p, p1, p2;
+	
+	//Instant t
 	private double t;
 
+	/*-------------------------------CONSTRUCTEURS------------------------*/
+	/**
+	 * Constructeur Courbe
+	 * @param p
+	 * @param p1
+	 * @param p2
+	 * @param t
+	 */
 	public Courbe(Point p, Point p1, Point p2, double t) {
 		this.p = p;
 		this.p1 = p1;
@@ -14,6 +25,25 @@ public class Courbe {
 		this.t = t;
 		pt = courbeBez(p, p1, p2, t);
 	}
+
+	/*-------------------------------GETTERS------------------------*/
+	/**
+	 * Renvoi d'un point
+	 * @return
+	 */
+	public Point getPt() {
+		return pt;
+	}
+
+	/*-------------------------------METHODES------------------------*/
+	/**
+	 * Creation de la courbe de bezier
+	 * @param p
+	 * @param p1
+	 * @param p2
+	 * @param t
+	 * @return
+	 */
 	public Point courbeBez(Point p, Point p1, Point p2, double t) {
 		Point rep = new Point(0, 0);
 		rep.x = (int) (((1 - t) * (1 - t)) * p.x + 2 * t * (1 - t) * p1.x + (t * t)
@@ -22,7 +52,5 @@ public class Courbe {
 				* p2.y);
 		return rep;
 	}
-	public Point getPt(){
-		return pt;
-	}
+
 }

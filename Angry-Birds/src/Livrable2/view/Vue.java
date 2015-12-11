@@ -10,6 +10,8 @@ import Livrable2.model.Model;
 
 
 public abstract class Vue extends JPanel implements Observer{
+	
+	/*-------------------------------ATTRIBUTS------------------------*/
 	public Model model;
     public Controller controller;
    

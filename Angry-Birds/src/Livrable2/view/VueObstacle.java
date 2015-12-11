@@ -12,6 +12,7 @@ import Livrable2.model.ModelObstacle;
 
 public class VueObstacle extends Vue implements Observer {
 
+	/*-------------------------------ATTRIBUTS------------------------*/
 	private Color couleurPrincipale,couleurSecondaire;
 	private ModelObstacle model;
 	private String forme;

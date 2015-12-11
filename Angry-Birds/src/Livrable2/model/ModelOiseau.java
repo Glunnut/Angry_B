@@ -5,7 +5,8 @@ import java.awt.Color;
 import Livrable2.ab.Coordonne;
 
 public class ModelOiseau extends Model {
-
+	
+	/*-------------------------------ATTRIBUTS------------------------*/
 	protected boolean lance = false;
 	private double directionY = 0.0;
 	int angle = 0;

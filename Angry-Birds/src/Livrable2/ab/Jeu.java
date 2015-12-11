@@ -204,24 +204,12 @@ public class Jeu extends JPanel implements MouseMotionListener, MouseListener {
 	public boolean verifColisionOuSorti() {
 		sorti = false;
 		touche = false;
-		for (final VueObstacle obs : obstacles) {
-			if (o.getRect().intersects(obs.getRec())) {
-				obs.setTouche(true);
-				o.setTouche(true);
-				touche = true;
-				obs.repaint();
-				Timer timer = new Timer();
-
-				timer.scheduleAtFixedRate(new TimerTask() {
-					@Override
-					public void run() {
-						obs.setTouche(false);
-					}
-				}, 0, 500);
-				return true;
+		for (int i = obstacles.size() - 1 ; i >= 0 ; i--) {
+			if (o.getRect().intersects(obstacles.get(i).getRec())) {
+				obstacles.remove(obstacles.get(i));
 			}
 		}
-
+		
 		if (o.getRect().getX() > width + 5 || o.getRect().getY() < 0
 				|| o.getRect().getX() < 0 || o.getRect().getY() > height) {
 			System.out.println("sorti");

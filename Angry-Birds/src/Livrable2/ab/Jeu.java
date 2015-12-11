@@ -49,6 +49,7 @@ public class Jeu extends JPanel implements MouseMotionListener, MouseListener {
 	ControllerOiseau controllerOiseau = new ControllerOiseau(modelOiseau);
 	VueOiseau o = new VueOiseau(modelOiseau, controllerOiseau);
 	boolean go = false;
+	int y1 =0;
 
 	/*-------------------------------CONSTRUCTEURS------------------------*/
 	public Jeu(int nb) {
@@ -68,8 +69,8 @@ public class Jeu extends JPanel implements MouseMotionListener, MouseListener {
 		Double t2 = 0.0;
 		System.out.println(o.getModel().getCo());
 		do {
-			p2 = new Point(140, r.nextInt(this.getHeight()));
-			p3 = new Point(this.getWidth(), r.nextInt(this.getHeight()));
+			p2 = new Point(140, r.nextInt(this.getHeight())+y1);
+			p3 = new Point(this.getWidth(), r.nextInt(this.getHeight())+y1);
 		} while (p2.y > 250);
 
 		/* Decommentez les 2 points pour tester les rebonds */
@@ -301,6 +302,7 @@ public class Jeu extends JPanel implements MouseMotionListener, MouseListener {
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		this.p1 = new Point(e.getX(), e.getY());
+		y1 = e.getY()-350;
 		go = true;
 	}
 }

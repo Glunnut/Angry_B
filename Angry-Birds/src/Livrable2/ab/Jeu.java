@@ -6,6 +6,7 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 import java.util.Date;
@@ -26,7 +27,7 @@ import Livrable2.view.Vue;
 import Livrable2.view.VueObstacle;
 import Livrable2.view.VueOiseau;
 
-public class Jeu extends JPanel implements MouseMotionListener {
+public class Jeu extends JPanel implements MouseMotionListener, MouseListener {
 
 	/*-------------------------------ATTRIBUTS------------------------*/
 	private Point p1 = new Point(20, 350), p2, p3, oiseau;
@@ -54,7 +55,7 @@ public class Jeu extends JPanel implements MouseMotionListener {
 
 		creationOsbtacles(nb);
 		configFrame();
-		o.move(100, 370);
+		o.move(110, 320);
 		addMouseMotionListener(this);
 		//go();
 	}
@@ -262,16 +263,48 @@ public class Jeu extends JPanel implements MouseMotionListener {
 		System.out.println(o.getModel().getCo());
 		if(e.getX() < 20)
 			o.move(20, o.getY());
-		if(e.getX() > 180)
-			o.move(180, o.getY());
+		if(e.getX() > 220)
+			o.move(220, o.getY());
 		if(e.getY() > 425)
 			o.move(o.getX(), 425);
-		if(e.getY() < 315)
-			o.move(o.getX(), 315);
+		if(e.getY() < 250)
+			o.move(o.getX(), 250);
+		
+		
 		repaint();
 	}
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 }

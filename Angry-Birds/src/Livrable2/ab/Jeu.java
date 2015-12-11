@@ -1,7 +1,9 @@
 package Livrable2.ab;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
@@ -11,8 +13,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -79,6 +79,8 @@ public class Jeu extends JPanel implements MouseMotionListener, MouseListener {
 		while (!touche && !sorti) {
 			System.out.println(sorti);
 			affichage++;
+			if(affichage==160)
+				affichage=0;
 			if (solTouch) {
 				solTouch = false;
 				while (nbrebond < 10 || !sorti) {
@@ -225,7 +227,7 @@ public class Jeu extends JPanel implements MouseMotionListener, MouseListener {
 	public void paintComponent(Graphics g) {
 		// System.out.println("repaint");
 		super.paintComponent(g);
-
+		Graphics2D g2 = (Graphics2D) g;
 		g.drawImage(new ImageIcon("res/bg_menu.png").getImage(), 0, 0, null);
 		g.setColor(Color.orange);
 		affichagePointilles(g);
@@ -234,9 +236,10 @@ public class Jeu extends JPanel implements MouseMotionListener, MouseListener {
 		g.setColor(Color.blue);
 		g.drawImage(new ImageIcon("res/lp.png").getImage(), 100, 283, null);
 		g.setColor(Color.black);
-		if (go == false)
+		if (go == false){
+			g2.setStroke(new BasicStroke(6));
 			g.drawLine(130, 320, o.getX(), o.getY());
-		// ((Graphics2D) g).fill(sol);
+		}
 		for (VueObstacle obs : obstacles) {
 			obs.paintComponent(g);
 		}

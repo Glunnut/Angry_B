@@ -238,6 +238,7 @@ public class Jeu extends JPanel implements MouseMotionListener {
 		verifColisionOuSorti();
 		g.drawImage(new ImageIcon("res/angryb.png").getImage(), 0, 445, null);
 		g.setColor(Color.blue);
+		g.drawImage(new ImageIcon("res/lp.png").getImage(), 100, 283, null);
 		// ((Graphics2D) g).fill(sol);
 		for (VueObstacle obs : obstacles) {
 			obs.paintComponent(g);

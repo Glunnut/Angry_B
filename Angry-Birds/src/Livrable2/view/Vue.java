@@ -15,7 +15,7 @@ public abstract class Vue extends JPanel implements Observer{
 	public Model model;
     public Controller controller;
    
-
+    /*-------------------------------GETTERS------------------------*/
     public Controller getController() {
         return controller;
     }

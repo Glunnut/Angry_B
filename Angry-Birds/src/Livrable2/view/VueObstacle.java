@@ -19,6 +19,9 @@ public class VueObstacle extends Vue implements Observer {
 	private Rectangle rec;
 	public static boolean touche = false;
 	private int x,y;
+	
+	/*-------------------------------CONSTRUCTEURS------------------------*/
+	
 	public VueObstacle(ModelObstacle m, ControllerObstacle c) {
 		super.model = m;
 		this.model = m ;
@@ -31,6 +34,8 @@ public class VueObstacle extends Vue implements Observer {
 		this.forme = model.getForme();
 	}
 
+	/*-------------------------------GETTERS------------------------*/
+	
 	public String getForme() {
 		return forme;
 	}
@@ -38,6 +43,17 @@ public class VueObstacle extends Vue implements Observer {
 	public Rectangle getRec() {
 		return rec;
 	}
+	
+	public int getX() {
+		return x;
+	}
+	
+	public int getY() {
+		return y;
+	}
+	
+	/*-------------------------------SETTERS------------------------*/
+	
 	public void setTouche(boolean touche){
 		this.touche = touche;
 	}
@@ -55,21 +71,17 @@ public class VueObstacle extends Vue implements Observer {
 					model.SIZE);
 		}
 	}
-	public int getX() {
-		return x;
-	}
-
+	
 	public void setX(int x) {
 		this.x = x;
-	}
-
-	public int getY() {
-		return y;
 	}
 
 	public void setY(int y) {
 		this.y = y;
 	}
+	
+	/*-------------------------------METHODES------------------------*/
+	
 	@Override
 	public void update(Observable o, Object arg) {
 	

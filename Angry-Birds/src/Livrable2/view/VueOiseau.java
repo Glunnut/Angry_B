@@ -33,7 +33,7 @@ public class VueOiseau extends Vue {
 	ImageTool option;
 	private int angle=0;
 	
-	
+	/*-------------------------------CONSTRUCTEURS------------------------*/
 	public VueOiseau(ModelOiseau m, ControllerOiseau c) {
 		super.model = m;
 		this.controller = c;
@@ -46,6 +46,8 @@ public class VueOiseau extends Vue {
 		couleurSecondaire = model.getCouleurSecondaire();
 		angle = m.angle();
 	}
+	
+	/*-------------------------------GETTERS------------------------*/
 	public int getX(){
 		return x;
 	}
@@ -55,12 +57,21 @@ public class VueOiseau extends Vue {
 	public int getAngle(){
 		return angle;
 	}
-	public void setAngle(int angle){
-		 this.angle=angle;
-	}
 	public Rectangle getRect() {
 		return this.rect;
 	}
+	
+	/*-------------------------------SETTERS------------------------*/
+	
+	public void setAngle(int angle){
+		 this.angle=angle;
+	}
+	
+	public void setTouche(boolean touche){
+		this.touche = touche;
+	}
+
+	/*-------------------------------METHODES------------------------*/
 
 	public void move(int x, int y) {
 		if (!touche){
@@ -69,15 +80,9 @@ public class VueOiseau extends Vue {
 		this.y = y;
 		this.rect.setBounds(x, y, rect.width, rect.height);
 		}
-		
 			
+	}
 		
-	}
-	
-	public void setTouche(boolean touche){
-		this.touche = touche;
-	}
-
 	public void paintComponent(Graphics g) {
 		//System.out.println("repaint oiseau");
 		System.out.println(this.x + "   " +this.y);
@@ -92,7 +97,6 @@ public class VueOiseau extends Vue {
 			g.drawImage(option.rotate(img, 40-(angle)),x-20,y-45,null);
 	}
 	
-
 	@Override
 	public void update(Observable o, Object arg) {
 		

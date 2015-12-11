@@ -1,4 +1,5 @@
 package Livrable2.model;
+
 import java.awt.Color;
 import java.util.Observable;
 
@@ -7,39 +8,71 @@ import Livrable2.ab.Coordonne;
 public abstract class Model extends Observable {
 
 	/*-------------------------------ATTRIBUTS------------------------*/
-    Coordonne co;
-    Coordonne coInit;
-    Color couleurPrincipale = Color.RED;
-    Color couleurSecondaire;
-    int taille = 10;
 
-    public Coordonne getCo() {
-        return co;
-    }
+	// Creation coordonnees
+	Coordonne co;
+	Coordonne coInit;
 
-    public Color getCouleurPrincipale() {
-        return couleurPrincipale;
-    }
+	// Creation des couleurs
+	Color couleurPrincipale = Color.RED;
+	Color couleurSecondaire;
 
-    public Color getCouleurSecondaire() {
-        return couleurSecondaire;
-    }
+	// Definition de la taille
+	int taille = 10;
 
-    public int getTaille() {
-        return taille;
-    }
+	/*-------------------------------GETTERS------------------------*/
 
-    public Coordonne getCoInit() {
-        return coInit;
-    }
+	/**
+	 * Renvoi de la coordonne co
+	 * @return
+	 */
+	public Coordonne getCo() {
+		return co;
+	}
+	
+	/**
+	 * Renvoi de la coordonne coInit
+	 * @return
+	 */
+	public Coordonne getCoInit() {
+		return coInit;
+	}
 
-    public void setCo(Coordonne co) {
-        this.co = co;
-        notifyObservers();
-    }
+	/**
+	 * Renvoi de la couleur principale
+	 * @return
+	 */
+	public Color getCouleurPrincipale() {
+		return couleurPrincipale;
+	}
+
+	/**
+	 * Renvoi de la couleur secondaire
+	 * @return
+	 */
+	public Color getCouleurSecondaire() {
+		return couleurSecondaire;
+	}
+
+	/**
+	 * Renvoi de la taille
+	 * @return
+	 */
+	public int getTaille() {
+		return taille;
+	}
 
 	
 
-    
-    
+	/*-------------------------------SETTERS------------------------*/
+	
+	/**
+	 * Changement de la coordonne co
+	 * @param co
+	 */
+	public void setCo(Coordonne co) {
+		this.co = co;
+		notifyObservers();
+	}
+
 }

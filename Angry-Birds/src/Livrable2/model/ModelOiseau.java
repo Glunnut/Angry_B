@@ -10,6 +10,9 @@ public class ModelOiseau extends Model {
 	protected boolean lance = false;
 	private double directionY = 0.0;
 	int angle = 0;
+	
+	
+	/*-------------------------------CONSTRUCTEURS------------------------*/
 
 	public ModelOiseau() {
 		co = new Coordonne(120, 400);
@@ -18,19 +21,16 @@ public class ModelOiseau extends Model {
 		couleurPrincipale = Color.RED;
 		couleurSecondaire = new Color(250, 224, 173);
 	}
-
-	public boolean estLance() {
-		return lance;
-	}
-
+	
+	
+	/*-------------------------------GETTERS------------------------*/
+	
 	public double getDirectionY() {
 		return directionY;
 	}
 	
-	public int angle() {
-		return angle;
-	}
-
+	/*-------------------------------SETTERS------------------------*/
+	
 	public void setDirectionY(double directionY) {
 		this.directionY = directionY;
 	}
@@ -41,5 +41,17 @@ public class ModelOiseau extends Model {
 	public void setAngle(int angle) {
 		this.angle = angle;
 	}
+	
+	/*-------------------------------METHODES------------------------*/
+
+	public boolean estLance() {
+		return lance;
+	}
+
+	public int angle() {
+		return angle;
+	}
+
+	
 
 }

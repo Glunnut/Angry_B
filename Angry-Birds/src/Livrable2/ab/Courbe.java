@@ -4,6 +4,7 @@ import java.awt.Point;
 
 public class Courbe {
 	/*-------------------------------ATTRIBUTS------------------------*/
+	
 	//Creation des points
 	private Point pt, p, p1, p2;
 	
@@ -11,6 +12,7 @@ public class Courbe {
 	private double t;
 
 	/*-------------------------------CONSTRUCTEURS------------------------*/
+	
 	/**
 	 * Constructeur Courbe
 	 * @param p
@@ -27,6 +29,7 @@ public class Courbe {
 	}
 
 	/*-------------------------------GETTERS------------------------*/
+	
 	/**
 	 * Renvoi d'un point
 	 * @return
@@ -36,6 +39,7 @@ public class Courbe {
 	}
 
 	/*-------------------------------METHODES------------------------*/
+	
 	/**
 	 * Creation de la courbe de bezier
 	 * @param p

@@ -11,6 +11,7 @@ public class Coordonne {
 	 public int y;
 
 	/*-------------------------------CONSTRUCTEURS------------------------*/
+	 
 	/**
 	 * Constructeur Coordonnee
 	 * 
@@ -23,6 +24,7 @@ public class Coordonne {
 	}
 
 	/*-------------------------------GETTERS------------------------*/
+	
 	/**
 	 * Renvoi de la valeur de la coordonne x
 	 * @return
@@ -40,6 +42,7 @@ public class Coordonne {
 	}
 
 	/*-------------------------------SETTERS------------------------*/
+	
 	/**
 	 * Changement de la valeur de la coordonne x
 	 * @param x

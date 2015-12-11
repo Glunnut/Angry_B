@@ -86,9 +86,9 @@ public class VueOiseau extends Vue {
 		} catch (IOException e) {
 		}
 		if(angle<0)
-		g.drawImage(option.rotate(img, 40-(angle/2)),x-20,y-45,null);
+		g.drawImage(option.rotate(img, 40-(angle)),x-20,y-45,null);
 		else
-			g.drawImage(option.rotate(img, 40+(angle/2)),x-20,y-45,null);
+			g.drawImage(option.rotate(img, 40-(angle)),x-20,y-45,null);
 	}
 	
 

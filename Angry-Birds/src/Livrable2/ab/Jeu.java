@@ -33,7 +33,6 @@ public class Jeu extends JPanel {
 	protected JFrame f;
 	Random r = new Random();
 	double t = 0.0;
-
 	private ArrayList<Vue> objetsVue = new ArrayList<>();
 	ArrayList<Point> trace = new ArrayList<>();
 	Courbe courbe;
@@ -49,11 +48,12 @@ public class Jeu extends JPanel {
 	ControllerOiseau controllerOiseau = new ControllerOiseau(modelOiseau);
 	VueOiseau o = new VueOiseau(modelOiseau, controllerOiseau);
 	boolean go = false;
-	int y1 =0;
+	int y1 = 0, i = 0;
+	int nbLancer;
 
 	/*-------------------------------CONSTRUCTEURS------------------------*/
-	public Jeu(int nb) {
-
+	public Jeu(int nb, int nbLancer) {
+		this.nbLancer = nbLancer;
 		creationOsbtacles(nb);
 		configFrame();
 		o.move(110, 320);
@@ -67,21 +67,19 @@ public class Jeu extends JPanel {
 	public void go() {
 		t = 0;
 		Double t2 = 0.0;
-		System.out.println(o.getModel().getCo());
 		do {
-			p2 = new Point(140, r.nextInt(this.getHeight())+y1);
-			p3 = new Point(this.getWidth(), r.nextInt(this.getHeight())+y1);
+			p2 = new Point(140, r.nextInt(this.getHeight()) + y1);
+			p3 = new Point(this.getWidth(), r.nextInt(this.getHeight()) + y1);
 		} while (p2.y > 250);
 
 		/* Decommentez les 2 points pour tester les rebonds */
 		// p2 = new Point(200, 150);
 		// p3 = new Point(300, 400);
 
-		while (!touche && !sorti) {
-			System.out.println(sorti);
+		while ((!isTouche() || !sorti) && i < nbLancer) {
 			affichage++;
-			if(affichage==160)
-				affichage=0;
+			if (affichage == 160)
+				affichage = 0;
 			if (solTouch) {
 				solTouch = false;
 				while (nbrebond < 10 || !sorti) {
@@ -114,23 +112,52 @@ public class Jeu extends JPanel {
 					t = t + 0.01;
 					courbe = new Courbe(p1, p2, p3, t);
 					Point act = courbe.getPt();
-					System.out.println(act);
 					courbe1 = new Courbe(p1, p2, p3, t + 0.1);
 					Point reb1 = courbe1.getPt();
 					o.setAngle(act.y - reb1.y);
 					trace.add(act);
 					o.move((int) act.getX(), (int) act.getY());
 				}
+				if (isTouche() || sorti) {
+					reinit();
+					restart();
+				}
 			}
 			variationObstacle();
 			repaint();
 			attente(40);
-
 		}
-
+		reinit();
 	}
 
-	// }
+	/**
+	 * reinitialise la vue
+	 */
+	public void reinit() {
+		touche = false;
+		sorti = false;
+		setGo(false);
+		o.setAngle(1);
+		trace.removeAll(trace);
+		o.move(100,320);
+		repaint();
+	}
+
+	/**
+	 * Redemarre le mouvement de l'oiseau
+	 */
+	public void restart() {
+		if (isTouche()) {
+			attente(2000);
+		} else {
+			attente(1000);
+		}
+		i++;
+		if (i < nbLancer) {
+			go();
+		}
+	}
+
 	/*
 	 * Fonction qui permet d'attendre un certain temps
 	 */
@@ -213,8 +240,7 @@ public class Jeu extends JPanel {
 		}
 
 		if (o.getRect().getX() > width + 5 || o.getRect().getY() < 0
-				|| o.getRect().getX() < 0 || o.getRect().getY() > height) {
-			System.out.println("sorti");
+				|| o.getRect().getY() > height) {
 			sorti = true;
 		}
 		if (o.getRect().intersects(sol)) {
@@ -226,7 +252,6 @@ public class Jeu extends JPanel {
 	}
 
 	public void paintComponent(Graphics g) {
-		// System.out.println("repaint");
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
 		g.drawImage(new ImageIcon("res/bg_menu.png").getImage(), 0, 0, null);
@@ -237,7 +262,7 @@ public class Jeu extends JPanel {
 		g.setColor(Color.blue);
 		g.drawImage(new ImageIcon("res/lp.png").getImage(), 100, 283, null);
 		g.setColor(Color.black);
-		if (go == false){
+		if (go == false) {
 			g2.setStroke(new BasicStroke(6));
 			g.drawLine(130, 320, o.getX(), o.getY());
 		}
@@ -246,7 +271,6 @@ public class Jeu extends JPanel {
 		}
 		o.paintComponent(g);
 
-		// affichageVitesse();
 	}
 
 	public void addEnnemi(Vue vue) {
@@ -260,9 +284,11 @@ public class Jeu extends JPanel {
 	public void setP1(Point point) {
 		this.p1 = point;
 	}
-	public VueOiseau getOiseau(){
+
+	public VueOiseau getOiseau() {
 		return o;
 	}
+
 	public void setGo(boolean b) {
 		this.go = b;
 	}

@@ -40,7 +40,13 @@ public class ControllerOiseau extends Controller {
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		j.setP1(new Point(e.getX(), e.getY()));
+		int x = e.getX();
+		int y = e.getY();
+		if (x < 20)
+			x=20;
+		if(y>390)
+			y=390;
+		j.setP1(new Point(x, y));
 		j.setGo(true);
 	}
 
@@ -48,7 +54,6 @@ public class ControllerOiseau extends Controller {
 	public void mouseDragged(MouseEvent e) {
 		VueOiseau o = j.getOiseau();
 		o.move(e.getX(), e.getY());
-		System.out.println(o.getModel().getCo());
 		if (e.getX() < 20)
 			o.move(20, o.getY());
 		if (e.getX() > 120)
@@ -64,6 +69,5 @@ public class ControllerOiseau extends Controller {
 	@Override
 	public void mouseMoved(MouseEvent e) {
 	}
-
 
 }

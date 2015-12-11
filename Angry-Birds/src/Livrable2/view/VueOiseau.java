@@ -84,9 +84,6 @@ public class VueOiseau extends Vue {
 	}
 		
 	public void paintComponent(Graphics g) {
-		//System.out.println("repaint oiseau");
-		System.out.println(this.x + "   " +this.y);
-		
 		try {
 		    img = ImageIO.read(new File("res/Pingouin1.png"));
 		} catch (IOException e) {

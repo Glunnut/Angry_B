@@ -259,6 +259,14 @@ public class Jeu extends JPanel implements MouseMotionListener {
 	public void mouseDragged(MouseEvent e) {
 		o.move(e.getX(), e.getY());
 		System.out.println(o.getModel().getCo());
+		if(e.getX() < 20)
+			o.move(20, o.getY());
+		if(e.getX() > 180)
+			o.move(180, o.getY());
+		if(e.getY() > 425)
+			o.move(o.getX(), 425);
+		if(e.getY() < 315)
+			o.move(o.getX(), 315);
 		repaint();
 	}
 

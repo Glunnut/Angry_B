@@ -2,7 +2,6 @@ package Livrable2.ab;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
@@ -57,7 +56,8 @@ public class Jeu extends JPanel implements MouseMotionListener, MouseListener {
 		configFrame();
 		o.move(110, 320);
 		addMouseMotionListener(this);
-		//go();
+		addMouseListener(this);
+		 
 	}
 
 	/*-------------------------------METHODES------------------------*/
@@ -108,6 +108,7 @@ public class Jeu extends JPanel implements MouseMotionListener, MouseListener {
 				t = t + 0.01;
 				courbe = new Courbe(p1, p2, p3, t);
 				Point act = courbe.getPt();
+				System.out.println(act);
 				courbe1 = new Courbe(p1, p2, p3, t + 0.1);
 				Point reb1 = courbe1.getPt();
 				o.setAngle(act.y - reb1.y);
@@ -261,16 +262,15 @@ public class Jeu extends JPanel implements MouseMotionListener, MouseListener {
 	public void mouseDragged(MouseEvent e) {
 		o.move(e.getX(), e.getY());
 		System.out.println(o.getModel().getCo());
-		if(e.getX() < 20)
+		if (e.getX() < 20)
 			o.move(20, o.getY());
-		if(e.getX() > 220)
+		if (e.getX() > 220)
 			o.move(220, o.getY());
-		if(e.getY() > 425)
+		if (e.getY() > 425)
 			o.move(o.getX(), 425);
-		if(e.getY() < 250)
+		if (e.getY() < 250)
 			o.move(o.getX(), 250);
-		
-		
+
 		repaint();
 	}
 
@@ -280,31 +280,29 @@ public class Jeu extends JPanel implements MouseMotionListener, MouseListener {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
+		this.p1 = new Point(e.getX(), e.getY());
+		go();
 	}
 }

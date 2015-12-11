@@ -8,42 +8,42 @@ import java.awt.image.BufferedImage;
 
 public abstract class ImageTool {
     /**
-     * Converts a given Image into a BufferedImage
+     * Converti une image donnee en une image bufferise
      * 
-     * @param img The Image to be converted
-     * @return The converted BufferedImage
+     * @param img l'image qui doit etre converti
+     * @return l'image bufferisee
      */
    public static BufferedImage toBufferedImage(Image img){
         if (img instanceof BufferedImage) {
             return (BufferedImage) img;
         }
-        // Create a buffered image with transparency
+        // Cree une image bufferisee en transparence 
         BufferedImage bimage = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_ARGB);
-        // Draw the image on to the buffered image
+        // Dessine l'image 
         Graphics2D bGr = bimage.createGraphics();
         bGr.drawImage(img, 0, 0, null);
         bGr.dispose();
-        // Return the buffered image
+        // Retourne l'image bufferisee
         return bimage;
     }
 
     /**
-     * Converts a given BufferedImage into an Image
+     * Converti une image bufferise en une image donnee 
      * 
-     * @param bimage The BufferedImage to be converted
-     * @return The converted Image
+     * @param bimage l'image bufferisee qui doit etre converti
+     * @return l'image converti
      */
     public static Image toImage(BufferedImage bimage){
-        // Casting is enough to convert from BufferedImage to Image
+        // On effectue un cast sur l'image
         Image img = (Image) bimage;
         return img;
     }
     /**
-     * Creates an empty image with transparency
+     * Creation d'une image vide transparente
      * 
-     * @param width The width of required image
-     * @param height The height of required image
-     * @return The created image
+     * @param width largeur de l'image
+     * @param height hauteur de l'image
+     * @return l'image cree
      */
     public static Image getEmptyImage(int width, int height){
         BufferedImage img = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
@@ -51,11 +51,11 @@ public abstract class ImageTool {
     }
 
     /**
-     * Rotates an image. Actually rotates a new copy of the image.
+     * Effectue une rotation de l'image
      * 
-     * @param img The image to be rotated
-     * @param angle The angle in degrees
-     * @return The rotated image
+     * @param img l'image sur laquelle on effectue la rotation
+     * @param angle le degree de rotation
+     * @return l'image apres rotation
      */
     public static Image rotate(Image img, double angle){
         double sin = Math.abs(Math.sin(Math.toRadians(angle))), cos = Math.abs(Math.cos(Math.toRadians(angle)));

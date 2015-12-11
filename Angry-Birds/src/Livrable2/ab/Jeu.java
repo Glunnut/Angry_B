@@ -29,29 +29,64 @@ import Livrable2.view.VueOiseau;
 public class Jeu extends JPanel {
 
 	/*-------------------------------ATTRIBUTS------------------------*/
+
+	// Creation de points
 	private Point p1 = new Point(20, 350), p2, p3, oiseau;
+
+	// Creation de la Jframe
 	protected JFrame f;
+
+	// Instanciation d'un Random
 	Random r = new Random();
+
+	// Instant t
 	double t = 0.0;
+
+	// Creation liste de point et d'objets
 	private ArrayList<Vue> objetsVue = new ArrayList<>();
 	ArrayList<Point> trace = new ArrayList<>();
+
+	// Creation des courbes
 	Courbe courbe;
 	Courbe courbe1;
+
+	// Creation de la liste des Obstacles
 	private List<VueObstacle> obstacles = new ArrayList<VueObstacle>();
+
+	// Taille de l'ecran et nombre de rebond
 	int width = 900, height = 500, nbrebond = 0;
+
+	// Creation de booleen pour sortie, touche et lancement du jeu
 	private boolean sorti = false;
 	private boolean touche = false;
+	private boolean go = false;
+	private boolean solTouch = false;
+
+	// Creation d'une variable affichage
 	private int affichage = 0;
+
+	// Instanciation du sol
 	private Rectangle sol = new Rectangle(0, 445, 900, 80);
-	boolean solTouch = false;
+
+	// MVC
 	ModelOiseau modelOiseau = new ModelOiseau(this);
 	ControllerOiseau controllerOiseau = new ControllerOiseau(modelOiseau);
 	VueOiseau o = new VueOiseau(modelOiseau, controllerOiseau);
-	boolean go = false;
+
+	// Variable de gestion du lancer
 	int y1 = 0, i = 0;
+
+	// Creation d'une variable nombre de lancer
 	int nbLancer;
 
 	/*-------------------------------CONSTRUCTEURS------------------------*/
+
+	/**
+	 * Constructeur du jeu
+	 * 
+	 * @param nb
+	 * @param nbLancer
+	 */
 	public Jeu(int nb, int nbLancer) {
 		this.nbLancer = nbLancer;
 		creationOsbtacles(nb);
@@ -64,6 +99,48 @@ public class Jeu extends JPanel {
 	}
 
 	/*-------------------------------METHODES------------------------*/
+	
+	/**
+	 * Creation des différents obstacles et notification MVC
+	 * @param nb
+	 */
+	public void creationOsbtacles(int nb) {
+		for (int i = 0; i < nb; i++) {
+			ModelObstacle modelObs = new ModelObstacle(r.nextInt(840 - 740 + 1) + 740, r.nextInt(400 - 60 + 1) + 60);
+			ControllerObstacle controllObs = new ControllerObstacle();
+			VueObstacle vueObs = new VueObstacle(modelObs, controllObs);
+			modelObs.addObserver(vueObs);
+			obstacles.add(vueObs);
+		}
+	}
+	
+	/**
+	 * Configuration de la Frame
+	 */
+	public void configFrame() {
+		f = new JFrame("AngryBirds");
+		f.add(this);
+		f.setResizable(false);
+		f.setSize(width, height);
+		f.setLocationRelativeTo(null);
+		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		f.setVisible(true);
+	}
+	
+	/**
+	 * Fonction d'affichage du trace de l'oiseau
+	 * @param g
+	 */
+	public void affichagePointilles(Graphics g) {
+		for (int i = 0; i < trace.size(); i += 2) {
+			if (!touche)
+				g.fillOval(trace.get(i).x + 5, trace.get(i).y + 8, 5, 5);
+		}
+	}
+	
+	/**
+	 * Fonction de lancement du jeu
+	 */
 	public void go() {
 		t = 0;
 		Double t2 = 0.0;
@@ -84,12 +161,8 @@ public class Jeu extends JPanel {
 				solTouch = false;
 				while (nbrebond < 10 || !sorti) {
 					t2 += 0.01;
-					Point p2bis = new Point(
-							(int) (p2.getX() + ((p2.getX() - p1.getX()) * 2)),
-							(int) (p2.getY()) + 40);
-					Point p3bis = new Point(
-							(int) (p3.getX() + ((p3.getX() - p2.getX()) * 2)),
-							(int) (p3.getY()) + 30);
+					Point p2bis = new Point((int) (p2.getX() + ((p2.getX() - p1.getX()) * 2)), (int) (p2.getY()) + 40);
+					Point p3bis = new Point((int) (p3.getX() + ((p3.getX() - p2.getX()) * 2)), (int) (p3.getY()) + 30);
 					courbe = new Courbe(oiseau, p2bis, p3bis, t2);
 					Point reb = courbe.getPt();
 
@@ -129,6 +202,26 @@ public class Jeu extends JPanel {
 		}
 		reinit();
 	}
+	
+	/**
+	 * Gestion des mouvements des obstacles
+	 */
+	public void variationObstacle() {
+		for (VueObstacle o : obstacles)
+			if (affichage < 40 || (affichage > 80 && affichage < 120) || affichage > 160)
+				if (o.getForme().equals("rond"))
+					o.setX(o.getX() - 1);
+				else {
+					o.setX(o.getX() - 1);
+					o.setY(o.getY() - 1);
+				}
+			else if (o.getForme().equals("rond"))
+				o.setX(o.getX() + 1);
+			else {
+				o.setX(o.getX() + 1);
+				o.setY(o.getY() + 1);
+			}
+	}
 
 	/**
 	 * reinitialise la vue
@@ -139,7 +232,7 @@ public class Jeu extends JPanel {
 		setGo(false);
 		o.setAngle(1);
 		trace.removeAll(trace);
-		o.move(100,320);
+		o.move(100, 320);
 		repaint();
 	}
 
@@ -158,7 +251,7 @@ public class Jeu extends JPanel {
 		}
 	}
 
-	/*
+	/**
 	 * Fonction qui permet d'attendre un certain temps
 	 */
 	private void attente(int delay) {
@@ -166,71 +259,20 @@ public class Jeu extends JPanel {
 		// Temps d'attente en millisecondes
 		Date date = new Date();
 		long debut = date.getTime();
-		// Rï¿½cupï¿½re la date courante en millisecondes
+		// Recupere la date courante en millisecondes
 		long somme = debut + attente;
-		// Date ï¿½ laquelle on sortira de la fonction
+		// Date a laquelle on sortira de la fonction
 		while (debut < somme) {
 			date = new Date();
 			debut = date.getTime();
 		}
 	}
 
-	public void variationObstacle() {
-		for (VueObstacle o : obstacles)
-			if (affichage < 40 || (affichage > 80 && affichage < 120)
-					|| affichage > 160)
-				if (o.getForme().equals("rond"))
-					o.setX(o.getX() - 1);
-				else {
-					o.setX(o.getX() - 1);
-					o.setY(o.getY() - 1);
-				}
-			else if (o.getForme().equals("rond"))
-				o.setX(o.getX() + 1);
-			else {
-				o.setX(o.getX() + 1);
-				o.setY(o.getY() + 1);
-			}
-	}
-
-	private boolean isTouche() {
-		return touche;
-	}
-
-	public void setTouche(boolean touche) {
-		this.touche = touche;
-	}
-
-	public void configFrame() {
-		f = new JFrame("AngryBirds");
-		f.add(this);
-		f.setResizable(false);
-		f.setSize(width, height);
-		f.setLocationRelativeTo(null);
-		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		f.setVisible(true);
-	}
-
-	public void creationOsbtacles(int nb) {
-		for (int i = 0; i < nb; i++) {
-			ModelObstacle modelObs = new ModelObstacle(
-					r.nextInt(840 - 740 + 1) + 740,
-					r.nextInt(400 - 60 + 1) + 60);
-			ControllerObstacle controllObs = new ControllerObstacle();
-			VueObstacle vueObs = new VueObstacle(modelObs, controllObs);
-			modelObs.addObserver(vueObs);
-			obstacles.add(vueObs);
-		}
-	}
-
-	public void affichagePointilles(Graphics g) {
-		for (int i = 0; i < trace.size(); i += 2) {
-			if (!touche)
-				g.fillOval(trace.get(i).x + 5, trace.get(i).y + 8, 5, 5);
-		}
-	}
-
-	public boolean verifColisionOuSorti() {
+	/**
+	 * Fonction de verification collision avec obstacles ou sorti de l'écran
+	 * @return
+	 */
+	public boolean verifCollisionOuSorti() {
 		sorti = false;
 		touche = false;
 		for (int i = obstacles.size() - 1; i >= 0; i--) {
@@ -239,8 +281,7 @@ public class Jeu extends JPanel {
 			}
 		}
 
-		if (o.getRect().getX() > width + 5 || o.getRect().getY() < 0
-				|| o.getRect().getY() > height) {
+		if (o.getRect().getX() > width + 5 || o.getRect().getY() < 0 || o.getRect().getY() > height) {
 			sorti = true;
 		}
 		if (o.getRect().intersects(sol)) {
@@ -250,14 +291,33 @@ public class Jeu extends JPanel {
 		}
 		return false;
 	}
+	
+	/**
+	 * Fonction qui retourne un booleen en cas d'un impact avec un obstacles
+	 * @return
+	 */
+	private boolean isTouche() {
+		return touche;
+	}
 
+	/**
+	 * Ajout d'objet a la vue
+	 * @param vue
+	 */
+	public void addEnnemi(Vue vue) {
+		objetsVue.add(vue);
+	}
+
+	/**
+	 * Fonction d'affichage graphique de la frame
+	 */
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
 		g.drawImage(new ImageIcon("res/bg_menu.png").getImage(), 0, 0, null);
 		g.setColor(Color.orange);
 		affichagePointilles(g);
-		verifColisionOuSorti();
+		verifCollisionOuSorti();
 		g.drawImage(new ImageIcon("res/angryb.png").getImage(), 0, 445, null);
 		g.setColor(Color.blue);
 		g.drawImage(new ImageIcon("res/lp.png").getImage(), 100, 283, null);
@@ -273,23 +333,50 @@ public class Jeu extends JPanel {
 
 	}
 
-	public void addEnnemi(Vue vue) {
-		objetsVue.add(vue);
-	}
+	
 
+	/*-------------------------------GETTERS------------------------*/
+
+	/**
+	 * Retourne les objets de la vue
+	 * @return
+	 */
 	public ArrayList<Vue> getObjetsScene() {
 		return objetsVue;
 	}
 
-	public void setP1(Point point) {
-		this.p1 = point;
-	}
-
+	/**
+	 * Retourne l'objet oiseau
+	 * @return
+	 */
 	public VueOiseau getOiseau() {
 		return o;
 	}
 
+	/*-------------------------------SETTERS------------------------*/
+
+	/**
+	 * Modifie la valeur de l'attibut touche
+	 * @param touche
+	 */
+	public void setTouche(boolean touche) {
+		this.touche = touche;
+	}
+
+	/**
+	 * Modifie la valeur de l'attibut P1
+	 * @param point
+	 */
+	public void setP1(Point point) {
+		this.p1 = point;
+	}
+
+	/**
+	 * Modifie la valeur de l'attibut go
+	 * @param b
+	 */
 	public void setGo(boolean b) {
 		this.go = b;
 	}
+
 }

@@ -15,18 +15,36 @@ import Livrable2.model.ModelObstacle;
 public class VueObstacle extends Vue implements Observer {
 
 	/*-------------------------------ATTRIBUTS------------------------*/
-	private Color couleurPrincipale,couleurSecondaire;
+
+	// Couleurs des obstacles
+	private Color couleurPrincipale, couleurSecondaire;
+
+	// Creation d'un modele obstacle
 	private ModelObstacle model;
+
+	// Forme des obstacles
 	private String forme;
+
+	// Creation d'un rectangle
 	private Rectangle rec;
+
+	// Etat oiseau et obstacle
 	public static boolean touche = false;
-	private int x,y;
-	
+
+	// Coordonnee x et y d'un obstacle
+	private int x, y;
+
 	/*-------------------------------CONSTRUCTEURS------------------------*/
-	
+
+	/**
+	 * Constructeur de la vue des obstacles
+	 * 
+	 * @param m
+	 * @param c
+	 */
 	public VueObstacle(ModelObstacle m, ControllerObstacle c) {
 		super.model = m;
-		this.model = m ;
+		this.model = m;
 		this.controller = c;
 		this.x = m.getX();
 		this.y = m.getY();
@@ -37,55 +55,91 @@ public class VueObstacle extends Vue implements Observer {
 	}
 
 	/*-------------------------------GETTERS------------------------*/
-	
+
+	/**
+	 * Renvoie la forme de l'obstacle
+	 * 
+	 * @return
+	 */
 	public String getForme() {
 		return forme;
 	}
 
+	/**
+	 * Renvoie le rectangle
+	 * 
+	 * @return
+	 */
 	public Rectangle getRec() {
 		return rec;
 	}
-	
+
+	/**
+	 * Renvoie la coordonnee x
+	 */
 	public int getX() {
 		return x;
 	}
-	
+
+	/**
+	 * Renvoie la coordonnee y
+	 */
 	public int getY() {
 		return y;
 	}
-	
+
 	/*-------------------------------SETTERS------------------------*/
-	
-	public void setTouche(boolean touche){
+
+	/**
+	 * Modifie l'etat touche
+	 * @param touche
+	 */
+	public void setTouche(boolean touche) {
 		this.touche = touche;
 	}
+
+	/**
+	 * Affiche l'obstacle sur la frame
+	 */
 	public void paintComponent(Graphics g) {
 		if (!touche)
 			g.setColor(couleurPrincipale);
-		else{
+		else {
 			g.setColor(couleurSecondaire);
 		}
 		if (model.getForme().equals("rond"))
 			g.drawImage(new ImageIcon("res/block2.png").getImage(), this.x, this.y, null);
-			//g.fillOval(this.x, this.y, model.SIZE,model.SIZE);
+		// g.fillOval(this.x, this.y, model.SIZE,model.SIZE);
 		else {
 			g.drawImage(new ImageIcon("res/block1.png").getImage(), this.x, this.y, null);
-			//g.fillRect(this.x,this.y, model.SIZE,model.SIZE);
+			// g.fillRect(this.x,this.y, model.SIZE,model.SIZE);
 		}
 	}
-	
+
+	/**
+	 * Modifie la coordonnee x
+	 * @param x
+	 */
 	public void setX(int x) {
 		this.x = x;
 	}
 
+	
+	/**
+	 * Modifie la coordonne y
+	 * @param y
+	 */
 	public void setY(int y) {
 		this.y = y;
 	}
-	
+
 	/*-------------------------------METHODES------------------------*/
-	
+
+	/**
+	 * Update la vue
+	 */
 	@Override
 	public void update(Observable o, Object arg) {
-	
+
 	}
 }

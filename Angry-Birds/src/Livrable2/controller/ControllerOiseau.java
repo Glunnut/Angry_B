@@ -40,8 +40,9 @@ public class ControllerOiseau extends Controller {
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		int x = e.getX();
-		int y = e.getY();
+		VueOiseau o = j.getOiseau();
+		int x = o.getX();
+		int y = o.getY();
 		if (x < 20)
 			x=20;
 		if(y>390)

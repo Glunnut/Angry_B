@@ -159,7 +159,7 @@ public class Jeu extends JPanel {
 				affichage = 0;
 			if (solTouch) {
 				solTouch = false;
-				while (nbrebond < 10 || !sorti) {
+				while (nbrebond < 10) {
 					t2 += 0.01;
 					Point p2bis = new Point((int) (p2.getX() + ((p2.getX() - p1.getX()) * 2)), (int) (p2.getY()) + 40);
 					Point p3bis = new Point((int) (p3.getX() + ((p3.getX() - p2.getX()) * 2)), (int) (p3.getY()) + 30);
@@ -178,6 +178,8 @@ public class Jeu extends JPanel {
 						oiseau = new Point(o.getX(), 379);
 					}
 					attente(40);
+					if(sorti)
+						nbrebond=10;
 				}
 
 			} else {
@@ -230,6 +232,7 @@ public class Jeu extends JPanel {
 		touche = false;
 		sorti = false;
 		setGo(false);
+		controllerOiseau.setDrag(true);
 		o.setAngle(1);
 		trace.removeAll(trace);
 		o.move(100, 320);

@@ -15,7 +15,9 @@ public class ControllerOiseau extends Controller {
 		this.j = modelOiseau.getJeu();
 		this.isDrag = true;
 	}
-
+	public void setDrag(boolean b){
+		isDrag = b;
+	}
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub

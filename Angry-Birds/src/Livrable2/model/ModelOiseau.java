@@ -18,9 +18,12 @@ public class ModelOiseau extends Model {
 	//Angle de vol
 	int angle = 0;
 	
+	private double angleDep=0;
+	
 	//Le jeu
 	private Jeu j;
 	
+	private double vitesse=0.0;
 	/*-------------------------------CONSTRUCTEURS------------------------*/
 
 	/**
@@ -29,7 +32,7 @@ public class ModelOiseau extends Model {
 	 */
 	public ModelOiseau(Jeu j) {
 		this.j = j;
-		co = new Coordonne(120, 400);
+		co = new Coordonne(120, 399);
 		coInit = new Coordonne(co.x, co.y);
 		taille = 30;
 		couleurPrincipale = Color.RED;
@@ -70,6 +73,22 @@ public class ModelOiseau extends Model {
 	public int angle() {
 		return angle;
 	}
+	/**
+	 * Renvoie l'angle de départ
+	 * @return
+	 */
+	public double getAngleDep() {
+		return angleDep;
+	}
+
+	
+
+	public double getVitesse() {
+		return vitesse;
+	}
+
+	
+
 	/*-------------------------------SETTERS------------------------*/
 	
 	/**
@@ -95,7 +114,19 @@ public class ModelOiseau extends Model {
 	public void setAngle(int angle) {
 		this.angle = angle;
 	}
-	
+
+	public void setAngleDep(double d) {
+		this.angleDep = d;
+	}
+
+
+
+	public void setVitesse(double vitesse) {
+		this.vitesse = vitesse;
+	}
+
+
+
 	
 
 }

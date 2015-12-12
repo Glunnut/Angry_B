@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
@@ -140,10 +141,9 @@ public class VueOiseau extends Vue {
 		    img = ImageIO.read(new File("res/Pingouin1.png"));
 		} catch (IOException e) {
 		}
-		if(angle<0)
+		
 		g.drawImage(option.rotate(img, 40-(angle)),x-20,y-45,null);
-		else
-			g.drawImage(option.rotate(img, 40-(angle)),x-20,y-45,null);
+		
 	}
 	
 	/**
@@ -153,4 +153,6 @@ public class VueOiseau extends Vue {
 	public void update(Observable o, Object arg) {
 		
 	}
+
+
 }

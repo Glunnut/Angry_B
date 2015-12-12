@@ -163,7 +163,7 @@ public class Jeu extends JPanel {
 					t2 += 0.01;
 					Point p2bis = new Point((int) (p2.getX() + ((p2.getX() - p1.getX()) * 2)), (int) (p2.getY()) + 40);
 					Point p3bis = new Point((int) (p3.getX() + ((p3.getX() - p2.getX()) * 2)), (int) (p3.getY()) + 30);
-					courbe = new Courbe(oiseau, p2bis, p3bis, t2);
+					courbe = new Courbe(modelOiseau, t2);
 					Point reb = courbe.getPt();
 
 					o.move((int) reb.getX(), (int) reb.getY());
@@ -185,11 +185,11 @@ public class Jeu extends JPanel {
 			} else {
 				if (go) {
 					t = t + 0.01;
-					courbe = new Courbe(p1, p2, p3, t);
+					courbe = new Courbe(modelOiseau, t);
 					Point act = courbe.getPt();
-					courbe1 = new Courbe(p1, p2, p3, t + 0.1);
-					Point reb1 = courbe1.getPt();
+					Point reb1 = courbe.courbePhysique(t+0.01, modelOiseau.angle());
 					o.setAngle(act.y - reb1.y);
+					System.out.println(o.getAngle());
 					trace.add(act);
 					o.move((int) act.getX(), (int) act.getY());
 				}
@@ -347,7 +347,9 @@ public class Jeu extends JPanel {
 	public VueOiseau getOiseau() {
 		return o;
 	}
-
+	public ModelOiseau getModel(){
+		return this.modelOiseau;
+	}
 	/*-------------------------------SETTERS------------------------*/
 
 	/**

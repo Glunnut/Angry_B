@@ -19,6 +19,9 @@ public class ControllerOiseau extends Controller {
 	public void setDrag(boolean b){
 		isDrag = b;
 	}
+	public boolean isDrag(){
+		return this.isDrag;
+	}
 	public Point getInit(){
 		return this.init;
 	}
@@ -103,7 +106,6 @@ public class ControllerOiseau extends Controller {
 				o.move(o.getX(), 410);
 			if (e.getY() < 320)
 				o.move(o.getX(), 320);
-
 			j.repaint();
 		}
 	}

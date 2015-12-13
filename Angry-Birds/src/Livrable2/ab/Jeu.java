@@ -9,15 +9,22 @@ import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import javazoom.jl.player.Player;
 import Livrable2.controller.ControllerObstacle;
 import Livrable2.controller.ControllerOiseau;
 import Livrable2.model.ModelObstacle;
@@ -144,52 +151,45 @@ public class Jeu extends JPanel {
 	public void go() {
 		t = 0;
 		Double t2 = 0.0;
-		do {
-			p2 = new Point(140, r.nextInt(this.getHeight()) + y1);
-			p3 = new Point(this.getWidth(), r.nextInt(this.getHeight()) + y1);
-		} while (p2.y > 250);
-
-		/* Decommentez les 2 points pour tester les rebonds */
-		// p2 = new Point(200, 150);
-		// p3 = new Point(300, 400);
 
 		while ((!isTouche() || !sorti) && i < nbLancer) {
 			affichage++;
 			if (affichage == 160)
 				affichage = 0;
 			if (solTouch) {
-				solTouch = false;
-				while (nbrebond < 10) {
-					t2 += 0.01;
-					Point p2bis = new Point((int) (p2.getX() + ((p2.getX() - p1.getX()) * 2)), (int) (p2.getY()) + 40);
-					Point p3bis = new Point((int) (p3.getX() + ((p3.getX() - p2.getX()) * 2)), (int) (p3.getY()) + 30);
-					courbe = new Courbe(modelOiseau, t2);
-					Point reb = courbe.getPt();
-
-					o.move((int) reb.getX(), (int) reb.getY());
-					variationObstacle();
-					repaint();
-					if (solTouch) {
-						t2 = 0.0;
-						solTouch = false;
-						p1 = oiseau;
-						p2 = p2bis;
-						p3 = p3bis;
-						oiseau = new Point(o.getX(), 379);
-					}
-					attente(40);
-					if(sorti)
-						nbrebond=10;
-				}
-
+			solTouch = false;
+//				while (nbrebond < 10) {
+//					t2 += 0.01;
+//					Point p2bis = new Point((int) (p2.getX() + ((p2.getX() - p1.getX()) * 2)), (int) (p2.getY()) + 40);
+//					Point p3bis = new Point((int) (p3.getX() + ((p3.getX() - p2.getX()) * 2)), (int) (p3.getY()) + 30);
+//					courbe = new Courbe(modelOiseau, t2);
+//					Point reb = courbe.getPt();
+//
+//					o.move((int) reb.getX(), (int) reb.getY());
+//					variationObstacle();
+//					repaint();
+//					if (solTouch) {
+//						t2 = 0.0;
+//						solTouch = false;
+//						p1 = oiseau;
+//						p2 = p2bis;
+//						p3 = p3bis;
+//						oiseau = new Point(o.getX(), 379);
+//					}
+//					attente(40);
+//					if(sorti)
+//						nbrebond=10;
+//				}
+				reinit();
+				restart();
 			} else {
 				if (go) {
 					t = t + 0.01;
 					courbe = new Courbe(modelOiseau, t);
 					Point act = courbe.getPt();
-					Point reb1 = courbe.courbePhysique(t+0.01, modelOiseau.angle());
-					o.setAngle(act.y - reb1.y);
-					System.out.println(o.getAngle());
+					Point reb1 = courbe.courbePhysique(t+0.05, modelOiseau.getAngleDep());
+					System.out.println(act.y+" "+reb1.y);
+						o.setAngle((reb1.y - act.y));
 					trace.add(act);
 					o.move((int) act.getX(), (int) act.getY());
 				}
@@ -233,7 +233,7 @@ public class Jeu extends JPanel {
 		sorti = false;
 		setGo(false);
 		controllerOiseau.setDrag(true);
-		o.setAngle(1);
+		o.reinitAngle();
 		trace.removeAll(trace);
 		o.move(100, 320);
 		repaint();

@@ -50,6 +50,8 @@ public class VueOiseau extends Vue {
 	ImageTool option;
 	private int angle=0;
 	
+	ControllerOiseau cO;
+	
 	/*-------------------------------CONSTRUCTEURS------------------------*/
 	
 	/**
@@ -59,7 +61,7 @@ public class VueOiseau extends Vue {
 	 */
 	public VueOiseau(ModelOiseau m, ControllerOiseau c) {
 		super.model = m;
-		this.controller = c;
+		cO = c;
 		rect = new Rectangle(x, y, taille, taille);
 
 		coInit = model.getCoInit();
@@ -107,9 +109,12 @@ public class VueOiseau extends Vue {
 	 * @param angle
 	 */
 	public void setAngle(int angle){
-		 this.angle=angle;
+		
+		 this.angle=this.angle-angle;
 	}
-	
+	public void reinitAngle(){
+		this.angle=1;
+	}
 	/**
 	 * Modifie l'etat de l'oiseau
 	 * @param touche
@@ -137,14 +142,14 @@ public class VueOiseau extends Vue {
 	 * Affichage de l'oiseau sur la frame	
 	 */
 	public void paintComponent(Graphics g) {
-		try {
-		    img = ImageIO.read(new File("res/Pingouin1.png"));
-		} catch (IOException e) {
+			try {
+			    img = ImageIO.read(new File("res/Pingouin1.png"));
+			} catch (IOException e) {
+			}
+			
+			g.drawImage(option.rotate(img, 40-(angle)),x-20,y-45,null);
 		}
 		
-		g.drawImage(option.rotate(img, 40-(angle)),x-20,y-45,null);
-		
-	}
 	
 	/**
 	 * Update de la vue

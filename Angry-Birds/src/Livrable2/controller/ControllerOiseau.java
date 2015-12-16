@@ -2,6 +2,7 @@ package Livrable2.controller;
 
 import java.awt.Point;
 import java.awt.event.MouseEvent;
+import java.io.FileInputStream;
 
 import Livrable2.ab.Jeu;
 import Livrable2.model.ModelOiseau;
@@ -77,8 +78,6 @@ public class ControllerOiseau extends Controller {
 		int x = o.getX();
 		int y = o.getY();
 		mO.setVitesse(Distance(x,y,120,320));
-		System.out.println(Distance(x,y,120,320));
-		System.out.println(y);
 		init = new Point(x,y);
 		mO.setAngleDep(setAngleDep(x,y));
 		if (x < 20)
@@ -87,10 +86,6 @@ public class ControllerOiseau extends Controller {
 			y = 410;
 		j.setP1(new Point(x, y));
 		j.setGo(true);
-		
-		
-		
-		
 	}
 
 	@Override
@@ -107,6 +102,7 @@ public class ControllerOiseau extends Controller {
 			if (e.getY() < 320)
 				o.move(o.getX(), 320);
 			j.repaint();
+			
 		}
 	}
 

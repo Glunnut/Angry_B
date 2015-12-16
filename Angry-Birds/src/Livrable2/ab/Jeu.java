@@ -24,7 +24,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import javazoom.jl.player.Player;
 import Livrable2.controller.ControllerObstacle;
 import Livrable2.controller.ControllerOiseau;
 import Livrable2.model.ModelObstacle;
@@ -108,7 +107,7 @@ public class Jeu extends JPanel {
 	/*-------------------------------METHODES------------------------*/
 	
 	/**
-	 * Creation des différents obstacles et notification MVC
+	 * Creation des diffï¿½rents obstacles et notification MVC
 	 * @param nb
 	 */
 	public void creationOsbtacles(int nb) {
@@ -158,28 +157,28 @@ public class Jeu extends JPanel {
 				affichage = 0;
 			if (solTouch) {
 			solTouch = false;
-//				while (nbrebond < 10) {
-//					t2 += 0.01;
-//					Point p2bis = new Point((int) (p2.getX() + ((p2.getX() - p1.getX()) * 2)), (int) (p2.getY()) + 40);
-//					Point p3bis = new Point((int) (p3.getX() + ((p3.getX() - p2.getX()) * 2)), (int) (p3.getY()) + 30);
-//					courbe = new Courbe(modelOiseau, t2);
-//					Point reb = courbe.getPt();
-//
-//					o.move((int) reb.getX(), (int) reb.getY());
-//					variationObstacle();
-//					repaint();
-//					if (solTouch) {
-//						t2 = 0.0;
-//						solTouch = false;
-//						p1 = oiseau;
-//						p2 = p2bis;
-//						p3 = p3bis;
-//						oiseau = new Point(o.getX(), 379);
+	/*			while (nbrebond < 10) {
+					t2 += 0.01;
+					Point p2bis = new Point((int) (p2.getX() + ((p2.getX() - p1.getX()) * 2)), (int) (p2.getY()) + 40);
+				Point p3bis = new Point((int) (p3.getX() + ((p3.getX() - p2.getX()) * 2)), (int) (p3.getY()) + 30);
+					courbe = new Courbe(modelOiseau, t2);
+					Point reb = courbe.getPt();
+
+					o.move((int) reb.getX(), (int) reb.getY());
+					variationObstacle();
+				repaint();
+					if (solTouch) {
+						t2 = 0.0;
+						solTouch = false;
+						p1 = oiseau;
+						p2 = p2bis;
+						p3 = p3bis;
+						oiseau = new Point(o.getX(), 379);
 //					}
 //					attente(40);
 //					if(sorti)
 //						nbrebond=10;
-//				}
+//				}*/
 				reinit();
 				restart();
 			} else {
@@ -188,8 +187,7 @@ public class Jeu extends JPanel {
 					courbe = new Courbe(modelOiseau, t);
 					Point act = courbe.getPt();
 					Point reb1 = courbe.courbePhysique(t+0.05, modelOiseau.getAngleDep());
-					System.out.println(act.y+" "+reb1.y);
-						o.setAngle((reb1.y - act.y));
+					o.setAngle((reb1.y - act.y));
 					trace.add(act);
 					o.move((int) act.getX(), (int) act.getY());
 				}
@@ -272,7 +270,7 @@ public class Jeu extends JPanel {
 	}
 
 	/**
-	 * Fonction de verification collision avec obstacles ou sorti de l'écran
+	 * Fonction de verification collision avec obstacles ou sorti de l'ï¿½cran
 	 * @return
 	 */
 	public boolean verifCollisionOuSorti() {
@@ -284,7 +282,7 @@ public class Jeu extends JPanel {
 			}
 		}
 
-		if (o.getRect().getX() > width + 5 || o.getRect().getY() < 0 || o.getRect().getY() > height) {
+		if (o.getRect().getX() > width + 5 ||o.getRect().getY() > height) {
 			sorti = true;
 		}
 		if (o.getRect().intersects(sol)) {

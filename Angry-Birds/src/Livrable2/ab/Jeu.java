@@ -2,6 +2,7 @@ package Livrable2.ab;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -22,6 +23,7 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import Livrable2.controller.ControllerObstacle;
@@ -82,9 +84,12 @@ public class Jeu extends JPanel {
 	// Variable de gestion du lancer
 	int y1 = 0, i = 0;
 
-	// Creation d'une variable nombre de lancer
-	int nbLancer;
+	
 
+	//Creation du systeme de point de vie
+	private int vie = 0;
+	
+	
 	/*-------------------------------CONSTRUCTEURS------------------------*/
 
 	/**
@@ -94,7 +99,7 @@ public class Jeu extends JPanel {
 	 * @param nbLancer
 	 */
 	public Jeu(int nb, int nbLancer) {
-		this.nbLancer = nbLancer;
+		this.vie = nbLancer;
 		creationOsbtacles(nb);
 		configFrame();
 		o.move(110, 320);
@@ -148,10 +153,11 @@ public class Jeu extends JPanel {
 	 * Fonction de lancement du jeu
 	 */
 	public void go() {
+		
 		t = 0;
 		Double t2 = 0.0;
 
-		while ((!isTouche() || !sorti) && i < nbLancer) {
+		while ((!isTouche() || !sorti) && i < vie) {
 			affichage++;
 			if (affichage == 160)
 				affichage = 0;
@@ -190,10 +196,12 @@ public class Jeu extends JPanel {
 					o.setAngle((reb1.y - act.y));
 					trace.add(act);
 					o.move((int) act.getX(), (int) act.getY());
-				}
+									}
 				if (isTouche() || sorti) {
+					vie--;
 					reinit();
 					restart();
+					
 				}
 			}
 			variationObstacle();
@@ -234,7 +242,17 @@ public class Jeu extends JPanel {
 		o.reinitAngle();
 		trace.removeAll(trace);
 		o.move(100, 320);
+		System.out.println(vie);
+		
 		repaint();
+		if(vie == 0){
+			JOptionPane.showMessageDialog(f,
+				    "Vous avez perdu",
+				    "Vies insuffisantes",
+				    JOptionPane.INFORMATION_MESSAGE,
+				    new ImageIcon("res/pascontent.png"));
+		}
+		
 	}
 
 	/**
@@ -247,8 +265,9 @@ public class Jeu extends JPanel {
 			attente(1000);
 		}
 		i++;
-		if (i < nbLancer) {
+		if (i < vie) {
 			go();
+			
 		}
 	}
 
@@ -315,6 +334,9 @@ public class Jeu extends JPanel {
 		g.setColor(Color.blue);
 		g.drawImage(new ImageIcon("res/lp.png").getImage(), 100, 283, null);
 		g.setColor(Color.black);
+		g.setFont(new Font(" TimesRoman ",Font.BOLD,30));
+		g.drawString(""+vie,10, 30);
+		g.drawImage(new ImageIcon("res/Pingouin1.png").getImage(),0, 50, null );
 		if (go == false) {
 			g2.setStroke(new BasicStroke(6));
 			g.drawLine(130, 320, o.getX(), o.getY());

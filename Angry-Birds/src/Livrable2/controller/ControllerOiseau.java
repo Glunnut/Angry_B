@@ -2,7 +2,12 @@ package Livrable2.controller;
 
 import java.awt.Point;
 import java.awt.event.MouseEvent;
+import java.io.File;
 import java.io.FileInputStream;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 
 import Livrable2.ab.Jeu;
 import Livrable2.model.ModelOiseau;
@@ -12,6 +17,8 @@ public class ControllerOiseau extends Controller {
 	private Jeu j;
 	private boolean isDrag;
 	private Point init;
+	private AudioInputStream input;
+	private Clip clip;
 
 	public ControllerOiseau(ModelOiseau modelOiseau) {
 		this.j = modelOiseau.getJeu();
@@ -88,6 +95,14 @@ public class ControllerOiseau extends Controller {
 			y = 410;
 		j.setP1(new Point(x, y));
 		j.setGo(true);
+		try {
+			input = AudioSystem.getAudioInputStream(new File("res/Jump.wav"));
+			clip = AudioSystem.getClip();
+			clip.open(input);
+			clip.loop(0);
+		} catch (Exception e1) {
+			System.out.println(e1.getMessage());
+		}
 	}
 
 	@Override

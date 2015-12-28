@@ -7,20 +7,15 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -84,12 +79,13 @@ public class Jeu extends JPanel {
 	// Variable de gestion du lancer
 	int y1 = 0, i = 0;
 
-	
-
-	//Creation du systeme de point de vie
+	// Creation du systeme de point de vie
 	private int vie = 0;
-	
-	
+
+	// Ajout du son
+	private AudioInputStream input;
+	private Clip clip;
+
 	/*-------------------------------CONSTRUCTEURS------------------------*/
 
 	/**
@@ -110,9 +106,10 @@ public class Jeu extends JPanel {
 	}
 
 	/*-------------------------------METHODES------------------------*/
-	
+
 	/**
-	 * Creation des diff�rents obstacles et notification MVC
+	 * Creation des differents obstacles et notification MVC
+	 * 
 	 * @param nb
 	 */
 	public void creationOsbtacles(int nb) {
@@ -124,7 +121,7 @@ public class Jeu extends JPanel {
 			obstacles.add(vueObs);
 		}
 	}
-	
+
 	/**
 	 * Configuration de la Frame
 	 */
@@ -137,9 +134,10 @@ public class Jeu extends JPanel {
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.setVisible(true);
 	}
-	
+
 	/**
 	 * Fonction d'affichage du trace de l'oiseau
+	 * 
 	 * @param g
 	 */
 	public void affichagePointilles(Graphics g) {
@@ -148,43 +146,45 @@ public class Jeu extends JPanel {
 				g.fillOval(trace.get(i).x + 5, trace.get(i).y + 8, 5, 5);
 		}
 	}
-	
+
 	/**
 	 * Fonction de lancement du jeu
 	 */
 	public void go() {
-		
+
 		t = 0;
 		Double t2 = 0.0;
 
-		while ((!isTouche() || !sorti) && i < vie) {
+		try {
+			input = AudioSystem.getAudioInputStream(new File("res/AngryBirdsThemeSong.wav"));
+			clip = AudioSystem.getClip();
+			clip.open(input);
+			clip.loop(Clip.LOOP_CONTINUOUSLY);
+			System.out.println("There");
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+
+		while ((!isTouche() || !sorti) && i <= vie) {
 			affichage++;
 			if (affichage == 160)
 				affichage = 0;
 			if (solTouch) {
-			solTouch = false;
-	/*			while (nbrebond < 10) {
-					t2 += 0.01;
-					Point p2bis = new Point((int) (p2.getX() + ((p2.getX() - p1.getX()) * 2)), (int) (p2.getY()) + 40);
-				Point p3bis = new Point((int) (p3.getX() + ((p3.getX() - p2.getX()) * 2)), (int) (p3.getY()) + 30);
-					courbe = new Courbe(modelOiseau, t2);
-					Point reb = courbe.getPt();
-
-					o.move((int) reb.getX(), (int) reb.getY());
-					variationObstacle();
-				repaint();
-					if (solTouch) {
-						t2 = 0.0;
-						solTouch = false;
-						p1 = oiseau;
-						p2 = p2bis;
-						p3 = p3bis;
-						oiseau = new Point(o.getX(), 379);
-//					}
-//					attente(40);
-//					if(sorti)
-//						nbrebond=10;
-//				}*/
+				solTouch = false;
+				/*
+				 * while (nbrebond < 10) { t2 += 0.01; Point p2bis = new
+				 * Point((int) (p2.getX() + ((p2.getX() - p1.getX()) * 2)),
+				 * (int) (p2.getY()) + 40); Point p3bis = new Point((int)
+				 * (p3.getX() + ((p3.getX() - p2.getX()) * 2)), (int)
+				 * (p3.getY()) + 30); courbe = new Courbe(modelOiseau, t2);
+				 * Point reb = courbe.getPt();
+				 * 
+				 * o.move((int) reb.getX(), (int) reb.getY());
+				 * variationObstacle(); repaint(); if (solTouch) { t2 = 0.0;
+				 * solTouch = false; p1 = oiseau; p2 = p2bis; p3 = p3bis; oiseau
+				 * = new Point(o.getX(), 379); // } // attente(40); // if(sorti)
+				 * // nbrebond=10; // }
+				 */
 				reinit();
 				restart();
 			} else {
@@ -192,16 +192,16 @@ public class Jeu extends JPanel {
 					t = t + 0.01;
 					courbe = new Courbe(modelOiseau, t);
 					Point act = courbe.getPt();
-					Point reb1 = courbe.courbePhysique(t+0.05, modelOiseau.getAngleDep());
+					Point reb1 = courbe.courbePhysique(t + 0.05, modelOiseau.getAngleDep());
 					o.setAngle((reb1.y - act.y));
 					trace.add(act);
 					o.move((int) act.getX(), (int) act.getY());
-									}
+				}
 				if (isTouche() || sorti) {
 					vie--;
 					reinit();
 					restart();
-					
+
 				}
 			}
 			variationObstacle();
@@ -210,7 +210,7 @@ public class Jeu extends JPanel {
 		}
 		reinit();
 	}
-	
+
 	/**
 	 * Gestion des mouvements des obstacles
 	 */
@@ -243,16 +243,13 @@ public class Jeu extends JPanel {
 		trace.removeAll(trace);
 		o.move(100, 320);
 		System.out.println(vie);
-		
+
 		repaint();
-		if(vie == 0){
-			JOptionPane.showMessageDialog(f,
-				    "Vous avez perdu",
-				    "Vies insuffisantes",
-				    JOptionPane.INFORMATION_MESSAGE,
-				    new ImageIcon("res/pascontent.png"));
+		if (vie == 0) {
+			JOptionPane.showMessageDialog(f, "Vous avez perdu", "Vies insuffisantes", JOptionPane.INFORMATION_MESSAGE,
+					new ImageIcon("res/pascontent.png"));
 		}
-		
+
 	}
 
 	/**
@@ -267,7 +264,7 @@ public class Jeu extends JPanel {
 		i++;
 		if (i < vie) {
 			go();
-			
+
 		}
 	}
 
@@ -290,6 +287,7 @@ public class Jeu extends JPanel {
 
 	/**
 	 * Fonction de verification collision avec obstacles ou sorti de l'�cran
+	 * 
 	 * @return
 	 */
 	public boolean verifCollisionOuSorti() {
@@ -301,7 +299,7 @@ public class Jeu extends JPanel {
 			}
 		}
 
-		if (o.getRect().getX() > width + 5 ||o.getRect().getY() > height) {
+		if (o.getRect().getX() > width + 5 || o.getRect().getY() > height) {
 			sorti = true;
 		}
 		if (o.getRect().intersects(sol)) {
@@ -311,9 +309,10 @@ public class Jeu extends JPanel {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Fonction qui retourne un booleen en cas d'un impact avec un obstacles
+	 * 
 	 * @return
 	 */
 	private boolean isTouche() {
@@ -334,9 +333,9 @@ public class Jeu extends JPanel {
 		g.setColor(Color.blue);
 		g.drawImage(new ImageIcon("res/lp.png").getImage(), 100, 283, null);
 		g.setColor(Color.black);
-		g.setFont(new Font(" TimesRoman ",Font.BOLD,30));
-		g.drawString(""+vie,10, 30);
-		g.drawImage(new ImageIcon("res/Pingouin1.png").getImage(),0, 50, null );
+		g.setFont(new Font(" TimesRoman ", Font.BOLD, 30));
+		g.drawString("" + vie, 10, 30);
+		g.drawImage(new ImageIcon("res/Pingouin1.png").getImage(), 0, 50, null);
 		if (go == false) {
 			g2.setStroke(new BasicStroke(6));
 			g.drawLine(130, 320, o.getX(), o.getY());
@@ -348,12 +347,11 @@ public class Jeu extends JPanel {
 
 	}
 
-	
-
 	/*-------------------------------GETTERS------------------------*/
 
 	/**
 	 * Retourne les objets de la vue
+	 * 
 	 * @return
 	 */
 	public ArrayList<Vue> getObjetsScene() {
@@ -362,18 +360,21 @@ public class Jeu extends JPanel {
 
 	/**
 	 * Retourne l'objet oiseau
+	 * 
 	 * @return
 	 */
 	public VueOiseau getOiseau() {
 		return o;
 	}
-	public ModelOiseau getModel(){
+
+	public ModelOiseau getModel() {
 		return this.modelOiseau;
 	}
 	/*-------------------------------SETTERS------------------------*/
 
 	/**
 	 * Modifie la valeur de l'attibut touche
+	 * 
 	 * @param touche
 	 */
 	public void setTouche(boolean touche) {
@@ -382,6 +383,7 @@ public class Jeu extends JPanel {
 
 	/**
 	 * Modifie la valeur de l'attibut P1
+	 * 
 	 * @param point
 	 */
 	public void setP1(Point point) {
@@ -390,6 +392,7 @@ public class Jeu extends JPanel {
 
 	/**
 	 * Modifie la valeur de l'attibut go
+	 * 
 	 * @param b
 	 */
 	public void setGo(boolean b) {

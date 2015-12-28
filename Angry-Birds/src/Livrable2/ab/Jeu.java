@@ -155,7 +155,6 @@ public class Jeu extends JPanel {
 
 		t = 0;
 		Double t2 = 0.0;
-
 		try {
 			input = AudioSystem.getAudioInputStream(new File("res/AngryBirdsThemeSong.wav"));
 			clip = AudioSystem.getClip();
@@ -236,6 +235,8 @@ public class Jeu extends JPanel {
 	 * reinitialise la vue
 	 */
 	public void reinit() {
+		if(clip.isActive())
+			clip.close();
 		try {
 			input = AudioSystem.getAudioInputStream(new File("res/Bump.wav"));
 			clip = AudioSystem.getClip();
@@ -303,9 +304,15 @@ public class Jeu extends JPanel {
 	public boolean verifCollisionOuSorti() {
 		sorti = false;
 		touche = false;
+		boolean hit = false;
 		for (int i = obstacles.size() - 1; i >= 0; i--) {
-			if (o.getRect().intersects(obstacles.get(i).getRec())) {
-				obstacles.remove(obstacles.get(i));
+			if (o.getRect().intersects(obstacles.get(i).getRec()) && !hit) {
+				//obstacles.remove(obstacles.get(i));
+				hit = true;
+				obstacles.get(i).setVie((int) modelOiseau.getVitesse());
+				System.out.println("Vitesse = " + modelOiseau.getVitesse() + ", Vie = " + obstacles.get(i).getVie());
+				if(obstacles.get(i).getVie() <= 0)
+					obstacles.remove(obstacles.get(i));
 			}
 		}
 

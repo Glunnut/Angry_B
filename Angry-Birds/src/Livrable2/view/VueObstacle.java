@@ -34,6 +34,9 @@ public class VueObstacle extends Vue implements Observer {
 	// Coordonnee x et y d'un obstacle
 	private int x, y;
 
+	// Vie de l'obstacle
+	private int vie = 100;
+
 	/*-------------------------------CONSTRUCTEURS------------------------*/
 
 	/**
@@ -92,6 +95,7 @@ public class VueObstacle extends Vue implements Observer {
 
 	/**
 	 * Modifie l'etat touche
+	 * 
 	 * @param touche
 	 */
 	public void setTouche(boolean touche) {
@@ -107,30 +111,43 @@ public class VueObstacle extends Vue implements Observer {
 		else {
 			g.setColor(couleurSecondaire);
 		}
-		if (model.getForme().equals("rond"))
-			g.drawImage(new ImageIcon("res/block2.png").getImage(), this.x, this.y, null);
+		if (model.getForme().equals("rond")) {
+				g.drawImage(new ImageIcon("res/block2.png").getImage(), this.x, this.y, null);
+		}
 		// g.fillOval(this.x, this.y, model.SIZE,model.SIZE);
 		else {
-			g.drawImage(new ImageIcon("res/block1.png").getImage(), this.x, this.y, null);
+			if (getVie() <= 50)
+				g.drawImage(new ImageIcon("res/block1Destroy.png").getImage(), this.x, this.y, null);
+			else
+				g.drawImage(new ImageIcon("res/block1.png").getImage(), this.x, this.y, null);
 			// g.fillRect(this.x,this.y, model.SIZE,model.SIZE);
 		}
 	}
 
 	/**
 	 * Modifie la coordonnee x
+	 * 
 	 * @param x
 	 */
 	public void setX(int x) {
 		this.x = x;
 	}
 
-	
 	/**
 	 * Modifie la coordonne y
+	 * 
 	 * @param y
 	 */
 	public void setY(int y) {
 		this.y = y;
+	}
+
+	public void setVie(int x) {
+		this.vie -= x;
+	}
+
+	public int getVie() {
+		return this.vie;
 	}
 
 	/*-------------------------------METHODES------------------------*/

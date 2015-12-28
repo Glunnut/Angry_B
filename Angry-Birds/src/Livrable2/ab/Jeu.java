@@ -172,14 +172,6 @@ public class Jeu extends JPanel {
 			if (solTouch) {
 				vie--;
 				solTouch = false;
-				try {
-					input = AudioSystem.getAudioInputStream(new File("res/Bump.wav"));
-					clip = AudioSystem.getClip();
-					clip.open(input);
-					clip.loop(0);
-				} catch (Exception e) {
-					System.out.println(e.getMessage());
-				}
 				/*
 				 * while (nbrebond < 10) { t2 += 0.01; Point p2bis = new
 				 * Point((int) (p2.getX() + ((p2.getX() - p1.getX()) * 2)),
@@ -208,14 +200,6 @@ public class Jeu extends JPanel {
 				}
 				if (isTouche() || sorti) {
 					vie--;
-					try {
-						input = AudioSystem.getAudioInputStream(new File("res/Bump.wav"));
-						clip = AudioSystem.getClip();
-						clip.open(input);
-						clip.loop(0);
-					} catch (Exception e) {
-						System.out.println(e.getMessage());
-					}
 					reinit();
 					restart();
 
@@ -252,6 +236,14 @@ public class Jeu extends JPanel {
 	 * reinitialise la vue
 	 */
 	public void reinit() {
+		try {
+			input = AudioSystem.getAudioInputStream(new File("res/Bump.wav"));
+			clip = AudioSystem.getClip();
+			clip.open(input);
+			clip.loop(0);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
 		touche = false;
 		sorti = false;
 		setGo(false);

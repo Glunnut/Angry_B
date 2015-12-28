@@ -17,25 +17,29 @@ public class ControllerOiseau extends Controller {
 		this.j = modelOiseau.getJeu();
 		this.isDrag = true;
 	}
-	public void setDrag(boolean b){
+
+	public void setDrag(boolean b) {
 		isDrag = b;
 	}
-	public boolean isDrag(){
+
+	public boolean isDrag() {
 		return this.isDrag;
 	}
-	public Point getInit(){
+
+	public Point getInit() {
 		return this.init;
 	}
-	
-	public double setAngleDep(int x,int y){
-		double angle = Math.atan2(y-320,x-120);
-		return angle+Math.PI;
+
+	public double setAngleDep(int x, int y) {
+		double angle = Math.atan2(y - 320, x - 120);
+		return angle + Math.PI;
 	}
-	public double setAngleDep(int x,int y,int x1,int y1){
-		double angle = Math.atan2(y-y1,x-x1);
+
+	public double setAngleDep(int x, int y, int x1, int y1) {
+		double angle = Math.atan2(y - y1, x - x1);
 		return angle;
 	}
-	
+
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
@@ -59,17 +63,15 @@ public class ControllerOiseau extends Controller {
 		// TODO Auto-generated method stub
 
 	}
-	
-	
+
 	static public double sqr(double a) {
-        return a*a;
-    }
- 
-    static public double Distance(double x1, double y1, double x2, double y2) {
-        return Math.sqrt(sqr(y2 - y1) + sqr(x2 - x1));
-    } 
-	
-	
+		return a * a;
+	}
+
+	static public double Distance(double x1, double y1, double x2, double y2) {
+		return Math.sqrt(sqr(y2 - y1) + sqr(x2 - x1));
+	}
+
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		isDrag = false;
@@ -77,9 +79,9 @@ public class ControllerOiseau extends Controller {
 		ModelOiseau mO = j.getModel();
 		int x = o.getX();
 		int y = o.getY();
-		mO.setVitesse(Distance(x,y,120,320));
-		init = new Point(x,y);
-		mO.setAngleDep(setAngleDep(x,y));
+		mO.setVitesse(Distance(x, y, 120, 320));
+		init = new Point(x, y);
+		mO.setAngleDep(setAngleDep(x, y));
 		if (x < 20)
 			x = 20;
 		if (y > 410)
@@ -102,7 +104,7 @@ public class ControllerOiseau extends Controller {
 			if (e.getY() < 320)
 				o.move(o.getX(), 320);
 			j.repaint();
-			
+
 		}
 	}
 

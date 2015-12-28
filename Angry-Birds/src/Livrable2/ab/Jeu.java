@@ -64,6 +64,7 @@ public class Jeu extends JPanel {
 	private boolean touche = false;
 	private boolean go = false;
 	private boolean solTouch = false;
+	private boolean end = false;
 
 	// Creation d'une variable affichage
 	private int affichage = 0;
@@ -160,7 +161,6 @@ public class Jeu extends JPanel {
 			clip = AudioSystem.getClip();
 			clip.open(input);
 			clip.loop(Clip.LOOP_CONTINUOUSLY);
-			System.out.println("There");
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -170,6 +170,7 @@ public class Jeu extends JPanel {
 			if (affichage == 160)
 				affichage = 0;
 			if (solTouch) {
+				vie--;
 				solTouch = false;
 				/*
 				 * while (nbrebond < 10) { t2 += 0.01; Point p2bis = new
@@ -245,9 +246,10 @@ public class Jeu extends JPanel {
 		System.out.println(vie);
 
 		repaint();
-		if (vie == 0) {
+		if (vie == 0 && !end) {
 			JOptionPane.showMessageDialog(f, "Vous avez perdu", "Vies insuffisantes", JOptionPane.INFORMATION_MESSAGE,
 					new ImageIcon("res/pascontent.png"));
+			end = true;
 		}
 
 	}

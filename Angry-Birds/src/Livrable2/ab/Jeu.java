@@ -268,6 +268,8 @@ public class Jeu extends JPanel {
 	 */
 	public void restart() {
 		System.out.println("i :"+i+" vie :"+vie);
+		for(VueObstacle i : obstacles)
+			i.setTouche(false);
 		if (isTouche()) {
 			attente(2000);
 		} else {
@@ -305,12 +307,11 @@ public class Jeu extends JPanel {
 	public boolean verifCollisionOuSorti() {
 		sorti = false;
 		touche = false;
-		boolean hit = false;
 		for (int i = obstacles.size() - 1; i >= 0; i--) {
-			if (o.getRect().intersects(obstacles.get(i).getRec()) && !hit) {
+			if (o.getRect().intersects(obstacles.get(i).getRec()) && !obstacles.get(i).getTouche()) {
 				//obstacles.remove(obstacles.get(i));
-				hit = true;
 				obstacles.get(i).setVie((int) modelOiseau.getVitesse());
+				obstacles.get(i).setTouche(true);
 				System.out.println("Vitesse = " + modelOiseau.getVitesse() + ", Vie = " + obstacles.get(i).getVie());
 				if(obstacles.get(i).getVie() <= 0)
 					obstacles.remove(obstacles.get(i));

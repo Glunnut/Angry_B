@@ -321,6 +321,7 @@ public class Jeu extends JPanel {
 		for (int i = obstacles.size() - 1; i >= 0; i--) {
 			if (o.getRect().intersects(obstacles.get(i).getRec()) && !obstacles.get(i).getTouche()) {
 				//obstacles.remove(obstacles.get(i));
+				System.out.println("Olol");
 				obstacles.get(i).setVie((int) modelOiseau.getVitesse());
 				obstacles.get(i).setTouche(true);
 				System.out.println("Vitesse = " + modelOiseau.getVitesse() + ", Vie = " + obstacles.get(i).getVie());

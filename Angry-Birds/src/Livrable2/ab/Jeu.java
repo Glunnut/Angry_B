@@ -7,6 +7,9 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -21,6 +24,9 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -94,55 +100,119 @@ public class Jeu extends JPanel {
 	// Ajout du son
 	private AudioInputStream input;
 	private Clip clip;
+	
+	// Ajout de la partie option
+		JMenuBar menuBar = new JMenuBar();
+		JMenu menu = new JMenu("Menu");
+		JMenuItem menuItem;
+		JMenuItem sons;
 
-	/*-------------------------------CONSTRUCTEURS------------------------*/
+		boolean c = true;
 
-	/**
-	 * Constructeur du jeu
-	 * 
-	 * @param nb
-	 * @param nbLancer
-	 */
-	public Jeu(int nb, int nbLancer) {
-		this.vie = nbLancer;
-		creationOsbtacles(nb);
-		configFrame();
-		o.move(110, 320);
-		addMouseMotionListener(controllerOiseau);
-		addMouseListener(controllerOiseau);
-		go();
+		/*-------------------------------CONSTRUCTEURS------------------------*/
 
-	}
+		/**
+		 * Constructeur du jeu
+		 * 
+		 * @param nb
+		 * @param nbLancer
+		 */
+		public Jeu(int nb, int nbLancer) {
+			this.vie = nbLancer;
+			creationOsbtacles(nb);
+			configFrame();
+			o.move(110, 320);
+			addMouseMotionListener(controllerOiseau);
+			addMouseListener(controllerOiseau);
+			go();
 
-	/*-------------------------------METHODES------------------------*/
-
-	/**
-	 * Creation des differents obstacles et notification MVC
-	 * 
-	 * @param nb
-	 */
-	public void creationOsbtacles(int nb) {
-		for (int i = 0; i < nb; i++) {
-			ModelObstacle modelObs = new ModelObstacle(r.nextInt(840 - 740 + 1) + 740, r.nextInt(400 - 60 + 1) + 60);
-			ControllerObstacle controllObs = new ControllerObstacle();
-			VueObstacle vueObs = new VueObstacle(modelObs, controllObs);
-			modelObs.addObserver(vueObs);
-			obstacles.add(vueObs);
 		}
-	}
 
-	/**
-	 * Configuration de la Frame
-	 */
-	public void configFrame() {
-		f = new JFrame("AngryBirds");
-		f.add(this);
-		f.setResizable(false);
-		f.setSize(width, height);
-		f.setLocationRelativeTo(null);
-		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		f.setVisible(true);
-	}
+		/*-------------------------------METHODES------------------------*/
+
+		/**
+		 * Creation des differents obstacles et notification MVC
+		 * 
+		 * @param nb
+		 */
+		public void creationOsbtacles(int nb) {
+			for (int i = 0; i < nb; i++) {
+				ModelObstacle modelObs = new ModelObstacle(
+						r.nextInt(840 - 740 + 1) + 740,
+						r.nextInt(400 - 60 + 1) + 60);
+				ControllerObstacle controllObs = new ControllerObstacle();
+				VueObstacle vueObs = new VueObstacle(modelObs, controllObs);
+				modelObs.addObserver(vueObs);
+				obstacles.add(vueObs);
+			}
+		}
+
+		/**
+		 * Configuration de la Frame
+		 */
+		public void configFrame() {
+			menuBar.add(menu);
+			sons = new JMenuItem(new ImageIcon("res/son.png"));
+			sons.addMouseListener(new MouseListener() {
+				
+				@Override
+				public void mouseReleased(MouseEvent arg0) {
+					// TODO Auto-generated method stub
+					
+				}
+				
+				@Override
+				public void mousePressed(MouseEvent arg0) {
+					// TODO Auto-generated method stub
+					
+				}
+				
+				@Override
+				public void mouseExited(MouseEvent arg0) {
+					// TODO Auto-generated method stub
+					
+				}
+				
+				@Override
+				public void mouseEntered(MouseEvent arg0) {
+					// TODO Auto-generated method stub
+					
+				}
+				
+				@Override
+				public void mouseClicked(MouseEvent arg0) {
+					// TODO Auto-generated method stub
+					
+					if (c) {
+
+						sons.setIcon(new ImageIcon("res/soncoupe.png"));
+						c = false;
+						clip.close();
+
+					} else {
+						sons.setIcon(new ImageIcon("res/son.png"));
+						c = true;
+						clip.start();
+					}
+				}
+			});
+
+				
+
+			menuBar.add(sons);
+			menuItem = new JMenuItem("Option", KeyEvent.VK_T);
+			menu.add(menuItem);
+			f = new JFrame("AngryBirds");
+			f.setJMenuBar(menuBar);
+			f.add(this);
+			f.setResizable(false);
+			f.setSize(width, height);
+			f.setLocationRelativeTo(null);
+			f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			f.setVisible(true);
+		}
+	
+	
 
 	/**
 	 * Fonction d'affichage du trace de l'oiseau

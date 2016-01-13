@@ -267,12 +267,13 @@ public class Jeu extends JPanel {
 	 * Redemarre le mouvement de l'oiseau
 	 */
 	public void restart() {
+		System.out.println("i :"+i+" vie :"+vie);
 		if (isTouche()) {
 			attente(2000);
 		} else {
 			attente(1000);
 		}
-		i++;
+		//i++;
 		if (i < vie) {
 			go();
 

@@ -112,6 +112,9 @@ public class VueObstacle extends Vue implements Observer {
 			g.setColor(couleurSecondaire);
 		}
 		if (model.getForme().equals("rond")) {
+			if (getVie() <= 50)
+				g.drawImage(new ImageIcon("res/block2Destroy.png").getImage(), this.x, this.y, this);
+			else
 				g.drawImage(new ImageIcon("res/block2.png").getImage(), this.x, this.y, null);
 		}
 		// g.fillOval(this.x, this.y, model.SIZE,model.SIZE);

@@ -79,6 +79,11 @@ public class Jeu extends JPanel {
 	ModelOiseau modelOiseau = new ModelOiseau(this);
 	ControllerOiseau controllerOiseau = new ControllerOiseau(modelOiseau);
 	VueOiseau o = new VueOiseau(modelOiseau, controllerOiseau);
+	
+	ModelObstacle modelOb = new ModelObstacle(r.nextInt(840 - 740 + 1) + 740, r.nextInt(400 - 60 + 1) + 60);
+	ControllerObstacle controllOb = new ControllerObstacle();
+	VueObstacle vueOb = new VueObstacle(modelOb, controllOb);
+
 
 	// Variable de gestion du lancer
 	int y1 = 0, i = 0;
@@ -395,6 +400,15 @@ public class Jeu extends JPanel {
 	 */
 	public VueOiseau getOiseau() {
 		return o;
+	}
+	
+	/**
+	 * Retourne l'objet obstacle
+	 * 
+	 * @return
+	 */
+	public VueObstacle getObstacle(){
+		return vueOb;
 	}
 
 	public ModelOiseau getModel() {

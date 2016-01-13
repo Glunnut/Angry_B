@@ -36,7 +36,7 @@ public class VueObstacle extends Vue implements Observer {
 
 	// Vie de l'obstacle
 	private int vie = 100;
-
+	
 	/*-------------------------------CONSTRUCTEURS------------------------*/
 
 	/**
@@ -100,6 +100,11 @@ public class VueObstacle extends Vue implements Observer {
 	 */
 	public void setTouche(boolean touche) {
 		this.touche = touche;
+	}
+	
+	public boolean getTouche(){
+		System.out.println("Salut");
+		return this.touche;
 	}
 
 	/**

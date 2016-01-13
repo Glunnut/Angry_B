@@ -103,7 +103,6 @@ public class VueObstacle extends Vue implements Observer {
 	}
 	
 	public boolean getTouche(){
-		System.out.println("Salut");
 		return this.touche;
 	}
 

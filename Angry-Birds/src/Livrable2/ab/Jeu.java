@@ -8,6 +8,7 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -16,6 +17,8 @@ import java.util.Random;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -204,7 +207,7 @@ public class Jeu extends JPanel {
 
 				}
 			}
-			variationObstacle();
+		//	variationObstacle();
 			repaint();
 			attente(40);
 		}
@@ -256,6 +259,14 @@ public class Jeu extends JPanel {
 
 		repaint();
 		if (vie == 0 && !end) {
+			try {
+				input = AudioSystem.getAudioInputStream(new File("res/mariodie.wav"));
+				clip = AudioSystem.getClip();
+				clip.open(input);
+				clip.loop(0);
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+			}
 			JOptionPane.showMessageDialog(f, "Vous avez perdu", "Vies insuffisantes", JOptionPane.INFORMATION_MESSAGE,
 					new ImageIcon("res/pascontent.png"));
 			end = true;

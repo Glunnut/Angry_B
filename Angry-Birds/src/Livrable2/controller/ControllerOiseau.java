@@ -98,8 +98,11 @@ public class ControllerOiseau extends Controller {
 		try {
 			input = AudioSystem.getAudioInputStream(new File("res/Jump.wav"));
 			clip = AudioSystem.getClip();
+			if(!Jeu.mute){
+
 			clip.open(input);
 			clip.loop(0);
+			}
 		} catch (Exception e1) {
 			System.out.println(e1.getMessage());
 		}

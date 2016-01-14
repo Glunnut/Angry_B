@@ -50,7 +50,7 @@ public class Jeu extends JPanel {
 
 	// Instanciation d'un Random
 	Random r = new Random();
-
+	
 	// Instant t
 	double t = 0.0;
 
@@ -74,7 +74,7 @@ public class Jeu extends JPanel {
 	private boolean go = false;
 	private boolean solTouch = false;
 	private boolean end = false;
-
+	public static boolean mute = false;
 	// Creation d'une variable affichage
 	private int affichage = 0;
 
@@ -85,11 +85,11 @@ public class Jeu extends JPanel {
 	ModelOiseau modelOiseau = new ModelOiseau(this);
 	ControllerOiseau controllerOiseau = new ControllerOiseau(modelOiseau);
 	VueOiseau o = new VueOiseau(modelOiseau, controllerOiseau);
-	
-	ModelObstacle modelOb = new ModelObstacle(r.nextInt(840 - 740 + 1) + 740, r.nextInt(400 - 60 + 1) + 60);
+
+	ModelObstacle modelOb = new ModelObstacle(r.nextInt(840 - 740 + 1) + 740,
+			r.nextInt(400 - 60 + 1) + 60);
 	ControllerObstacle controllOb = new ControllerObstacle();
 	VueObstacle vueOb = new VueObstacle(modelOb, controllOb);
-
 
 	// Variable de gestion du lancer
 	int y1 = 0, i = 0;
@@ -100,119 +100,113 @@ public class Jeu extends JPanel {
 	// Ajout du son
 	private AudioInputStream input;
 	private Clip clip;
-	
+
 	// Ajout de la partie option
-		JMenuBar menuBar = new JMenuBar();
-		JMenu menu = new JMenu("Menu");
-		JMenuItem menuItem;
-		JMenuItem sons;
+	JMenuBar menuBar = new JMenuBar();
+	JMenu menu = new JMenu("Menu");
+	JMenuItem menuItem;
+	JMenuItem sons;
 
-		boolean c = true;
+	boolean c = true;
 
-		/*-------------------------------CONSTRUCTEURS------------------------*/
+	/*-------------------------------CONSTRUCTEURS------------------------*/
 
-		/**
-		 * Constructeur du jeu
-		 * 
-		 * @param nb
-		 * @param nbLancer
-		 */
-		public Jeu(int nb, int nbLancer) {
-			this.vie = nbLancer;
-			creationOsbtacles(nb);
-			configFrame();
-			o.move(110, 320);
-			addMouseMotionListener(controllerOiseau);
-			addMouseListener(controllerOiseau);
-			go();
+	/**
+	 * Constructeur du jeu
+	 * 
+	 * @param nb
+	 * @param nbLancer
+	 */
+	public Jeu(int nb, int nbLancer) {
+		this.vie = nbLancer;
+		creationOsbtacles(nb);
+		configFrame();
+		o.move(110, 320);
+		addMouseMotionListener(controllerOiseau);
+		addMouseListener(controllerOiseau);
+		go();
 
+	}
+
+	/*-------------------------------METHODES------------------------*/
+
+	/**
+	 * Creation des differents obstacles et notification MVC
+	 * 
+	 * @param nb
+	 */
+	public void creationOsbtacles(int nb) {
+		for (int i = 0; i < nb; i++) {
+			ModelObstacle modelObs = new ModelObstacle(
+					r.nextInt(840 - 740 + 1) + 740,
+					r.nextInt(400 - 60 + 1) + 60);
+			ControllerObstacle controllObs = new ControllerObstacle();
+			VueObstacle vueObs = new VueObstacle(modelObs, controllObs);
+			modelObs.addObserver(vueObs);
+			obstacles.add(vueObs);
 		}
+	}
 
-		/*-------------------------------METHODES------------------------*/
+	/**
+	 * Configuration de la Frame
+	 */
+	public void configFrame() {
+		menuBar.add(menu);
+		sons = new JMenuItem(new ImageIcon("res/son.png"));
+		sons.addMouseListener(new MouseListener() {
 
-		/**
-		 * Creation des differents obstacles et notification MVC
-		 * 
-		 * @param nb
-		 */
-		public void creationOsbtacles(int nb) {
-			for (int i = 0; i < nb; i++) {
-				ModelObstacle modelObs = new ModelObstacle(
-						r.nextInt(840 - 740 + 1) + 740,
-						r.nextInt(400 - 60 + 1) + 60);
-				ControllerObstacle controllObs = new ControllerObstacle();
-				VueObstacle vueObs = new VueObstacle(modelObs, controllObs);
-				modelObs.addObserver(vueObs);
-				obstacles.add(vueObs);
+			@Override
+			public void mouseReleased(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+
 			}
-		}
 
-		/**
-		 * Configuration de la Frame
-		 */
-		public void configFrame() {
-			menuBar.add(menu);
-			sons = new JMenuItem(new ImageIcon("res/son.png"));
-			sons.addMouseListener(new MouseListener() {
-				
-				@Override
-				public void mouseReleased(MouseEvent arg0) {
-					// TODO Auto-generated method stub
-					
-				}
-				
-				@Override
-				public void mousePressed(MouseEvent arg0) {
-					// TODO Auto-generated method stub
-					
-				}
-				
-				@Override
-				public void mouseExited(MouseEvent arg0) {
-					// TODO Auto-generated method stub
-					
-				}
-				
-				@Override
-				public void mouseEntered(MouseEvent arg0) {
-					// TODO Auto-generated method stub
-					
-				}
-				
-				@Override
-				public void mouseClicked(MouseEvent arg0) {
-					// TODO Auto-generated method stub
-					
-					if (c) {
+			@Override
+			public void mousePressed(MouseEvent arg0) {
+				// TODO Auto-generated method stub
 
-						sons.setIcon(new ImageIcon("res/soncoupe.png"));
-						c = false;
-						clip.close();
+			}
 
-					} else {
-						sons.setIcon(new ImageIcon("res/son.png"));
-						c = true;
-						clip.start();
-					}
+			@Override
+			public void mouseExited(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				if (c) {
+					sons.setIcon(new ImageIcon("res/soncoupe.png"));
+					c = false;
+					clip.stop();
+					mute = true;
+				} else {
+					mute = false;
+					sons.setIcon(new ImageIcon("res/son.png"));
+					c = true;
+					clip.start();
 				}
-			});
+			}
+		});
 
-				
-
-			menuBar.add(sons);
-			menuItem = new JMenuItem("Option", KeyEvent.VK_T);
-			menu.add(menuItem);
-			f = new JFrame("AngryBirds");
-			f.setJMenuBar(menuBar);
-			f.add(this);
-			f.setResizable(false);
-			f.setSize(width, height);
-			f.setLocationRelativeTo(null);
-			f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			f.setVisible(true);
-		}
-	
-	
+		menuBar.add(sons);
+		menuItem = new JMenuItem("Option", KeyEvent.VK_T);
+		menu.add(menuItem);
+		f = new JFrame("AngryBirds");
+		f.setJMenuBar(menuBar);
+		f.add(this);
+		f.setResizable(false);
+		f.setSize(width, height);
+		f.setLocationRelativeTo(null);
+		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		f.setVisible(true);
+	}
 
 	/**
 	 * Fonction d'affichage du trace de l'oiseau
@@ -234,14 +228,16 @@ public class Jeu extends JPanel {
 		t = 0;
 		Double t2 = 0.0;
 		try {
-			input = AudioSystem.getAudioInputStream(new File("res/AngryBirdsThemeSong.wav"));
+			input = AudioSystem.getAudioInputStream(new File(
+					"res/AngryBirdsThemeSong.wav"));
 			clip = AudioSystem.getClip();
+			if(!mute){
 			clip.open(input);
 			clip.loop(Clip.LOOP_CONTINUOUSLY);
+			}
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
-
 		while ((!isTouche() || !sorti) && i <= vie) {
 			affichage++;
 			if (affichage == 160)
@@ -270,7 +266,8 @@ public class Jeu extends JPanel {
 					t = t + 0.01;
 					courbe = new Courbe(modelOiseau, t);
 					Point act = courbe.getPt();
-					Point reb1 = courbe.courbePhysique(t + 0.05, modelOiseau.getAngleDep());
+					Point reb1 = courbe.courbePhysique(t + 0.05,
+							modelOiseau.getAngleDep());
 					o.setAngle((reb1.y - act.y));
 					trace.add(act);
 					o.move((int) act.getX(), (int) act.getY());
@@ -282,7 +279,7 @@ public class Jeu extends JPanel {
 
 				}
 			}
-		//	variationObstacle();
+			// variationObstacle();
 			repaint();
 			attente(40);
 		}
@@ -294,7 +291,8 @@ public class Jeu extends JPanel {
 	 */
 	public void variationObstacle() {
 		for (VueObstacle o : obstacles)
-			if (affichage < 40 || (affichage > 80 && affichage < 120) || affichage > 160)
+			if (affichage < 40 || (affichage > 80 && affichage < 120)
+					|| affichage > 160)
 				if (o.getForme().equals("rond"))
 					o.setX(o.getX() - 1);
 				else {
@@ -313,13 +311,15 @@ public class Jeu extends JPanel {
 	 * reinitialise la vue
 	 */
 	public void reinit() {
-		if(clip.isActive())
+		if (clip.isActive())
 			clip.close();
 		try {
 			input = AudioSystem.getAudioInputStream(new File("res/Bump.wav"));
 			clip = AudioSystem.getClip();
+			if(!mute){
 			clip.open(input);
 			clip.loop(0);
+			}
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -335,14 +335,16 @@ public class Jeu extends JPanel {
 		repaint();
 		if (vie == 0 && !end) {
 			try {
-				input = AudioSystem.getAudioInputStream(new File("res/mariodie.wav"));
+				input = AudioSystem.getAudioInputStream(new File(
+						"res/mariodie.wav"));
 				clip = AudioSystem.getClip();
 				clip.open(input);
 				clip.loop(0);
 			} catch (Exception e) {
 				System.out.println(e.getMessage());
 			}
-			JOptionPane.showMessageDialog(f, "Vous avez perdu", "Vies insuffisantes", JOptionPane.INFORMATION_MESSAGE,
+			JOptionPane.showMessageDialog(f, "Vous avez perdu",
+					"Vies insuffisantes", JOptionPane.INFORMATION_MESSAGE,
 					new ImageIcon("res/pascontent.png"));
 			end = true;
 		}
@@ -353,15 +355,15 @@ public class Jeu extends JPanel {
 	 * Redemarre le mouvement de l'oiseau
 	 */
 	public void restart() {
-		System.out.println("i :"+i+" vie :"+vie);
-		for(VueObstacle i : obstacles)
+		System.out.println("i :" + i + " vie :" + vie);
+		for (VueObstacle i : obstacles)
 			i.setTouche(false);
 		if (isTouche()) {
 			attente(2000);
 		} else {
 			attente(1000);
 		}
-		//i++;
+		// i++;
 		if (i < vie) {
 			go();
 
@@ -394,12 +396,14 @@ public class Jeu extends JPanel {
 		sorti = false;
 		touche = false;
 		for (int i = obstacles.size() - 1; i >= 0; i--) {
-			if (o.getRect().intersects(obstacles.get(i).getRec()) && !obstacles.get(i).getTouche()) {
-				//obstacles.remove(obstacles.get(i));
+			if (o.getRect().intersects(obstacles.get(i).getRec())
+					&& !obstacles.get(i).getTouche()) {
+				// obstacles.remove(obstacles.get(i));
 				obstacles.get(i).setVie((int) modelOiseau.getVitesse());
 				obstacles.get(i).setTouche(true);
-				System.out.println("Vitesse = " + modelOiseau.getVitesse() + ", Vie = " + obstacles.get(i).getVie());
-				if(obstacles.get(i).getVie() <= 0)
+				System.out.println("Vitesse = " + modelOiseau.getVitesse()
+						+ ", Vie = " + obstacles.get(i).getVie());
+				if (obstacles.get(i).getVie() <= 0)
 					obstacles.remove(obstacles.get(i));
 			}
 		}
@@ -471,19 +475,20 @@ public class Jeu extends JPanel {
 	public VueOiseau getOiseau() {
 		return o;
 	}
-	
+
 	/**
 	 * Retourne l'objet obstacle
 	 * 
 	 * @return
 	 */
-	public VueObstacle getObstacle(){
+	public VueObstacle getObstacle() {
 		return vueOb;
 	}
 
 	public ModelOiseau getModel() {
 		return this.modelOiseau;
 	}
+
 	/*-------------------------------SETTERS------------------------*/
 
 	/**

@@ -93,7 +93,7 @@ public class Courbe {
 		VueObstacle ob = j.getObstacle();
 		vitesse = mO.getVitesse();
 		p.x = (int) ((vitesse * Math.cos(angle) * t) + ob.getX());
-		p.y = (int) 
+		//p.y = (int) 
 		return p;
 	}
 

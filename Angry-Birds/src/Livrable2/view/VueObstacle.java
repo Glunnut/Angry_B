@@ -150,7 +150,7 @@ public class VueObstacle extends Vue implements Observer {
 	}
 
 	public void setVie(int x) {
-		this.vie -= x;
+		this.vie = x;
 	}
 
 	public int getVie() {

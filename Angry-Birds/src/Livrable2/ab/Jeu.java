@@ -181,10 +181,10 @@ public class Jeu extends JPanel {
 
 	public boolean collide(List<VueObstacle> v) {
 		for (int i = 1; i < v.size() - 1; i++) {
-				if (v.get(i).getRec().intersects(v.get(i+1).getRec()))
-					return true;
-				if(v.get(i).getRec().intersects(v.get(i-1).getRec()))
-					return true;
+			if (v.get(i).getRec().intersects(v.get(i + 1).getRec()))
+				return true;
+			if (v.get(i).getRec().intersects(v.get(i - 1).getRec()))
+				return true;
 		}
 		return false;
 	}
@@ -314,7 +314,7 @@ public class Jeu extends JPanel {
 							} else if (rond.getSelectedIndex() == 4) {
 								carre.setSelectedIndex(2);
 							}
-							
+
 							if (rond.getSelectedIndex() + carre.getSelectedIndex() > 6) {
 								if (rond.getSelectedIndex() > carre.getSelectedIndex()) {
 									if (rond.getSelectedIndex() == 6) {
@@ -355,7 +355,7 @@ public class Jeu extends JPanel {
 							} else if (carre.getSelectedIndex() == 4) {
 								rond.setSelectedIndex(2);
 							}
-							
+
 							if (rond.getSelectedIndex() + carre.getSelectedIndex() > 6) {
 								if (rond.getSelectedIndex() > carre.getSelectedIndex()) {
 									if (rond.getSelectedIndex() == 6) {
@@ -381,7 +381,6 @@ public class Jeu extends JPanel {
 						}
 					});
 
-					
 					for (int i = 0; i <= 6; i++) {
 						rond.addItem(i);
 						carre.addItem(i);
@@ -418,6 +417,12 @@ public class Jeu extends JPanel {
 							for (int j = 0; j < carre.getSelectedIndex(); j++) {
 								Obstacle ob = obsf.getObstacleType("CARRE");
 								ob.creation();
+							}
+							while (collide(obstacles)) {
+								for (int i = 0; i < obstacles.size(); i++) {
+									obstacles.get(i).setX(r.nextInt(840 - 740 + 1) + 740);
+									obstacles.get(i).setY(r.nextInt(400 - 60 + 1) + 60);
+								}
 							}
 							setVie(12);
 							f.repaint();
@@ -581,7 +586,6 @@ public class Jeu extends JPanel {
 		o.reinitAngle();
 		trace.removeAll(trace);
 		o.move(100, 320);
-		System.out.println(vie);
 
 		repaint();
 		if (vie == 0 && !end) {
@@ -604,7 +608,6 @@ public class Jeu extends JPanel {
 	 * Redemarre le mouvement de l'oiseau
 	 */
 	public void restart() {
-		System.out.println("i :" + i + " vie :" + vie);
 		for (VueObstacle i : obstacles)
 			i.setTouche(false);
 		if (isTouche()) {
@@ -647,7 +650,12 @@ public class Jeu extends JPanel {
 		for (int i = obstacles.size() - 1; i >= 0; i--) {
 			if (o.getRect().intersects(obstacles.get(i).getRec()) && !obstacles.get(i).getTouche()) {
 				// obstacles.remove(obstacles.get(i));
-				obstacles.get(i).setVie((int) modelOiseau.getVitesse());
+				System.out.println("Vitesse = " + modelOiseau.getVitesse() + ", Vie = " + obstacles.get(i).getVie());
+				if (obstacles.get(i).getVie() - ((int) modelOiseau.getVitesse() - getResAir()) < 0) {
+					obstacles.get(i).setVie(0);
+				} else {
+					obstacles.get(i).setVie((obstacles.get(i).getVie() - ((int) modelOiseau.getVitesse() - getResAir())));
+				}
 				obstacles.get(i).setTouche(true);
 				System.out.println("Vitesse = " + modelOiseau.getVitesse() + ", Vie = " + obstacles.get(i).getVie());
 				if (obstacles.get(i).getVie() <= 0)
@@ -691,6 +699,8 @@ public class Jeu extends JPanel {
 		g.setColor(Color.black);
 		g.setFont(new Font(" TimesRoman ", Font.BOLD, 30));
 		g.drawString("" + vie, 10, 30);
+		g.drawString("Vitesse",580,30);
+		g.drawString(""+(int) modelOiseau.getVitesse(),700,30);
 		g.drawString("RA", 770, 30);
 		g.drawString("" + getResAir(), 830, 30);
 		g.drawImage(new ImageIcon("res/Pingouin1.png").getImage(), 0, 50, null);

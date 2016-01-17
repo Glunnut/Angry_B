@@ -74,7 +74,6 @@ public class Courbe {
 	public Point courbePhysique(double t, double angle) {
 		Point p = new Point(0, 0);
 		VueOiseau o = j.getOiseau();
-		System.out.println(o.getX());
 		vitesse = mO.getVitesse();
 		double frottement = 0.35 * (vitesse / 10);
 		if (o.getX() > 130) {

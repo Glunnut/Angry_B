@@ -18,7 +18,6 @@ import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -27,8 +26,6 @@ import java.util.Random;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -169,13 +166,13 @@ public class Jeu extends JPanel {
 			modelObs.addObserver(vueObs);
 			obstacles.add(vueObs);
 		}
-		while (collide(obstacles)) {
+		/*while (collide(obstacles)) {
 			for (int i = 0; i < obstacles.size(); i++) {
 				obstacles.get(i).setX(r.nextInt(840 - 740 + 1) + 740);
 				obstacles.get(i).setY(r.nextInt(400 - 60 + 1) + 60);
 				System.out.println("X(i) = " + obstacles.get(i).getX() + ", Y(i) = " + obstacles.get(i).getY());
 			}
-		}
+		}*/
 
 	}
 
@@ -602,10 +599,10 @@ public class Jeu extends JPanel {
 			end = true;
 			System.exit(1);
 		}
-		
-		if(obstacles.isEmpty()){
-			JOptionPane.showMessageDialog(f, "Vous avez gagné", "il n\'y a plus d\'obstacle", JOptionPane.INFORMATION_MESSAGE,
-					new ImageIcon("res/kingorqueen.jpg"));
+
+		if (obstacles.isEmpty()) {
+			JOptionPane.showMessageDialog(f, "Vous avez gagné", "il n\'y a plus d\'obstacle",
+					JOptionPane.INFORMATION_MESSAGE, new ImageIcon("res/kingorqueen.jpg"));
 			System.exit(1);
 		}
 
@@ -661,12 +658,13 @@ public class Jeu extends JPanel {
 				if (obstacles.get(i).getVie() - ((int) modelOiseau.getVitesse() - getResAir()) < 0) {
 					obstacles.get(i).setVie(0);
 				} else {
-					obstacles.get(i).setVie((obstacles.get(i).getVie() - ((int) modelOiseau.getVitesse() - getResAir())));
+					obstacles.get(i)
+							.setVie((obstacles.get(i).getVie() - ((int) modelOiseau.getVitesse() - getResAir())));
 				}
-				obstacles.get(i).setX(obstacles.get(i).getX()+(((int) modelOiseau.getVitesse() - getResAir()))-20);
-			
+				obstacles.get(i).setX(obstacles.get(i).getX() + (((int) modelOiseau.getVitesse() - getResAir())) - 20);
+
 				obstacles.get(i).setTouche(true);
-				if(obstacles.get(i).getX()>=880){
+				if (obstacles.get(i).getX() >= 880) {
 					obstacles.get(i).setVie(0);
 				}
 				System.out.println("Vitesse = " + modelOiseau.getVitesse() + ", Vie = " + obstacles.get(i).getVie());
@@ -711,8 +709,8 @@ public class Jeu extends JPanel {
 		g.setColor(Color.black);
 		g.setFont(new Font(" TimesRoman ", Font.BOLD, 30));
 		g.drawString("" + vie, 10, 30);
-		g.drawString("Vitesse",580,30);
-		g.drawString(""+(int) modelOiseau.getVitesse(),700,30);
+		g.drawString("Vitesse", 580, 30);
+		g.drawString("" + (int) modelOiseau.getVitesse(), 700, 30);
 		g.drawString("RA", 770, 30);
 		g.drawString("" + getResAir(), 830, 30);
 		g.drawImage(new ImageIcon("res/Pingouin1.png").getImage(), 0, 50, null);

@@ -600,6 +600,13 @@ public class Jeu extends JPanel {
 			JOptionPane.showMessageDialog(f, "Vous avez perdu", "Vies insuffisantes", JOptionPane.INFORMATION_MESSAGE,
 					new ImageIcon("res/pascontent.png"));
 			end = true;
+			System.exit(1);
+		}
+		
+		if(obstacles.isEmpty()){
+			JOptionPane.showMessageDialog(f, "Vous avez gagné", "il n\'y a plus d\'obstacle", JOptionPane.INFORMATION_MESSAGE,
+					new ImageIcon("res/kingorqueen.jpg"));
+			System.exit(1);
 		}
 
 	}
@@ -656,7 +663,12 @@ public class Jeu extends JPanel {
 				} else {
 					obstacles.get(i).setVie((obstacles.get(i).getVie() - ((int) modelOiseau.getVitesse() - getResAir())));
 				}
+				obstacles.get(i).setX(obstacles.get(i).getX()+(((int) modelOiseau.getVitesse() - getResAir()))-20);
+			
 				obstacles.get(i).setTouche(true);
+				if(obstacles.get(i).getX()>=880){
+					obstacles.get(i).setVie(0);
+				}
 				System.out.println("Vitesse = " + modelOiseau.getVitesse() + ", Vie = " + obstacles.get(i).getVie());
 				if (obstacles.get(i).getVie() <= 0)
 					obstacles.remove(obstacles.get(i));

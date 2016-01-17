@@ -1,15 +1,22 @@
 package Livrable2.ab;
 
 import java.awt.BasicStroke;
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -22,13 +29,20 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JSlider;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import Livrable2.controller.ControllerObstacle;
 import Livrable2.controller.ControllerOiseau;
@@ -50,7 +64,7 @@ public class Jeu extends JPanel {
 
 	// Instanciation d'un Random
 	Random r = new Random();
-	
+
 	// Instant t
 	double t = 0.0;
 
@@ -63,10 +77,10 @@ public class Jeu extends JPanel {
 	Courbe courbe1;
 
 	// Creation de la liste des Obstacles
-	private List<VueObstacle> obstacles = new ArrayList<VueObstacle>();
+	static List<VueObstacle> obstacles = new ArrayList<VueObstacle>();
 
 	// Taille de l'ecran et nombre de rebond
-	int width = 900, height = 500, nbrebond = 0;
+	int width = 900, height = 520, nbrebond = 0;
 
 	// Creation de booleen pour sortie, touche et lancement du jeu
 	private boolean sorti = false;
@@ -86,8 +100,7 @@ public class Jeu extends JPanel {
 	ControllerOiseau controllerOiseau = new ControllerOiseau(modelOiseau);
 	VueOiseau o = new VueOiseau(modelOiseau, controllerOiseau);
 
-	ModelObstacle modelOb = new ModelObstacle(r.nextInt(840 - 740 + 1) + 740,
-			r.nextInt(400 - 60 + 1) + 60);
+	ModelObstacle modelOb = new ModelObstacle(r.nextInt(840 - 740 + 1) + 740, r.nextInt(400 - 60 + 1) + 60);
 	ControllerObstacle controllOb = new ControllerObstacle();
 	VueObstacle vueOb = new VueObstacle(modelOb, controllOb);
 
@@ -102,12 +115,25 @@ public class Jeu extends JPanel {
 	private Clip clip;
 
 	// Ajout de la partie option
-	JMenuBar menuBar = new JMenuBar();
-	JMenu menu = new JMenu("Menu");
-	JMenuItem menuItem;
-	JMenuItem sons;
+	private JMenuBar menuBar = new JMenuBar();
+	private JMenu menu = new JMenu("Menu");
+	private JMenuItem menuItem;
+	private JMenuItem sons;
 
-	boolean c = true;
+	private boolean cimage = true;
+	private int open = 0;
+	JFrame opt;
+	JPanel jpan;
+	JComboBox<Integer> rond;
+	JComboBox<Integer> carre;
+	static final int MIN = 0;
+	static final int MAX = 30;
+	static final int INIT = 0;
+
+	private int resAir = 0;
+	JSlider resistAir;
+
+	ObstacleFactory obsf;
 
 	/*-------------------------------CONSTRUCTEURS------------------------*/
 
@@ -137,9 +163,7 @@ public class Jeu extends JPanel {
 	 */
 	public void creationOsbtacles(int nb) {
 		for (int i = 0; i < nb; i++) {
-			ModelObstacle modelObs = new ModelObstacle(
-					r.nextInt(840 - 740 + 1) + 740,
-					r.nextInt(400 - 60 + 1) + 60);
+			ModelObstacle modelObs = new ModelObstacle(r.nextInt(840 - 740 + 1) + 740, r.nextInt(400 - 60 + 1) + 60);
 			ControllerObstacle controllObs = new ControllerObstacle();
 			VueObstacle vueObs = new VueObstacle(modelObs, controllObs);
 			modelObs.addObserver(vueObs);
@@ -181,15 +205,15 @@ public class Jeu extends JPanel {
 
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				if (c) {
+				if (cimage) {
 					sons.setIcon(new ImageIcon("res/soncoupe.png"));
-					c = false;
+					cimage = false;
 					clip.stop();
 					mute = true;
 				} else {
 					mute = false;
 					sons.setIcon(new ImageIcon("res/son.png"));
-					c = true;
+					cimage = true;
 					clip.start();
 				}
 			}
@@ -197,6 +221,162 @@ public class Jeu extends JPanel {
 
 		menuBar.add(sons);
 		menuItem = new JMenuItem("Option", KeyEvent.VK_T);
+		menuItem.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				if (getOpen() == 0) {
+					setOpen(1);
+					opt = new JFrame("Option");
+					opt.setSize(300, 300);
+					opt.setLocationRelativeTo(null);
+					opt.setResizable(false);
+					opt.setAlwaysOnTop(true);
+					opt.addWindowListener(new WindowListener() {
+
+						@Override
+						public void windowOpened(WindowEvent e) {
+							// TODO Auto-generated method stub
+
+						}
+
+						@Override
+						public void windowIconified(WindowEvent e) {
+							// TODO Auto-generated method stub
+
+						}
+
+						@Override
+						public void windowDeiconified(WindowEvent e) {
+							// TODO Auto-generated method stub
+
+						}
+
+						@Override
+						public void windowDeactivated(WindowEvent e) {
+							// TODO Auto-generated method stub
+
+						}
+
+						@Override
+						public void windowClosing(WindowEvent e) {
+							// TODO Auto-generated method stub
+							setOpen(0);
+						}
+
+						@Override
+						public void windowClosed(WindowEvent e) {
+							// TODO Auto-generated method stub
+
+						}
+
+						@Override
+						public void windowActivated(WindowEvent e) {
+							// TODO Auto-generated method stub
+
+						}
+					});
+
+					JPanel ob = new JPanel();
+					ob.setPreferredSize(new Dimension(250, 100));
+					ob.setBorder(BorderFactory.createTitledBorder("Nombre d\' obstacle"));
+					JLabel obsrond = new JLabel("Obstacle rond : ");
+
+					rond = new JComboBox<Integer>();
+					rond.addActionListener(new ActionListener() {
+
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							// TODO Auto-generated method stub
+							if (rond.getSelectedIndex() == 6) {
+								carre.setSelectedIndex(0);
+							}
+						}
+					});
+
+					JLabel obscarre = new JLabel("Obstacle carre : ");
+
+					carre = new JComboBox<Integer>();
+					carre.addActionListener(new ActionListener() {
+
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							// TODO Auto-generated method stub
+							if (carre.getSelectedIndex() == 6) {
+								rond.setSelectedIndex(0);
+							}
+						}
+					});
+
+					for (int i = 0; i <= 6; i++) {
+						rond.addItem(i);
+						carre.addItem(i);
+
+					}
+
+					jpan = new JPanel();
+					ob.setLayout(new GridLayout(2, 2));
+					ob.add(obsrond);
+					ob.add(rond);
+					ob.add(obscarre);
+					ob.add(carre);
+					JButton okBouton = new JButton("OK");
+					Dimension boutonTaille = new Dimension(100, 30);
+					okBouton.setMaximumSize(boutonTaille);
+					okBouton.setMinimumSize(boutonTaille);
+					okBouton.setPreferredSize(boutonTaille);
+					okBouton.addActionListener(new ActionListener() {
+
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							// TODO Auto-generated method stub
+							for (int i = obstacles.size() - 1; i >= 0; i--) {
+								obstacles.remove(obstacles.get(i));
+								}
+							obsf = new ObstacleFactory();
+							
+							for (int i = 0; i < rond.getSelectedIndex(); i++) {
+								Obstacle ob = obsf.getObstacleType("ROND");
+								ob.creation();
+								
+							}
+
+							for (int j = 0; j < carre.getSelectedIndex(); j++) {
+								Obstacle ob = obsf.getObstacleType("CARRE");
+								ob.creation();
+							}
+							
+							f.repaint();
+						}
+					});
+
+					resistAir = new JSlider(JSlider.HORIZONTAL, MIN, MAX, INIT);
+					resistAir.addChangeListener(new ChangeListener() {
+
+						@Override
+						public void stateChanged(ChangeEvent e) {
+							// TODO Auto-generated method stub
+							setResAir(resistAir.getValue());
+
+						}
+					});
+
+					resistAir.setMajorTickSpacing(10);
+					resistAir.setMinorTickSpacing(1);
+					resistAir.setPaintTicks(true);
+					resistAir.setPaintLabels(true);
+					jpan.add(ob);
+					opt.setLayout(new BorderLayout());
+					opt.add(jpan, BorderLayout.NORTH);
+					opt.add(resistAir, BorderLayout.CENTER);
+					opt.add(okBouton, BorderLayout.SOUTH);
+					opt.setVisible(true);
+
+				}
+			}
+		});
+
 		menu.add(menuItem);
 		f = new JFrame("AngryBirds");
 		f.setJMenuBar(menuBar);
@@ -228,12 +408,11 @@ public class Jeu extends JPanel {
 		t = 0;
 		Double t2 = 0.0;
 		try {
-			input = AudioSystem.getAudioInputStream(new File(
-					"res/AngryBirdsThemeSong.wav"));
+			input = AudioSystem.getAudioInputStream(new File("res/AngryBirdsThemeSong.wav"));
 			clip = AudioSystem.getClip();
-			if(!mute){
-			clip.open(input);
-			clip.loop(Clip.LOOP_CONTINUOUSLY);
+			if (!mute) {
+				clip.open(input);
+				clip.loop(Clip.LOOP_CONTINUOUSLY);
 			}
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -266,8 +445,7 @@ public class Jeu extends JPanel {
 					t = t + 0.01;
 					courbe = new Courbe(modelOiseau, t);
 					Point act = courbe.getPt();
-					Point reb1 = courbe.courbePhysique(t + 0.05,
-							modelOiseau.getAngleDep());
+					Point reb1 = courbe.courbePhysique(t + 0.05, modelOiseau.getAngleDep());
 					o.setAngle((reb1.y - act.y));
 					trace.add(act);
 					o.move((int) act.getX(), (int) act.getY());
@@ -291,8 +469,7 @@ public class Jeu extends JPanel {
 	 */
 	public void variationObstacle() {
 		for (VueObstacle o : obstacles)
-			if (affichage < 40 || (affichage > 80 && affichage < 120)
-					|| affichage > 160)
+			if (affichage < 40 || (affichage > 80 && affichage < 120) || affichage > 160)
 				if (o.getForme().equals("rond"))
 					o.setX(o.getX() - 1);
 				else {
@@ -316,9 +493,9 @@ public class Jeu extends JPanel {
 		try {
 			input = AudioSystem.getAudioInputStream(new File("res/Bump.wav"));
 			clip = AudioSystem.getClip();
-			if(!mute){
-			clip.open(input);
-			clip.loop(0);
+			if (!mute) {
+				clip.open(input);
+				clip.loop(0);
 			}
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -335,16 +512,14 @@ public class Jeu extends JPanel {
 		repaint();
 		if (vie == 0 && !end) {
 			try {
-				input = AudioSystem.getAudioInputStream(new File(
-						"res/mariodie.wav"));
+				input = AudioSystem.getAudioInputStream(new File("res/mariodie.wav"));
 				clip = AudioSystem.getClip();
 				clip.open(input);
 				clip.loop(0);
 			} catch (Exception e) {
 				System.out.println(e.getMessage());
 			}
-			JOptionPane.showMessageDialog(f, "Vous avez perdu",
-					"Vies insuffisantes", JOptionPane.INFORMATION_MESSAGE,
+			JOptionPane.showMessageDialog(f, "Vous avez perdu", "Vies insuffisantes", JOptionPane.INFORMATION_MESSAGE,
 					new ImageIcon("res/pascontent.png"));
 			end = true;
 		}
@@ -396,13 +571,11 @@ public class Jeu extends JPanel {
 		sorti = false;
 		touche = false;
 		for (int i = obstacles.size() - 1; i >= 0; i--) {
-			if (o.getRect().intersects(obstacles.get(i).getRec())
-					&& !obstacles.get(i).getTouche()) {
+			if (o.getRect().intersects(obstacles.get(i).getRec()) && !obstacles.get(i).getTouche()) {
 				// obstacles.remove(obstacles.get(i));
 				obstacles.get(i).setVie((int) modelOiseau.getVitesse());
 				obstacles.get(i).setTouche(true);
-				System.out.println("Vitesse = " + modelOiseau.getVitesse()
-						+ ", Vie = " + obstacles.get(i).getVie());
+				System.out.println("Vitesse = " + modelOiseau.getVitesse() + ", Vie = " + obstacles.get(i).getVie());
 				if (obstacles.get(i).getVie() <= 0)
 					obstacles.remove(obstacles.get(i));
 			}
@@ -489,6 +662,9 @@ public class Jeu extends JPanel {
 		return this.modelOiseau;
 	}
 
+	public int getResAir() {
+		return resAir;
+	}
 	/*-------------------------------SETTERS------------------------*/
 
 	/**
@@ -516,6 +692,18 @@ public class Jeu extends JPanel {
 	 */
 	public void setGo(boolean b) {
 		this.go = b;
+	}
+
+	public int getOpen() {
+		return open;
+	}
+
+	public void setOpen(int open) {
+		this.open = open;
+	}
+
+	public void setResAir(int resAir) {
+		this.resAir = resAir;
 	}
 
 }

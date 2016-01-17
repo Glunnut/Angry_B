@@ -37,6 +37,16 @@ public class ModelObstacle extends Model {
 		super.couleurSecondaire = Color.red;
 		this.forme = r.nextBoolean();
 	}
+	
+	public ModelObstacle(int x, int y,boolean forme) {
+		this.x = x;
+		this.y = y;
+		co = new Coordonne(x, y);
+		super.couleurPrincipale = Color.blue;
+		super.couleurSecondaire = Color.red;
+		this.forme = forme;
+	}
+	
 
 	/*-------------------------------GETTERS------------------------*/
 
@@ -47,7 +57,7 @@ public class ModelObstacle extends Model {
 	public String getForme() {
 		if (this.forme)
 			return "rond";
-		return "rectangle";
+		return "carre";
 	}
 
 

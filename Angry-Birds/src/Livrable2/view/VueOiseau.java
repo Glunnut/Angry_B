@@ -62,7 +62,7 @@ public class VueOiseau extends Vue {
 	public VueOiseau(ModelOiseau m, ControllerOiseau c) {
 		super.model = m;
 		cO = c;
-		rect = new Rectangle(x, y, taille, taille);
+		rect = new Rectangle(x - 15, y, taille + 10, taille);
 
 		coInit = model.getCoInit();
 		taille = model.getTaille();

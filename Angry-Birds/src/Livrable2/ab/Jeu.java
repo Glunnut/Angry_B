@@ -169,6 +169,24 @@ public class Jeu extends JPanel {
 			modelObs.addObserver(vueObs);
 			obstacles.add(vueObs);
 		}
+		while (collide(obstacles)) {
+			for (int i = 0; i < obstacles.size(); i++) {
+				obstacles.get(i).setX(r.nextInt(840 - 740 + 1) + 740);
+				obstacles.get(i).setY(r.nextInt(400 - 60 + 1) + 60);
+				System.out.println("X(i) = " + obstacles.get(i).getX() + ", Y(i) = " + obstacles.get(i).getY());
+			}
+		}
+
+	}
+
+	public boolean collide(List<VueObstacle> v) {
+		for (int i = 1; i < v.size() - 1; i++) {
+				if (v.get(i).getRec().intersects(v.get(i+1).getRec()))
+					return true;
+				if(v.get(i).getRec().intersects(v.get(i-1).getRec()))
+					return true;
+		}
+		return false;
 	}
 
 	/**

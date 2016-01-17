@@ -291,6 +291,33 @@ public class Jeu extends JPanel {
 							// TODO Auto-generated method stub
 							if (rond.getSelectedIndex() == 6) {
 								carre.setSelectedIndex(0);
+							} else if (rond.getSelectedIndex() == 5) {
+								carre.setSelectedIndex(1);
+							} else if (rond.getSelectedIndex() == 4) {
+								carre.setSelectedIndex(2);
+							}
+							
+							if (rond.getSelectedIndex() + carre.getSelectedIndex() > 6) {
+								if (rond.getSelectedIndex() > carre.getSelectedIndex()) {
+									if (rond.getSelectedIndex() == 6) {
+										carre.setSelectedIndex(0);
+									} else if (rond.getSelectedIndex() == 5) {
+										carre.setSelectedIndex(1);
+									} else if (rond.getSelectedIndex() == 4) {
+										carre.setSelectedIndex(2);
+									}
+								}
+
+							} else if (rond.getSelectedIndex() + carre.getSelectedIndex() > 6) {
+								if (rond.getSelectedIndex() < carre.getSelectedIndex()) {
+									if (carre.getSelectedIndex() == 6) {
+										rond.setSelectedIndex(0);
+									} else if (rond.getSelectedIndex() == 5) {
+										rond.setSelectedIndex(1);
+									} else if (rond.getSelectedIndex() == 4) {
+										rond.setSelectedIndex(2);
+									}
+								}
 							}
 						}
 					});
@@ -305,10 +332,38 @@ public class Jeu extends JPanel {
 							// TODO Auto-generated method stub
 							if (carre.getSelectedIndex() == 6) {
 								rond.setSelectedIndex(0);
+							} else if (carre.getSelectedIndex() == 5) {
+								rond.setSelectedIndex(1);
+							} else if (carre.getSelectedIndex() == 4) {
+								rond.setSelectedIndex(2);
+							}
+							
+							if (rond.getSelectedIndex() + carre.getSelectedIndex() > 6) {
+								if (rond.getSelectedIndex() > carre.getSelectedIndex()) {
+									if (rond.getSelectedIndex() == 6) {
+										carre.setSelectedIndex(0);
+									} else if (rond.getSelectedIndex() == 5) {
+										carre.setSelectedIndex(1);
+									} else if (rond.getSelectedIndex() == 4) {
+										carre.setSelectedIndex(2);
+									}
+								}
+
+							} else if (rond.getSelectedIndex() + carre.getSelectedIndex() > 6) {
+								if (rond.getSelectedIndex() < carre.getSelectedIndex()) {
+									if (carre.getSelectedIndex() == 6) {
+										rond.setSelectedIndex(0);
+									} else if (rond.getSelectedIndex() == 5) {
+										rond.setSelectedIndex(1);
+									} else if (rond.getSelectedIndex() == 4) {
+										rond.setSelectedIndex(2);
+									}
+								}
 							}
 						}
 					});
 
+					
 					for (int i = 0; i <= 6; i++) {
 						rond.addItem(i);
 						carre.addItem(i);
@@ -333,20 +388,20 @@ public class Jeu extends JPanel {
 							// TODO Auto-generated method stub
 							for (int i = obstacles.size() - 1; i >= 0; i--) {
 								obstacles.remove(obstacles.get(i));
-								}
+							}
 							obsf = new ObstacleFactory();
-							
+
 							for (int i = 0; i < rond.getSelectedIndex(); i++) {
 								Obstacle ob = obsf.getObstacleType("ROND");
 								ob.creation();
-								
+
 							}
 
 							for (int j = 0; j < carre.getSelectedIndex(); j++) {
 								Obstacle ob = obsf.getObstacleType("CARRE");
 								ob.creation();
 							}
-							
+							setVie(12);
 							f.repaint();
 						}
 					});
@@ -361,7 +416,8 @@ public class Jeu extends JPanel {
 
 						}
 					});
-
+					Font font = new Font("Serif", Font.ITALIC, 15);
+					resistAir.setFont(font);
 					resistAir.setMajorTickSpacing(10);
 					resistAir.setMinorTickSpacing(1);
 					resistAir.setPaintTicks(true);
@@ -617,6 +673,8 @@ public class Jeu extends JPanel {
 		g.setColor(Color.black);
 		g.setFont(new Font(" TimesRoman ", Font.BOLD, 30));
 		g.drawString("" + vie, 10, 30);
+		g.drawString("RA", 770, 30);
+		g.drawString("" + getResAir(), 830, 30);
 		g.drawImage(new ImageIcon("res/Pingouin1.png").getImage(), 0, 50, null);
 		if (go == false) {
 			g2.setStroke(new BasicStroke(6));
@@ -665,6 +723,10 @@ public class Jeu extends JPanel {
 	public int getResAir() {
 		return resAir;
 	}
+
+	public int getVie() {
+		return vie;
+	}
 	/*-------------------------------SETTERS------------------------*/
 
 	/**
@@ -704,6 +766,10 @@ public class Jeu extends JPanel {
 
 	public void setResAir(int resAir) {
 		this.resAir = resAir;
+	}
+
+	public void setVie(int vie) {
+		this.vie = vie;
 	}
 
 }

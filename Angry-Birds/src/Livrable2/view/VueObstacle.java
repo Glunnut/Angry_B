@@ -138,6 +138,7 @@ public class VueObstacle extends Vue implements Observer {
 	 */
 	public void setX(int x) {
 		this.x = x;
+		rec = new Rectangle(this.x, this.y, model.SIZE, model.SIZE);
 	}
 
 	/**
@@ -147,6 +148,8 @@ public class VueObstacle extends Vue implements Observer {
 	 */
 	public void setY(int y) {
 		this.y = y;
+		rec = new Rectangle(this.x, this.y, model.SIZE, model.SIZE);
+
 	}
 
 	public void setVie(int x) {
